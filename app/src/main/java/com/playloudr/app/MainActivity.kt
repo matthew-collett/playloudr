@@ -13,31 +13,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.playloudr.app.ui.theme.PlaylourTheme
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PlaylourTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
-                }
-            }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      PlaylourTheme {
+        // A surface container using the 'background' color from the theme
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+          Greeting("Android")
         }
+      }
     }
+  }
 }
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-            text = "Hello $name!",
-            modifier = modifier
-    )
+  Text(
+    text = "Hello $name!",
+    modifier = modifier
+  )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    PlaylourTheme {
-        Greeting("Android")
-    }
+  PlaylourTheme {
+    Greeting("Android")
+  }
 }
