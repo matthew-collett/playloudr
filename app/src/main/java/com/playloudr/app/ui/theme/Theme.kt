@@ -38,7 +38,7 @@ onSurface = Color(0xFF1C1B1F),
 )
 
 @Composable
-fun PlaylourTheme(
+fun PlayloudrTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
   // Dynamic color is available on Android 12+
   dynamicColor: Boolean = true,
