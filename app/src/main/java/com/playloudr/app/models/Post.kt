@@ -12,5 +12,5 @@ data class Post(
 )
 
 enum class Type {
-  SONG, ALBUM, EP
+  SONG, PLAYLIST, ALBUM, EP
 }
