@@ -1,8 +1,8 @@
 package com.playloudr.app
 
 import android.app.Application
-import com.playloudr.app.data.client.aws.AwsClientProvider
-import com.playloudr.app.data.client.config.ConfigProvider
+import com.playloudr.app.model.client.aws.AwsClientProvider
+import com.playloudr.app.model.client.config.ConfigProvider
 
 class PlayloudrApp : Application() {
   override fun onCreate() {
@@ -13,6 +13,6 @@ class PlayloudrApp : Application() {
 
   override fun onTerminate() {
     super.onTerminate()
-    // close clients
+    AwsClientProvider.get().closeClients()
   }
 }

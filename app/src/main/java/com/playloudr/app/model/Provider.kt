@@ -1,4 +1,4 @@
-package com.playloudr.app.data
+package com.playloudr.app.model
 
 import android.content.Context
 

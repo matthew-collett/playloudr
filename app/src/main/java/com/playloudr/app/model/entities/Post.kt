@@ -1,6 +1,6 @@
-package com.playloudr.app.data.model
+package com.playloudr.app.model.entities
 
-import com.playloudr.app.data.model.enums.PostType
+import com.playloudr.app.model.enums.PostType
 
 data class Post(
   val username: String,

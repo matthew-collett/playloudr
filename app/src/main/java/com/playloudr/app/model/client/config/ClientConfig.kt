@@ -1,4 +1,4 @@
-package com.playloudr.app.data.client.config
+package com.playloudr.app.model.client.config
 
 data class ClientConfig(
   val aws: AwsConfig
