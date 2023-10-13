@@ -1,4 +1,4 @@
-package com.playloudr.app.models
+package com.playloudr.app.model.entities
 
 data class User(
   val username: String,
