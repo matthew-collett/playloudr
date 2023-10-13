@@ -19,7 +19,6 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     setContent {
       PlayloudrTheme {
-        MakeApiCallAndPrint()
         // A surface container using the 'background' color from the theme
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
           Greeting("Android")
@@ -42,12 +41,5 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
   PlayloudrTheme {
     Greeting("Android")
-  }
-}
-
-@Composable
-fun MakeApiCallAndPrint() {
-  LaunchedEffect(Unit) {
-    PostRepository().getItem()
   }
 }

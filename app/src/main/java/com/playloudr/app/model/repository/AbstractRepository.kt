@@ -1,7 +1,6 @@
 package com.playloudr.app.model.repository
 
 import com.playloudr.app.model.client.aws.AwsClientManager
-import com.playloudr.app.model.client.aws.AwsClientProvider
 
 abstract class AbstractRepository<R, D> {
 
@@ -18,6 +17,6 @@ abstract class AbstractRepository<R, D> {
   }
 
   fun getClientManager(): AwsClientManager {
-    return AwsClientProvider.getReceiver()
+    return AwsClientManager
   }
 }

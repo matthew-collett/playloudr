@@ -7,8 +7,19 @@ import com.playloudr.app.model.client.aws.AwsServiceClient.S3ServiceClient
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
-class AwsClientManager {
-  private val clientMap: ConcurrentHashMap<KClass<*>, AbstractAwsClient<out SdkClient>> = ConcurrentHashMap()
+object AwsClientManager {
+  val clientMap: ConcurrentHashMap<KClass<*>, AbstractAwsClient<out SdkClient>> = ConcurrentHashMap()
+
+  inline fun <reified T : AbstractAwsClient<*>> getClient(): T {
+    return clientMap.computeIfAbsent(T::class) { klass ->
+      when (klass) {
+        DynamoDbServiceClient::class -> DynamoDbServiceClient
+        S3ServiceClient::class -> S3ServiceClient
+        KmsServiceClient::class -> KmsServiceClient
+        else -> throw IllegalArgumentException("Invalid client type: ${klass.simpleName}")
+      }
+    } as T
+  }
 
   fun getDynamoDb(): DynamoDbServiceClient {
     return clientMap.computeIfAbsent(DynamoDbServiceClient::class) {
