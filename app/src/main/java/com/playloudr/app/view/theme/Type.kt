@@ -1,4 +1,4 @@
-package com.playloudr.app.ui.theme
+package com.playloudr.app.view.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
