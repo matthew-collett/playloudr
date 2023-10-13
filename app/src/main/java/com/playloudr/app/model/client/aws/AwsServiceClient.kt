@@ -13,29 +13,38 @@ sealed class AwsServiceClient {
   }
 
   object DynamoDbServiceClient: AbstractAwsClient<DynamoDbClient>() {
+    private val client: DynamoDbClient by lazy {
+      DynamoDbClient {
+        region = config.aws.region
+        credentialsProvider = provider
+      }
+    }
     override fun getClient(): DynamoDbClient {
-      return DynamoDbClient {
+      return client
+    }
+  }
+
+  object S3ServiceClient: AbstractAwsClient<S3Client>() {
+    private val client: S3Client by lazy {
+      S3Client {
         region = config.aws.region
         credentialsProvider = provider
       }
     }
-  }
-
-  object S3ServiceClient : AbstractAwsClient<S3Client>() {
     override fun getClient(): S3Client {
-      return S3Client {
+      return client
+    }
+  }
+
+  object KmsServiceClient: AbstractAwsClient<KmsClient>() {
+    private val client: KmsClient by lazy {
+      KmsClient {
         region = config.aws.region
         credentialsProvider = provider
       }
     }
-  }
-
-  object KmsServiceClient : AbstractAwsClient<KmsClient>() {
     override fun getClient(): KmsClient {
-      return KmsClient {
-        region = config.aws.region
-        credentialsProvider = provider
-      }
+      return client
     }
   }
 }
