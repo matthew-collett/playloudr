@@ -1,8 +1,8 @@
-package com.playloudr.app.data.client.config
+package com.playloudr.app.model.client.config
 
 import android.content.Context
 import com.playloudr.app.R
-import com.playloudr.app.data.Provider
+import com.playloudr.app.model.Provider
 import com.typesafe.config.ConfigFactory
 
 object ConfigProvider : Provider<ClientConfig>() {
@@ -14,7 +14,7 @@ object ConfigProvider : Provider<ClientConfig>() {
       aws = ClientConfig.AwsConfig(
         region = config.getString("aws.region"),
         identityPoolId = config.getString("aws.identityPoolId"),
-        tableName = config.getString("aws.tableName")
+        tableName = config.getString("aws.dynamoDbTableName")
       )
     )
   }

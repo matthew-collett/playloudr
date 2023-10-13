@@ -1,4 +1,4 @@
-package com.playloudr.app.data.client.config
+package com.playloudr.app.model.client.config
 
 import aws.sdk.kotlin.services.cognitoidentity.CognitoIdentityClient
 import aws.sdk.kotlin.services.cognitoidentity.model.GetCredentialsForIdentityRequest
@@ -7,9 +7,10 @@ import aws.smithy.kotlin.runtime.auth.awscredentials.Credentials
 import aws.smithy.kotlin.runtime.auth.awscredentials.CredentialsProvider
 import aws.smithy.kotlin.runtime.util.Attributes
 
-class CognitoProvider(private val config: ClientConfig,
-  private val client: CognitoIdentityClient
-) : CredentialsProvider {
+class CognitoProvider(private val config: ClientConfig) : CredentialsProvider {
+  private val client = CognitoIdentityClient {
+    region = config.aws.region
+  }
 
   override suspend fun resolve(attributes: Attributes): Credentials {
     val id: String = getIdentityId()
