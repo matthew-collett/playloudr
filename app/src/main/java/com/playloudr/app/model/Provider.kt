@@ -9,7 +9,7 @@ abstract class Provider<T : Any> {
     receiver = create(ctx = ctx)
   }
 
-  fun get(): T {
+  fun getReceiver(): T {
     if (!::receiver.isInitialized) {
       throw IllegalStateException("${receiver::class.java} Provider not initialized!")
     }

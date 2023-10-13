@@ -13,6 +13,6 @@ class PlayloudrApp : Application() {
 
   override fun onTerminate() {
     super.onTerminate()
-    AwsClientProvider.get().closeClients()
+    AwsClientProvider.getReceiver().closeClients()
   }
 }
