@@ -1,8 +1,6 @@
 package com.playloudr.app.model.entities
 
-import com.playloudr.app.model.enums.PostType
-
-data class Post(
+data class PostEntity(
   val username: String,
   val timestamp: String,
   val title: String,
@@ -10,5 +8,9 @@ data class Post(
   val caption: String?,
   val imageUrl: String,
   val audioUrl: String?,
-  val type: PostType
+  val type: Type
 )
+
+enum class Type {
+  SONG, PLAYLIST, ALBUM, EP
+}
