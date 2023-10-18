@@ -1,21 +1,20 @@
 package com.playloudr.app.model.repository
 
-import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
-import aws.sdk.kotlin.services.dynamodb.model.GetItemRequest
-import com.playloudr.app.model.client.aws.AwsClientProvider
-import com.playloudr.app.model.client.config.ConfigProvider
+import aws.sdk.kotlin.services.dynamodb.model.QueryResponse
+import com.playloudr.app.model.entities.PostEntity
+import com.playloudr.app.model.entities.UserEntity
 
-class PostRepository {
-
-  suspend fun getItem() {
-    val request = GetItemRequest {
-      tableName = ConfigProvider.get().aws.tableName
-      key = mapOf(
-        "PK" to AttributeValue.S("USER#eric.cuenat"),
-        "SK" to AttributeValue.S("METADATA#eric.cuenat")
-      )
-    }
-    val response = AwsClientProvider.get().getDynamoDb().getClient().getItem(request)
-    println(response)
+class PostRepository(user: UserEntity) : AbstractRepository<QueryResponse, PostEntity>() {
+  override fun construct(): Map<String, Any> {
+    TODO("Not yet implemented")
   }
+
+  override suspend fun fetch(payload: Map<String, Any>): QueryResponse {
+    TODO("Not yet implemented")
+  }
+
+  override fun process(response: QueryResponse): PostEntity {
+    TODO("Not yet implemented")
+  }
+
 }

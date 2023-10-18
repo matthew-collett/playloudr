@@ -1,6 +1,6 @@
 package com.playloudr.app.model.entities
 
-data class User(
+data class UserEntity(
   val username: String,
   val displayName: String?,
   val bio: String?,
