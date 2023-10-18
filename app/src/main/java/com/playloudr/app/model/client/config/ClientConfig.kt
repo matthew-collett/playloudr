@@ -6,6 +6,6 @@ data class ClientConfig(
   data class AwsConfig(
     val region: String,
     val identityPoolId: String,
-    val tableName: String
+    val dynamoDbTableName: String
   )
 }
