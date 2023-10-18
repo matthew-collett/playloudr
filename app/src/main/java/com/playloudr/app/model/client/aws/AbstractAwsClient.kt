@@ -4,7 +4,8 @@ import aws.smithy.kotlin.runtime.client.SdkClient
 
 abstract class AbstractAwsClient<T : SdkClient> {
 
-  abstract fun getClient(): T
+  protected abstract fun createClient(): T
+  fun getClient(): T = createClient()
 
   fun closeClient() {
     getClient().close()
