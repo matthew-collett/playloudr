@@ -19,7 +19,7 @@ sealed class AwsServiceClient {
         credentialsProvider = provider
       }
     }
-    override fun getClient(): DynamoDbClient {
+    override fun createClient(): DynamoDbClient {
       return client
     }
   }
@@ -31,7 +31,7 @@ sealed class AwsServiceClient {
         credentialsProvider = provider
       }
     }
-    override fun getClient(): S3Client {
+    override fun createClient(): S3Client {
       return client
     }
   }
@@ -43,7 +43,7 @@ sealed class AwsServiceClient {
         credentialsProvider = provider
       }
     }
-    override fun getClient(): KmsClient {
+    override fun createClient(): KmsClient {
       return client
     }
   }
