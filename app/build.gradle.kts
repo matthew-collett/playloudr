@@ -57,7 +57,7 @@ dependencies {
   implementation("androidx.compose.material3:material3")
   implementation("androidx.core:core-ktx:1.12.0")
   implementation("aws.sdk.kotlin:dynamodb:0.25.0-beta")
-  implementation("aws.sdk.kotlin:s3:0.25.0-beta")
+  implementation("io.coil-kt:coil-compose:1.3.2")
   implementation("aws.sdk.kotlin:kms:0.25.0-beta")
   implementation("aws.sdk.kotlin:cognitoidentity:0.25.0-beta")
   implementation("com.typesafe:config:1.4.1")
