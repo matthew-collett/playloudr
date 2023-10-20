@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
         Surface(modifier = Modifier.fillMaxSize(),
           //color = MaterialTheme.colorScheme.background
         ) {
-          FeedHeader()
           AllPosts(posts)
         }
       }
@@ -46,7 +45,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
   PlayloudrTheme {
-    FeedHeader()
     AllPosts(posts)
   }
 }
