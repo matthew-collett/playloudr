@@ -1,12 +1,15 @@
 package com.playloudr.app.view.screens.feed
 
 import FeedHeader
+import Navbar
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -30,7 +33,8 @@ fun AllPosts(postList: List<PostEntity>) {
       modifier = Modifier
         .fillMaxWidth()
         .padding(vertical = (8.dp)),
-      contentPadding = PaddingValues(16.dp)
+      contentPadding = PaddingValues(8.dp),
+      verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
       items(postList) { post ->
         PlayloudrTheme {
