@@ -1,20 +1,46 @@
 package com.playloudr.app.model.repository
 
-import aws.sdk.kotlin.services.dynamodb.model.QueryResponse
+import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.entities.PostEntity
+import com.playloudr.app.model.entities.PostType
 import com.playloudr.app.model.entities.UserEntity
+import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_ARTIST
+import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_AUDIO_URL
+import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_CAPTION
+import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_IMAGE_URL
+import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_TITLE
+import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_TYPE
+import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_USERNAME
+import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_PK
+import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_SK
+import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_POST
+import java.time.Instant
 
-class PostRepository(user: UserEntity) : AbstractRepository<QueryResponse, PostEntity>() {
-  override fun construct(): Map<String, Any> {
-    TODO("Not yet implemented")
+object PostRepository : AbstractRepository<PostEntity>() {
+  private val userRepository: UserRepository = UserRepository
+
+  suspend fun getUserPosts(username: String): List<PostEntity> {
+    return prefixQuery(username, KEY_PREFIX_POST)
   }
 
-  override suspend fun fetch(payload: Map<String, Any>): QueryResponse {
-    TODO("Not yet implemented")
+  suspend fun getFeedPosts(username: String): List<PostEntity> {
+    val userFollowing: List<String> = userRepository.getUserFollowing(username)
+    return userFollowing
+      .map { getUserPosts(it) }
+      .flatten()
+      .sortedByDescending { it.timestamp }
   }
 
-  override fun process(response: QueryResponse): PostEntity {
-    TODO("Not yet implemented")
+  override fun builder(entityValues: Map<String, AttributeValue>): PostEntity {
+    return PostEntity(
+      username = resolveKeyName(entityValues[KEY_NAME_PK]!!.asS()),
+      timestamp = Instant.parse(resolveKeyName(entityValues[KEY_NAME_SK]!!.asS())),
+      title = entityValues[ATTRIBUTE_NAME_TITLE]!!.asS(),
+      artist = entityValues[ATTRIBUTE_NAME_ARTIST]!!.asS(),
+      caption = entityValues[ATTRIBUTE_NAME_CAPTION]?.asS() ?: "",
+      imageUrl = entityValues[ATTRIBUTE_NAME_IMAGE_URL]!!.asS(),
+      audioUrl = entityValues[ATTRIBUTE_NAME_AUDIO_URL]!!.asS(),
+      postType = PostType.fromString(entityValues[ATTRIBUTE_NAME_TYPE]!!.asS())
+    )
   }
-
 }

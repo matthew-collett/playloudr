@@ -1,5 +1,8 @@
 package com.playloudr.app.model.client.aws
 
+import aws.sdk.kotlin.services.dynamodb.DynamoDbClient
+import aws.sdk.kotlin.services.kms.KmsClient
+import aws.sdk.kotlin.services.s3.S3Client
 import aws.smithy.kotlin.runtime.client.SdkClient
 import com.playloudr.app.model.client.aws.AwsServiceClient.DynamoDbServiceClient
 import com.playloudr.app.model.client.aws.AwsServiceClient.KmsServiceClient
@@ -8,36 +11,27 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
 object AwsClientManager {
-  val clientMap: ConcurrentHashMap<KClass<*>, AbstractAwsClient<out SdkClient>> = ConcurrentHashMap()
+  private val clientMap: ConcurrentHashMap<KClass<out SdkClient>, AwsServiceClient<out SdkClient>> =
+    ConcurrentHashMap()
 
-  inline fun <reified T : AbstractAwsClient<*>> getClient(): T {
-    return clientMap.computeIfAbsent(T::class) { klass ->
-      when (klass) {
-        DynamoDbServiceClient::class -> DynamoDbServiceClient
-        S3ServiceClient::class -> S3ServiceClient
-        KmsServiceClient::class -> KmsServiceClient
-        else -> throw IllegalArgumentException("Invalid client type: ${klass.simpleName}")
-      }
-    } as T
-  }
-
-  fun getDynamoDb(): DynamoDbServiceClient {
-    return clientMap.computeIfAbsent(DynamoDbServiceClient::class) {
+  fun getDynamoDbClient(): AwsServiceClient<DynamoDbClient> {
+    return clientMap.computeIfAbsent(DynamoDbClient::class) {
       DynamoDbServiceClient
     } as DynamoDbServiceClient
   }
 
-  fun getS3(): S3ServiceClient {
-    return clientMap.computeIfAbsent(S3ServiceClient::class) {
+  fun getS3Client(): AwsServiceClient<S3Client> {
+    return clientMap.computeIfAbsent(S3Client::class) {
       S3ServiceClient
     } as S3ServiceClient
   }
 
-  fun getKms(): KmsServiceClient {
-    return clientMap.computeIfAbsent(KmsServiceClient::class) {
+  fun getKmsClient(): AwsServiceClient<KmsClient> {
+    return clientMap.computeIfAbsent(KmsClient::class) {
       KmsServiceClient
     } as KmsServiceClient
   }
+
 
   fun closeClients() {
     clientMap.values.forEach { client ->
