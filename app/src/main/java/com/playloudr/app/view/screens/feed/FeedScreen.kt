@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,6 +13,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,6 +59,11 @@ fun FeedScreen(postList: List<PostEntity>, modifier: Modifier) {
       //contentPadding = PaddingValues(8.dp), // padding for width of post
       verticalArrangement = Arrangement.spacedBy(16.dp) // padding for spacing between posts
     ) {
+//      val dummyList = List(10) {"Item $it"}
+//      items(dummyList) { item ->
+//        Text(text = item, modifier = Modifier.padding(8.dp))
+//      }
+    
       items(postList) { post ->
         PostCard(
           post.username,

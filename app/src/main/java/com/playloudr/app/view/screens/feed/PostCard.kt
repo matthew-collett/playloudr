@@ -1,5 +1,6 @@
 package com.playloudr.app.view.screens.feed
 
+import android.graphics.drawable.VectorDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,10 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.playloudr.app.R
 import com.playloudr.app.model.entities.Type
 import com.playloudr.app.model.entities.posts
 import com.playloudr.app.view.theme.PlayloudrTheme
@@ -67,12 +70,12 @@ fun PostCard(
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
+          color = Color.Black,
           text = username,
           style = MaterialTheme.typography.bodyMedium
         )
       }
 
-      // This is a simplified stand-in for an image
       Image(
         painter =
         rememberImagePainter(imageUrl),
@@ -84,6 +87,7 @@ fun PostCard(
       Column(Modifier.padding(8.dp)) {
         Spacer(modifier = Modifier.height(8.dp))
         Text(
+          color = Color.Black,
           text = title,
           style = MaterialTheme.typography.displaySmall,
           modifier = Modifier
@@ -92,6 +96,7 @@ fun PostCard(
           //color = MaterialTheme.colorScheme.,
         )
         Text(
+          color = Color.Black,
           text = artist,
           style = MaterialTheme.typography.bodyMedium,
           modifier = Modifier
@@ -100,6 +105,8 @@ fun PostCard(
           //color = MaterialTheme.colorScheme.,
         )
         Text(
+          color = Color.Black,
+
           text = type.name,
           style = MaterialTheme.typography.bodyMedium,
           modifier = Modifier
@@ -110,6 +117,7 @@ fun PostCard(
         if (caption != null) {
           Text(
             caption,
+            color = Color.Black,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(bottom = 4.dp)
           )
