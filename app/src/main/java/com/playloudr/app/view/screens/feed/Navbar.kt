@@ -35,7 +35,7 @@ fun Navbar(
 
 
     Icon(
-      painter = painterResource(id = R.drawable.ic_playloudr_home), // Here we use the predefined material icon for search
+      painter = painterResource(id = R.drawable.ic_playloudr_house_door_outline), // Here we use the predefined material icon for search
       contentDescription = "Search", // accessibility description
       modifier = Modifier
         .size(24.dp)
@@ -43,14 +43,14 @@ fun Navbar(
     )
 
     Icon(
-      painter = painterResource(id = R.drawable.ic_playloudr_plus), // Here we use the predefined material icon for search
+      painter = painterResource(id = R.drawable.ic_playloudr_plus_outline), // Here we use the predefined material icon for search
       contentDescription = "Search", // accessibility description
       modifier = Modifier
         .size(24.dp)
     )
 
     Icon(
-      painter = painterResource(id = R.drawable.ic_playloudr_user), // Here we use the predefined material icon for search
+      painter = painterResource(id = R.drawable.ic_playloudr_user_outline), // Here we use the predefined material icon for search
       contentDescription = "View Account Nav",
       modifier = Modifier
         .size(30.dp)
