@@ -16,14 +16,16 @@ class FeedViewModel : ViewModel() {
         // For the sake of example, we're adding static data
         // In a real app, this is where you'd make a network request, etc.
         _posts.value = listOf(
-            PostEntity("User1",
-                "12345678",
-                "A Song Title",
-                "An Artist",
-                "I love this song",
-                "http://example.com/image1.png",
-                "http://example.com/image1.png",
-                Type.SONG
+            PostEntity(
+              "User1",
+              "12345678",
+              "A Song Title",
+              "An Artist",
+              "I love this song",
+              "http://example.com/image1.png",
+              "http://example.com/image1.png",
+              Type.SONG,
+              "https:profilepic.com"
             )
             // Add more posts
         )
