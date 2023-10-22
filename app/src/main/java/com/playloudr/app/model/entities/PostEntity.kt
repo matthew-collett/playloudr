@@ -1,5 +1,6 @@
 package com.playloudr.app.model.entities
 
+import com.playloudr.app.model.enums.PostType
 import java.time.Instant
 
 data class PostEntity(
@@ -12,22 +13,3 @@ data class PostEntity(
   val audioUrl: String?,
   val postType: PostType
 )
-
-enum class PostType(val type: String) {
-  SINGLE("Single"),
-  PLAYLIST("Playlist"),
-  ALBUM("Album"),
-  EP("EP"),
-  UNKNOWN("Unknown");
-
-  companion object {
-    fun fromString(value: String): PostType {
-      values().forEach {
-        if (it.type == value) {
-          return it
-        }
-      }
-      return UNKNOWN
-    }
-  }
-}
