@@ -8,7 +8,8 @@ data class PostEntity(
   val caption: String?,
   val imageUrl: String,
   val audioUrl: String?,
-  val type: Type
+  val type: Type,
+  val profilePictureUrl: String
 )
 
 enum class Type {
