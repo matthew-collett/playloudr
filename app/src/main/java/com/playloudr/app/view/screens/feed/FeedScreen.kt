@@ -21,12 +21,12 @@ import com.playloudr.app.view.theme.myColors
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun FeedScreen(postList: List<PostEntity>) {
+fun FeedScreen(postList: List<PostEntity>, modifier: Modifier) {
   Scaffold(
     topBar = {
       TopAppBar(
         title = { FeedHeader() },
-        backgroundColor = Color.White
+        backgroundColor = Color.White,
         //navigationIcon = null
       )
     }
@@ -34,10 +34,10 @@ fun FeedScreen(postList: List<PostEntity>) {
   ) {
     LazyColumn(
       modifier = Modifier
-        .fillMaxWidth()
-        .padding(bottom = 60.dp),
-      contentPadding = PaddingValues(8.dp),
-      verticalArrangement = Arrangement.spacedBy(16.dp)
+        .fillMaxWidth(),
+        //.padding(bottom = 60.dp),
+      //contentPadding = PaddingValues(8.dp), // padding for width of post
+      verticalArrangement = Arrangement.spacedBy(16.dp) // padding for spacing between posts
     ) {
       items(postList) { post ->
         PostCard(

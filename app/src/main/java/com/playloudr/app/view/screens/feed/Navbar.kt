@@ -19,6 +19,7 @@ import com.playloudr.app.R
 fun Navbar(
 //    onAddClick: () -> Unit = {},
 //    onChatClick: () -> Unit = {}
+  //modifier: Modifier
 ) {
   Row(
     modifier = Modifier
