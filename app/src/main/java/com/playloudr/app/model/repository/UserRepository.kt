@@ -7,7 +7,6 @@ import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_DISPLAY_NAME
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_EMAIL
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_PASSWORD
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_PROFILE_PICTURE_URL
-import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_USERNAME
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_PK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_SK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_FOLLOWING

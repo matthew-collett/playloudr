@@ -3,31 +3,43 @@ package com.playloudr.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.playloudr.app.model.repository.PostRepository
-import com.playloudr.app.view.composables.FeedScreen
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.playloudr.app.view.screens.Screen
+import com.playloudr.app.view.screens.feed.FeedScreen
+import com.playloudr.app.view.screens.profile.ProfileScreen
 import com.playloudr.app.view.theme.PlayloudrTheme
-import com.playloudr.app.viewmodel.ViewModelManager
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
       PlayloudrTheme {
-        FeedScreen(viewModel = ViewModelManager.getFeedViewModel())
+        AppNavigation()
+      }
+    }
+  }
+
+  @Composable
+  fun AppNavigation() {
+    val navController = rememberNavController()
+
+    NavHost(
+      navController = navController,
+      startDestination = Screen.Feed.route
+    ) {
+
+      composable(Screen.Feed.route) {
+        FeedScreen()
+      }
+
+      composable(Screen.Profile.route) {
+        ProfileScreen()
       }
     }
   }

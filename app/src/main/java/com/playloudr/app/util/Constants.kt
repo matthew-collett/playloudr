@@ -8,7 +8,6 @@ object Constants {
     const val KEY_PREFIX_METADATA = "METADATA#"
     const val KEY_PREFIX_FOLLOWING = "FOLLOWING#"
     const val KEY_PREFIX_POST = "POST#"
-    const val ATTRIBUTE_NAME_USERNAME = "Username"
     const val ATTRIBUTE_NAME_PROFILE_PICTURE_URL = "ProfilePictureUrl"
     const val ATTRIBUTE_NAME_DISPLAY_NAME = "DisplayName"
     const val ATTRIBUTE_NAME_BIO = "Bio"

@@ -16,7 +16,7 @@ class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
   val feedState: StateFlow<ViewState<List<PostEntity>>> = _feedState
 
   init {
-    loadFeedPosts("eric.cuenat")
+    loadFeedPosts("matthew.collett")
   }
 
   private fun loadFeedPosts(username: String) {
@@ -24,9 +24,6 @@ class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
       try {
         _feedState.value = Loading
         val feedPosts = postRepository.getFeedPosts(username)
-        if (feedPosts.isEmpty()) {
-          throw IllegalArgumentException("$username is not following anyone, or they have no posts.")
-        }
         _feedState.value = Success(feedPosts)
       } catch (e: Exception) {
         _feedState.value = Error(e)
