@@ -1,7 +1,6 @@
 package com.playloudr.app.view.screens.feed
 
-import androidx.compose.runtime.Composable
+import com.playloudr.app.viewmodel.FeedViewModel
 
-@Composable
-fun FeedScreen() {
+class FeedScreen(viewModel: FeedViewModel) {
 }

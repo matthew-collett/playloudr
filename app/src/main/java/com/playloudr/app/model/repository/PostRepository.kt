@@ -7,6 +7,7 @@ import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_ARTIST
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_AUDIO_URL
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_CAPTION
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_IMAGE_URL
+import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_PROFILE_PICTURE_URL
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_TITLE
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_TYPE
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_PK
@@ -38,7 +39,8 @@ object PostRepository : AbstractRepository<PostEntity>() {
       caption = entityValues[ATTRIBUTE_NAME_CAPTION]?.asS() ?: "",
       imageUrl = entityValues[ATTRIBUTE_NAME_IMAGE_URL]!!.asS(),
       audioUrl = entityValues[ATTRIBUTE_NAME_AUDIO_URL]!!.asS(),
-      postType = PostType.fromString(entityValues[ATTRIBUTE_NAME_TYPE]!!.asS())
+      postType = PostType.fromString(entityValues[ATTRIBUTE_NAME_TYPE]!!.asS()),
+      profilePictureUrl = entityValues[ATTRIBUTE_NAME_PROFILE_PICTURE_URL]!!.asS()
     )
   }
 }
