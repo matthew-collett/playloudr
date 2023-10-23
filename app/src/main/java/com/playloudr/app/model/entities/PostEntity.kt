@@ -11,5 +11,6 @@ data class PostEntity(
   val caption: String?,
   val imageUrl: String,
   val audioUrl: String?,
-  val postType: PostType
+  val postType: PostType,
+  val profilePictureUrl: String
 )
