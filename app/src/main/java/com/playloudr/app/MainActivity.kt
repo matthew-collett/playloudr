@@ -1,6 +1,7 @@
 package com.playloudr.app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
@@ -28,16 +29,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainApplicationView() {
   val navController = rememberNavController()
-  val currentRoute = navController.currentBackStackEntry?.destination?.route
-  if (currentRoute != null) {
-    println(currentRoute)
-  }
   Scaffold(
     topBar = {
       FeedTopBar()
     },
     bottomBar = {
-      BottomNavigationBar(navController, currentRoute)
+      BottomNavigationBar(navController)
     }
   ) { paddingValues ->
     NavigationHost(navController = navController, modifier = Modifier.padding(paddingValues))

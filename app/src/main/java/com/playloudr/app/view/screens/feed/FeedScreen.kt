@@ -1,6 +1,43 @@
 package com.playloudr.app.view.screens.feed
 
-import com.playloudr.app.viewmodel.FeedViewModel
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.playloudr.app.model.entities.PostEntity
 
-class FeedScreen(viewModel: FeedViewModel) {
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun FeedScreen(postList: List<PostEntity>) {
+  LazyColumn(
+    modifier = Modifier
+      .fillMaxWidth(),
+    //.padding(bottom = 60.dp),
+    //contentPadding = PaddingValues(8.dp), // padding for width of post
+    verticalArrangement = Arrangement.spacedBy(16.dp) // padding for spacing between posts
+  ) {
+//      val dummyList = List(10) {"Item $it"}
+//      items(dummyList) { item ->
+//        Text(text = item, modifier = Modifier.padding(8.dp))
+//      }
+
+    items(postList) { post ->
+      PostCard(
+        post.username,
+        post.timestamp,
+        post.title,
+        post.artist,
+        post.caption,
+        post.imageUrl,
+        post.audioUrl,
+        post.postType,
+        post.profilePictureUrl
+      )
+    }
+  }
 }
+
