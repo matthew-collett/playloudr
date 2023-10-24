@@ -1,6 +1,6 @@
 package com.playloudr.app.view.navigation
 
-import android.util.Log
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -21,7 +21,9 @@ fun BottomNavigationBar(navController: NavController) {
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentRoute = navBackStackEntry?.destination?.route
   BottomNavigation(
-    backgroundColor = Color.White
+    backgroundColor = Color.White,
+    modifier = Modifier
+      .height(48.dp)
   ) {
     screens.forEach { screen ->
       BottomNavigationItem(
@@ -33,9 +35,10 @@ fun BottomNavigationBar(navController: NavController) {
           }
           Icon(
             painter = painterResource(icon),
-            modifier = Modifier.size(24.dp),
             tint = Color.Black,
-            contentDescription = null
+            contentDescription = screen.route,
+            modifier = Modifier
+              .size(20.dp)
           )
         },
         selected = currentRoute == screen.route,

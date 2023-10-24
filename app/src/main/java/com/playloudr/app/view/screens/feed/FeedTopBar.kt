@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
@@ -28,6 +29,8 @@ import com.playloudr.app.view.theme.Modulus
 fun FeedTopBar() {
   TopAppBar(
     backgroundColor = Color.White,
+    modifier = Modifier
+      .height(48.dp),
     title = {
       Row(
         modifier = Modifier.fillMaxWidth(),
@@ -38,25 +41,29 @@ fun FeedTopBar() {
           painter = painterResource(id = R.drawable.ic_playloudr_icon),
           contentDescription = "PlayLoudr Logo",
           contentScale = ContentScale.Crop,
-          modifier = Modifier.size(28.dp)
+          modifier = Modifier
+            .size(32.dp)
         )
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(
+          modifier = Modifier
+            .width(4.dp)
+        )
         Text(
-          text = "PlayLoudr",
+          text = "Playloudr",
           fontFamily = Modulus,
-          fontSize = 18.sp,
-          fontWeight = FontWeight.Bold
+          fontWeight = FontWeight.Bold,
+          fontSize = 24.sp,
         )
       }
-
     },
     actions = {
       IconButton(onClick = { /*TODO*/ }) {
         Icon(
           painter = painterResource(id = R.drawable.ic_playloudr_search_icon),
           contentDescription = "Search",
-          modifier = Modifier.size(24.dp),
-          tint = Color.Black
+          tint = Color.Black,
+          modifier = Modifier
+            .size(20.dp)
         )
       }
     }

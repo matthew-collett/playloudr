@@ -5,138 +5,116 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.playloudr.app.model.entities.PostEntity
 import com.playloudr.app.model.entities.posts
-import com.playloudr.app.model.enums.PostType
+import com.playloudr.app.util.DateTimeUtils.formatTimestamp
 import com.playloudr.app.view.theme.PlayloudrTheme
-import java.time.Instant
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun PostCard(
-  username: String,
-  timestamp: Instant,
-  title: String,
-  artist: String,
-  caption: String?,
-  imageUrl: String,
-  audioUrl: String?,
-  type: PostType,
-  profilePictureUrl: String
-) {
-  // Create a card for each post
-  Card {
-    Column {
-      Row(
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(8.dp),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
-      ) {
-        Image(
-          painter = rememberImagePainter(profilePictureUrl),
-          contentDescription = "Profile Picture",
-          modifier = Modifier
-            .size(30.dp)
-            .clip(CircleShape),
-          contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-          color = Color.Black,
-          text = username
-        )
-      }
-
-      Image(
-        painter =
-        rememberImagePainter(imageUrl),
-        contentDescription = "User Post Image",
-        modifier = Modifier
-          .fillMaxWidth()
-          .height(200.dp)
-      )
-      Column(Modifier.padding(8.dp)) {
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-          color = Color.Black,
-          text = title,
-          modifier = Modifier
-            .padding(bottom = 8.dp)
-            .fillMaxWidth(),
-          //color = MaterialTheme.colorScheme.,
-        )
-        Text(
-          color = Color.Black,
-          text = artist,
-          modifier = Modifier
-            .padding(bottom = 8.dp)
-            .fillMaxWidth(),
-          //color = MaterialTheme.colorScheme.,
-        )
-        Text(
-          color = Color.Black,
-
-          text = type.name,
-          modifier = Modifier
-            .padding(bottom = 8.dp)
-            .fillMaxWidth(),
-          //color = MaterialTheme.colorScheme.,
-        )
-        if (caption != null) {
+fun PostCard(post: PostEntity) {
+  Column(
+    modifier = Modifier
+      .padding(vertical = 8.dp)
+      .fillMaxWidth()
+  ) {
+    Row(
+      horizontalArrangement = Arrangement.SpaceBetween,
+      verticalAlignment = Alignment.Bottom,
+      modifier = Modifier
+        .padding(end = 8.dp)
+        .fillMaxWidth()
+    ) {
+      Row {
+        IconButton(onClick = { /* Handle click */ }) {
+          Icon(Icons.Default.PlayArrow, contentDescription = "Play Music")
+        }
+        Column {
           Text(
-            caption,
-            color = Color.Black,
-            modifier = Modifier.padding(bottom = 4.dp)
+            text = post.title,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
           )
+          Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+              .fillMaxWidth()
+          ) {
+            Text(
+              text = post.artist,
+              fontWeight = FontWeight.Bold,
+              color = Color.Gray
+            )
+            Text(
+              text = post.postType.name,
+              fontStyle = FontStyle.Italic,
+              fontWeight = FontWeight.Bold,
+              color = Color(0xFF414FB3)
+            )
+          }
         }
       }
+    }
+
+    Image(
+      painter = rememberImagePainter(data = post.imageUrl),
+      contentDescription = "Post Image",
+      contentScale = ContentScale.Crop,
+      modifier = Modifier
+        .fillMaxWidth()
+        .aspectRatio(1f)
+    )
+
+    Column(
+      modifier = Modifier
+        .padding(8.dp)
+    ) {
+      Row {
+        Text(
+          text = post.username,
+          fontWeight = FontWeight.Bold
+        )
+        Spacer(
+          modifier = Modifier
+            .width(4.dp)
+        )
+        post.caption?.let { Text(text = it) }
+      }
+      Text(
+        text = formatTimestamp(post.timestamp),
+        fontSize = 12.sp,
+        color = Color.Gray
+      )
     }
   }
 }
 
-/**
- * username: String,
- *   timestamp: String,
- *   title: String,
- *   artist: String,
- *   caption: String?,
- *   imageUrl: String,
- *   audioUrl: String?,
- *   type: Type
- */
 @Preview
 @Composable
 fun PostCardPreview() {
   PlayloudrTheme {
-    PostCard(
-      posts[0].username,
-      posts[0].timestamp,
-      posts[0].title,
-      posts[0].artist,
-      posts[0].caption,
-      posts[0].imageUrl,
-      posts[0].audioUrl,
-      posts[0].postType,
-      posts[0].profilePictureUrl
-    )
+    PostCard(posts[0])
   }
 }

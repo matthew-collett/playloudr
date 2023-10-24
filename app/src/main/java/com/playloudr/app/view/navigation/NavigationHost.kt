@@ -16,7 +16,12 @@ import com.playloudr.app.viewmodel.FeedViewModel
 import com.playloudr.app.viewmodel.ProfileViewModel
 
 @Composable
-fun NavigationHost(navController: NavHostController, modifier: Modifier) {
+fun NavigationHost(
+  navController: NavHostController,
+  modifier: Modifier,
+  onScrollDown: () -> Unit,
+  onScrollUp: () -> Unit
+) {
   NavHost(
     navController = navController,
     startDestination = Screen.Feed.route,
@@ -24,14 +29,18 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier) {
   ) {
     composable(Screen.Feed.route) {
       val viewModel: FeedViewModel = FeedViewModel(PostRepository)
-      FeedScreen(posts)
+      FeedScreen(
+        postList = posts,
+        onScrollDown = onScrollDown,
+        onScrollUp = onScrollUp
+      )
     }
     composable(Screen.CreatePost.route) {
-      val viewModel: CreatePostViewModel = CreatePostViewModel() // Adjust this according to your DI setup
+      val viewModel: CreatePostViewModel = CreatePostViewModel()
       CreatePostScreen(viewModel)
     }
     composable(Screen.Profile.route) {
-      val viewModel: ProfileViewModel = ProfileViewModel() // Adjust this according to your DI setup
+      val viewModel: ProfileViewModel = ProfileViewModel()
       ProfileScreen(viewModel)
     }
   }

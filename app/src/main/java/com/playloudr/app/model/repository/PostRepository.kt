@@ -13,6 +13,8 @@ import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_TYPE
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_PK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_SK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_POST
+import com.playloudr.app.util.DateTimeUtils
+import com.playloudr.app.util.DateTimeUtils.resolveTimestamp
 import java.time.Instant
 
 object PostRepository : AbstractRepository<PostEntity>() {
@@ -33,7 +35,7 @@ object PostRepository : AbstractRepository<PostEntity>() {
   override fun builder(entityValues: Map<String, AttributeValue>): PostEntity {
     return PostEntity(
       username = resolveKeyName(entityValues[KEY_NAME_PK]!!.asS()),
-      timestamp = Instant.parse(resolveKeyName(entityValues[KEY_NAME_SK]!!.asS())),
+      timestamp = resolveTimestamp(resolveKeyName(entityValues[KEY_NAME_SK]!!.asS())),
       title = entityValues[ATTRIBUTE_NAME_TITLE]!!.asS(),
       artist = entityValues[ATTRIBUTE_NAME_ARTIST]!!.asS(),
       caption = entityValues[ATTRIBUTE_NAME_CAPTION]?.asS() ?: "",
