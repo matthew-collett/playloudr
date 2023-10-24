@@ -2,10 +2,12 @@ package com.playloudr.app.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.playloudr.app.model.entities.PostEntity
 import com.playloudr.app.model.repository.PostRepository
 import com.playloudr.app.view.screens.feed.FeedState
-import com.playloudr.app.view.screens.feed.FeedState.*
+import com.playloudr.app.view.screens.feed.FeedState.Error
+import com.playloudr.app.view.screens.feed.FeedState.NoPosts
+import com.playloudr.app.view.screens.feed.FeedState.PostsLoaded
+import com.playloudr.app.view.screens.feed.FeedState.RefreshLoading
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
