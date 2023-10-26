@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
@@ -24,12 +23,12 @@ fun ScrollAwareLazyColumn(
   val previousOffset = remember { mutableIntStateOf(0) }
 
   LaunchedEffect(currentOffset.value) {
-    if (currentOffset.value > previousOffset.intValue) {
+    if (currentOffset.value > previousOffset.value) {
       scrollDown()
-    } else if (currentOffset.value < previousOffset.intValue) {
+    } else if (currentOffset.value < previousOffset.value) {
       scrollUp()
     }
-    previousOffset.intValue = currentOffset.value
+    previousOffset.value = currentOffset.value
   }
 
   LazyColumn(modifier = modifier, state = scrollState, content = content)
