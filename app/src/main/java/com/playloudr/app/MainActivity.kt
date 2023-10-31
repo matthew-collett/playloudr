@@ -15,11 +15,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.playloudr.app.view.navigation.BottomNavigationBar
 import com.playloudr.app.view.navigation.NavigationHost
+import com.playloudr.app.view.screens.Screen
 import com.playloudr.app.view.screens.feed.FeedTopBar
+import com.playloudr.app.view.screens.signin.SignInScreen
+import com.playloudr.app.view.screens.signin.SignUpScreen
 import com.playloudr.app.view.theme.PlayloudrTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,6 +34,19 @@ class MainActivity : ComponentActivity() {
       PlayloudrTheme {
         MainApplicationView()
       }
+    }
+  }
+}
+
+@Composable
+fun SignInApplicationView() {
+  val navController = rememberNavController()
+  NavHost(navController, startDestination = Screen.SignIn.route) {
+    composable(Screen.SignIn.route) {
+      SignInScreen(navController)
+    }
+    composable(Screen.SignUp.route) {
+      SignUpScreen(navController)
     }
   }
 }
@@ -72,5 +90,11 @@ fun MainApplicationView() {
 @Composable
 fun MainActivityPreview() {
   MainApplicationView()
+}
+
+@Preview
+@Composable
+fun SignInApplicationPreview() {
+  SignInApplicationView()
 }
 

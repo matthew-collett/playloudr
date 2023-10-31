@@ -33,13 +33,15 @@ fun BottomNavigationBar(navController: NavController) {
           } else {
             screen.outlineIcon
           }
-          Icon(
-            painter = painterResource(icon),
-            tint = Color.Black,
-            contentDescription = screen.route,
-            modifier = Modifier
-              .size(20.dp)
-          )
+          icon?.let { painterResource(it) }?.let {
+            Icon(
+              painter = it,
+              tint = Color.Black,
+              contentDescription = screen.route,
+              modifier = Modifier
+                .size(20.dp)
+            )
+          }
         },
         selected = currentRoute == screen.route,
         onClick = {
