@@ -11,6 +11,8 @@ import com.playloudr.app.view.screens.Screen
 import com.playloudr.app.view.screens.create.CreatePostScreen
 import com.playloudr.app.view.screens.feed.FeedScreen
 import com.playloudr.app.view.screens.profile.ProfileScreen
+import com.playloudr.app.view.screens.signin.SignInScreen
+import com.playloudr.app.view.screens.signin.SignUpScreen
 import com.playloudr.app.viewmodel.CreatePostViewModel
 import com.playloudr.app.viewmodel.FeedViewModel
 import com.playloudr.app.viewmodel.ProfileViewModel
@@ -42,6 +44,12 @@ fun NavigationHost(
     composable(Screen.Profile.route) {
       val viewModel: ProfileViewModel = ProfileViewModel()
       ProfileScreen(viewModel)
+    }
+    composable(Screen.SignIn.route) {
+      SignInScreen(navController)
+    }
+    composable(Screen.SignUp.route) {
+      SignUpScreen(navController)
     }
   }
 }
