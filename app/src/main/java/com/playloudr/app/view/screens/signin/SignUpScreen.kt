@@ -16,7 +16,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -29,6 +32,13 @@ import com.playloudr.app.view.theme.PLLogoColor
 
 @Composable
 fun SignUpScreen(navController: NavController) {
+  var nameText by remember { mutableStateOf("") }
+  var username by remember { mutableStateOf("") }
+  var email by remember { mutableStateOf("") }
+  var password by remember { mutableStateOf("") }
+  var confirmPassword by remember { mutableStateOf("") }
+  var isPasswordVisible by remember { mutableStateOf(false) }
+
   Box(
     modifier = Modifier
       .fillMaxSize()
@@ -64,8 +74,8 @@ fun SignUpScreen(navController: NavController) {
 
       // Name Input
       OutlinedTextField(
-        value = "", // Bind to a state variable
-        onValueChange = { /* update your state variable */ },
+        value = nameText,
+        onValueChange = { nameText = it},
         label = { Text("Name:") }
       )
 
@@ -73,8 +83,8 @@ fun SignUpScreen(navController: NavController) {
 
       // Username Input
       OutlinedTextField(
-        value = "", // Bind to a state variable
-        onValueChange = { /* update your state variable */ },
+        value = username,
+        onValueChange = { username = it},
         label = { Text("Username:") }
       )
 
@@ -82,8 +92,8 @@ fun SignUpScreen(navController: NavController) {
 
       // Email Input
       OutlinedTextField(
-        value = "", // Bind to a state variable
-        onValueChange = { /* update your state variable */ },
+        value = email,
+        onValueChange = { email = it},
         label = { Text("Email:") }
       )
 
@@ -91,8 +101,8 @@ fun SignUpScreen(navController: NavController) {
 
       // Password Input
       OutlinedTextField(
-        value = "", // Bind to a state variable
-        onValueChange = { /* update your state variable */ },
+        value = password,
+        onValueChange = { password = it},
         label = { Text("Password:") },
         visualTransformation = PasswordVisualTransformation() // Hide the password
       )
@@ -101,8 +111,8 @@ fun SignUpScreen(navController: NavController) {
 
       // Confirm Password Input
       OutlinedTextField(
-        value = "", // Bind to a state variable
-        onValueChange = { /* update your state variable */ },
+        value = confirmPassword,
+        onValueChange = { confirmPassword = it},
         label = { Text("Confirm Password:") },
         visualTransformation = PasswordVisualTransformation() // Hide the password
       )

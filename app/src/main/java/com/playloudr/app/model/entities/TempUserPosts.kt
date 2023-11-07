@@ -2,9 +2,8 @@ package com.playloudr.app.model.entities
 
 import com.playloudr.app.model.enums.PostType
 import java.time.Instant
-import java.time.format.DateTimeFormatter
 
-val posts = listOf(
+val reecherPosts = listOf(
   PostEntity(
     username = "alice_melody",
     timestamp = Instant.now(),
@@ -127,4 +126,3 @@ val posts = listOf(
     "https://fastly.picsum.photos/id/169/2500/1662.jpg?hmac=3DBeyQbiPxO88hBdhIuFPbvy2ff7cm9vmnq8lPIL9Ug"
   )
 ).sortedByDescending { it.timestamp }
-

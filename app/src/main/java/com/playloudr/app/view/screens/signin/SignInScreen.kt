@@ -12,13 +12,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +38,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,6 +53,8 @@ import com.playloudr.app.view.theme.*
 @Composable
 fun SignInScreen(navController: NavController) {
   var text by remember { mutableStateOf("") }
+  var password by remember { mutableStateOf("") }
+  var isPasswordVisible by remember { mutableStateOf(false) }
   Box(
     modifier = Modifier
       .fillMaxSize()
@@ -74,8 +84,8 @@ fun SignInScreen(navController: NavController) {
       Spacer(modifier = Modifier.height(16.dp))
 
       OutlinedTextField(
-        value = "",
-        onValueChange = {},
+        value = text,
+        onValueChange = {text = it},
         label = { Text("Username") },
         modifier = Modifier
           .fillMaxWidth(0.8f)
@@ -84,12 +94,24 @@ fun SignInScreen(navController: NavController) {
       Spacer(modifier = Modifier.height(12.dp))
 
       OutlinedTextField(
-        value = "",
-        // TODO: fix the onValueChange to make text work
-        onValueChange = {text = it},
+        value = password,
+        onValueChange = {password = it},
         label = { Text("Password") },
         modifier = Modifier
-          .fillMaxWidth(0.8f)
+          .fillMaxWidth(0.8f),
+        visualTransformation = if(isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions {},
+        trailingIcon = {
+          IconButton(onClick = { isPasswordVisible = !isPasswordVisible}) {
+            Icon(
+              painter = if( isPasswordVisible ) painterResource(id = R.drawable.ic_playloudr_eye_slash )
+                          else painterResource(id = R.drawable.ic_playloudr_eye_slash_fill),
+              contentDescription = if (isPasswordVisible) "Hide password" else "Show password"
+            )
+          }
+        }
+
       )
 
       Spacer(modifier = Modifier.height(16.dp))
