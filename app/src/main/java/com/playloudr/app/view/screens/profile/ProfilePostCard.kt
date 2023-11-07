@@ -1,6 +1,7 @@
 package com.playloudr.app.view.screens.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
@@ -14,12 +15,16 @@ import com.playloudr.app.model.entities.PostEntity
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun ProfilePostCard(post:PostEntity) {
+fun ProfilePostCard(
+  post:PostEntity,
+  onClick: (PostEntity) -> Unit
+) {
   Card(
     modifier = Modifier
-      .padding(4.dp) // This adds padding around each card
-      .aspectRatio(1f), // This makes the card square
-    elevation = 4.dp // Optional: if you want to have elevation for the card
+      .padding(4.dp)
+      .aspectRatio(1f)
+      .clickable { onClick(post) },
+    elevation = 4.dp
   ) {
     Image(
       painter = rememberImagePainter(data = post.imageUrl),
