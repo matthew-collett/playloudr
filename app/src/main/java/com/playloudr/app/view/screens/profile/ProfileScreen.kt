@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.playloudr.app.model.entities.reecher
 import com.playloudr.app.model.entities.reecherPosts
 import com.playloudr.app.view.screens.feed.FeedTopBar
@@ -27,7 +28,10 @@ import com.playloudr.app.viewmodel.ProfileViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel) {
+fun ProfileScreen(
+  viewModel: ProfileViewModel,
+  navController: NavController
+  ) {
   // for top bar
   val displayName = reecher.displayName
   // for header
@@ -54,9 +58,11 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
     // Grid of posts
     gridItems(
       data = reecherPosts,
-      columnCount = 2 // For example, for two columns
+      columnCount = 2
     ) { post ->
-      ProfilePostCard(post)
+      ProfilePostCard(post) { clickedPost ->
+        navController.navigate("postDetail/${clickedPost.postId}")
+      }
     }
 
 

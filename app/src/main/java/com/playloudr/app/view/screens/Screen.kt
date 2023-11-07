@@ -9,5 +9,8 @@ sealed class Screen(val route: String, val filledIcon: Int?, val outlineIcon: In
   object Search : Screen("search", R.drawable.ic_playloudr_search_icon, R.drawable.ic_playloudr_search_icon)
   object SignIn : Screen("signIn", null, null)
   object SignUp : Screen("signUp", null, null)
+  object PostDetail : Screen("postDetail/{postId}", null, null) {
+    fun createRoute(postId: String) = "postDetail/$postId"
+  }
 }
 

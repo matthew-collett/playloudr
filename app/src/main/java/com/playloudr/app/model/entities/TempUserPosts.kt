@@ -13,7 +13,8 @@ val reecherPosts = listOf(
     imageUrl = "https://upload.wikimedia.org/wikipedia/en/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png",
     audioUrl = "https://example.com/audio1.mp3",
     postType = PostType.SINGLE,
-    profilePictureUrl = "https://example.com/profile1.jpg"
+    profilePictureUrl = "https://example.com/profile1.jpg",
+    postId = "1"
   ),
   PostEntity(
     username = "bobby_tunes",
@@ -24,7 +25,8 @@ val reecherPosts = listOf(
     imageUrl = "https://upload.wikimedia.org/wikipedia/en/1/1b/Adele_-_21.png",
     audioUrl = "https://example.com/audio2.mp3",
     postType = PostType.ALBUM,
-    profilePictureUrl = "https://example.com/profile2.jpg"
+    profilePictureUrl = "https://example.com/profile2.jpg",
+    postId = "2"
   ),
   PostEntity(
     username = "charlie_vibes",
@@ -35,7 +37,8 @@ val reecherPosts = listOf(
     imageUrl = "https://upload.wikimedia.org/wikipedia/en/b/ba/Jorja_Smith_-_Lost_%26_Found.png",
     audioUrl = "https://example.com/audio3.mp3",
     postType = PostType.EP,
-    profilePictureUrl = "https://example.com/profile3.jpg"
+    profilePictureUrl = "https://example.com/profile3.jpg",
+    postId = "3"
   ),
   PostEntity(
     username = "danny_beats",
@@ -46,7 +49,8 @@ val reecherPosts = listOf(
     imageUrl = "https://upload.wikimedia.org/wikipedia/en/2/23/Pharrell_Williams_-_Happy.jpg",
     audioUrl = "https://example.com/audio4.mp3",
     postType = PostType.SINGLE,
-    profilePictureUrl = "https://example.com/profile4.jpg"
+    profilePictureUrl = "https://example.com/profile4.jpg",
+    postId = "4"
   ),
   PostEntity(
     username = "elena_soul",
@@ -57,7 +61,8 @@ val reecherPosts = listOf(
     imageUrl = "https://upload.wikimedia.org/wikipedia/en/0/0a/Taylor_Swift_-_Evermore.png",
     audioUrl = "https://example.com/audio5.mp3",
     postType = PostType.ALBUM,
-    profilePictureUrl = "https://example.com/profile5.jpg"
+    profilePictureUrl = "https://example.com/profile5.jpg",
+    postId = "5"
   ),
   PostEntity(
     username = "frank_grooves",
@@ -68,7 +73,8 @@ val reecherPosts = listOf(
     imageUrl = "https://daily.jstor.org/wp-content/uploads/2023/01/good_times_with_bad_music_1050x700.jpg",
     audioUrl = "https://example.com/audio6.mp3",
     postType = PostType.PLAYLIST,
-    profilePictureUrl = "https://example.com/profile6.jpg"
+    profilePictureUrl = "https://example.com/profile6.jpg",
+    postId = "6"
   ),
   PostEntity(
     username = "gina_harmony",
@@ -79,7 +85,8 @@ val reecherPosts = listOf(
     imageUrl = "https://upload.wikimedia.org/wikipedia/en/6/65/Kacey_Musgraves_-_Golden_Hour.png",
     audioUrl = "https://example.com/audio7.mp3",
     postType = PostType.ALBUM,
-    profilePictureUrl = "https://example.com/profile7.jpg"
+    profilePictureUrl = "https://example.com/profile7.jpg",
+    postId ="7"
   ),
   PostEntity(
     username = "harry_beatbox",
@@ -90,7 +97,8 @@ val reecherPosts = listOf(
     imageUrl = "https://upload.wikimedia.org/wikipedia/en/d/da/Avicii_Wake_Me_Up_Official_Single_Cover.png",
     audioUrl = "https://example.com/audio8.mp3",
     postType = PostType.SINGLE,
-    profilePictureUrl = "https://example.com/profile8.jpg"
+    profilePictureUrl = "https://example.com/profile8.jpg",
+    postId = "8"
   ),
   PostEntity(
     username = "isabelle_muse",
@@ -101,7 +109,8 @@ val reecherPosts = listOf(
     imageUrl = "https://upload.wikimedia.org/wikipedia/en/6/69/Beatles_EP_Collection_box_set_cover.jpg",
     audioUrl = "https://example.com/audio9.mp3",
     postType = PostType.EP,
-    profilePictureUrl = "https://example.com/profile9.jpg"
+    profilePictureUrl = "https://example.com/profile9.jpg",
+    postId = "9"
   ),
   PostEntity(
     username = "jack_vinyl",
@@ -112,7 +121,8 @@ val reecherPosts = listOf(
     imageUrl = "https://upload.wikimedia.org/wikipedia/en/6/69/Pennystrawps.jpg",
     audioUrl = "https://example.com/audio10.mp3",
     postType = PostType.SINGLE,
-    profilePictureUrl = "https://example.com/profile10.jpg"
+    profilePictureUrl = "https://example.com/profile10.jpg",
+    postId = "10"
   ),
   PostEntity(
     "eric.cuenat",
@@ -123,6 +133,8 @@ val reecherPosts = listOf(
     "https://fastly.picsum.photos/id/169/2500/1662.jpg?hmac=3DBeyQbiPxO88hBdhIuFPbvy2ff7cm9vmnq8lPIL9Ug",
     "http://example.com/image1.png",
     PostType.SINGLE,
-    "https://fastly.picsum.photos/id/169/2500/1662.jpg?hmac=3DBeyQbiPxO88hBdhIuFPbvy2ff7cm9vmnq8lPIL9Ug"
+    "https://fastly.picsum.photos/id/169/2500/1662.jpg?hmac=3DBeyQbiPxO88hBdhIuFPbvy2ff7cm9vmnq8lPIL9Ug",
+    postId = "11"
   )
 ).sortedByDescending { it.timestamp }
+
