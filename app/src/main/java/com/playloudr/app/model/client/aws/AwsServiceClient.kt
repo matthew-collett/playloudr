@@ -3,6 +3,7 @@ package com.playloudr.app.model.client.aws
 import aws.sdk.kotlin.services.dynamodb.DynamoDbClient
 import aws.sdk.kotlin.services.kms.KmsClient
 import aws.sdk.kotlin.services.s3.S3Client
+import aws.sdk.kotlin.services.secretsmanager.SecretsManagerClient
 import aws.smithy.kotlin.runtime.client.SdkClient
 import com.playloudr.app.model.client.config.ClientConfig
 import com.playloudr.app.model.client.config.ConfigProvider
@@ -44,5 +45,15 @@ sealed class AwsServiceClient<T : SdkClient> : AbstractAwsClient<T>() {
     }
 
     override fun createClient(): KmsClient = client
+  }
+
+  object SecretServiceClient : AwsServiceClient<SecretsManagerClient>() {
+    private val client: SecretsManagerClient by lazy {
+      SecretsManagerClient {
+        region = config.aws.region
+        credentialsProvider = provider
+      }
+    }
+    override fun createClient(): SecretsManagerClient = client
   }
 }

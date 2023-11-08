@@ -5,6 +5,7 @@ import aws.sdk.kotlin.services.kms.KmsClient
 import aws.sdk.kotlin.services.s3.S3Client
 import aws.smithy.kotlin.runtime.client.SdkClient
 import com.playloudr.app.model.client.aws.AwsClientManager
+import com.playloudr.app.model.client.aws.AwsServiceClient.SecretServiceClient
 import kotlin.reflect.KClass
 
 abstract class AbstractDao<T : SdkClient>(private val clientClass: KClass<T>) {
@@ -16,6 +17,7 @@ abstract class AbstractDao<T : SdkClient>(private val clientClass: KClass<T>) {
       DynamoDbClient::class -> manager.getDynamoDbClient().getClient()
       S3Client::class -> manager.getS3Client().getClient()
       KmsClient::class -> manager.getKmsClient().getClient()
+      SecretServiceClient::class -> manager.getSecretsManagerClient().getClient()
       else -> throw IllegalArgumentException("Unsupported client class: ${clientClass.simpleName}")
     } as T
   }
