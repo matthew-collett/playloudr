@@ -1,6 +1,7 @@
 package com.playloudr.app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
@@ -9,6 +10,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,6 +21,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.playloudr.app.model.dao.SecretsManagerDao
+import com.playloudr.app.model.repository.SpotifyRepository
 import com.playloudr.app.view.navigation.BottomNavigationBar
 import com.playloudr.app.view.navigation.NavigationHost
 import com.playloudr.app.view.screens.Screen
@@ -59,6 +63,20 @@ fun MainApplicationView() {
   var showTopBar by remember { mutableStateOf(true) }
   val onScrollDown = { showTopBar = false }
   val onScrollUp = { showTopBar = true }
+  LaunchedEffect(Unit) {
+    try {
+      val spotRepo = SpotifyRepository()
+      val accessToken = spotRepo.getSpotifyAccessToken()
+      if (accessToken != null) {
+        Log.i("MainActivity","Successfully retrieved access spotify token: $accessToken")
+        // Optionally, make a further request to test the token
+      } else {
+        Log.i("MainActivity","Failed to retrieve spotify access token.")
+      }
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+  }
   Scaffold(
     topBar = {
       AnimatedVisibility(
