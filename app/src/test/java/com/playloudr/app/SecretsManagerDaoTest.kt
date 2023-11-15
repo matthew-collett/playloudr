@@ -25,7 +25,7 @@ class SecretsManagerDaoTest {
     // When the getSecretValue method is called with any GetSecretValueRequest, return mockResponse
     whenever(mockClient.getSecretValue(any<GetSecretValueRequest>())).thenReturn(mockResponse)
 
-    // Create an instance of your DAO with the mock client
+    // Create an instance of DAO with the mock client
     val dao = SecretsManagerDao().apply {
       setTestClient(mockClient)
     }
