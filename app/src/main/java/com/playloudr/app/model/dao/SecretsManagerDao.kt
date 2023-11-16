@@ -17,8 +17,7 @@ class SecretsManagerDao : AbstractDao<SecretsManagerClient>(SecretsManagerClient
       secretId = secretName
     }
     return try {
-      val client = getClient()
-        //getCurrentClient()
+      val client = getCurrentClient()
       val response = client.getSecretValue(valueRequest)
       response.secretString
     }catch (e: SecretsManagerException) {
