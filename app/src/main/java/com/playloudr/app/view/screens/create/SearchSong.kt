@@ -1,7 +1,6 @@
 package com.playloudr.app.view.screens.create
 
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,16 +19,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.playloudr.app.viewmodel.SpotifyViewModel
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalCoilApi::class)
 @Composable
 fun SearchSong(viewModel: SpotifyViewModel) {
   // State for the text field
@@ -67,6 +64,7 @@ fun SearchSong(viewModel: SpotifyViewModel) {
       Text("Search")
     }
     songImageUrl?.let { imageUrl ->
+      Log.d("SearchComposable", "imageUrl is $imageUrl")
       Image(
         painter = rememberImagePainter(imageUrl),
         contentDescription = "Song Image",

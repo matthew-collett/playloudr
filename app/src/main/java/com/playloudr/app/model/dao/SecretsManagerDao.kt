@@ -6,6 +6,7 @@ import aws.sdk.kotlin.services.secretsmanager.SecretsManagerClient
 import aws.sdk.kotlin.services.secretsmanager.model.GetSecretValueRequest
 import aws.sdk.kotlin.services.secretsmanager.model.SecretsManagerException
 import com.playloudr.app.model.client.aws.AwsServiceClient
+import java.io.IOException
 
 class SecretsManagerDao : AbstractDao<SecretsManagerClient>(SecretsManagerClient::class) {
   companion object {
@@ -22,6 +23,9 @@ class SecretsManagerDao : AbstractDao<SecretsManagerClient>(SecretsManagerClient
       response.secretString
     }catch (e: SecretsManagerException) {
       Log.w(TAG, "Unable to get secret from ${e.message}", e)
+      throw e
+    } catch (e: IOException) {
+      Log.e(TAG, "IO Exception ${e.message}", e)
       throw e
     }
   }
