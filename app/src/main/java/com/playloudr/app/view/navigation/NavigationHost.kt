@@ -52,7 +52,7 @@ fun NavigationHost(
     }
     composable(Screen.CreatePost.route) {
       val viewModel: CreatePostViewModel = CreatePostViewModel()
-      CreatePostScreen(viewModel)
+      CreatePostScreen(viewModel, navController)
     }
     composable(Screen.Profile.route) {
       val viewModel: ProfileViewModel = ProfileViewModel()

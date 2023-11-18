@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.playloudr.app.R
 import com.playloudr.app.viewmodel.SpotifyViewModel
 
 
@@ -66,7 +67,13 @@ fun SearchSong(viewModel: SpotifyViewModel) {
     songImageUrl?.let { imageUrl ->
       Log.d("SearchComposable", "imageUrl is $imageUrl")
       Image(
-        painter = rememberImagePainter(imageUrl),
+        painter = rememberImagePainter(
+          data = imageUrl,
+          builder = {
+            placeholder(R.drawable.ic_playloudr_logo)
+            error("failed to load $imageUrl")
+          }
+        ),
         contentDescription = "Song Image",
         modifier = Modifier
           .fillMaxWidth()
