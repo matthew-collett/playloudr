@@ -26,7 +26,7 @@ import com.playloudr.app.R
 import com.playloudr.app.view.theme.Modulus
 
 @Composable
-fun FeedTopBar() {
+fun FeedTopBar(showSearchBar: Boolean, onSearchIconClicked: () -> Unit) {
   TopAppBar(
     backgroundColor = Color.White,
     modifier = Modifier
@@ -57,7 +57,7 @@ fun FeedTopBar() {
       }
     },
     actions = {
-      IconButton(onClick = { /*TODO*/ }) {
+      IconButton(onClick = onSearchIconClicked) {
         Icon(
           painter = painterResource(id = R.drawable.ic_playloudr_search_icon),
           contentDescription = "Search",
@@ -73,5 +73,5 @@ fun FeedTopBar() {
 @Preview
 @Composable
 fun FeedTopBarPreview() {
-  FeedTopBar()
+  //FeedTopBar()
 }

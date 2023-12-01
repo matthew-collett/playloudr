@@ -25,8 +25,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.playloudr.app.model.entities.reecherPosts
+import com.playloudr.app.view.screens.create.CreatePostScreenAgain
 import com.playloudr.app.view.screens.feed.PostCard
 import com.playloudr.app.view.screens.profile.ProfilePostDetail
+import com.playloudr.app.viewmodel.SpotifyViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 
@@ -52,7 +54,8 @@ fun NavigationHost(
     }
     composable(Screen.CreatePost.route) {
       val viewModel: CreatePostViewModel = CreatePostViewModel()
-      CreatePostScreen(viewModel, navController)
+      val spotVM: SpotifyViewModel = SpotifyViewModel()
+      CreatePostScreenAgain(viewModel, spotVM, navController)
     }
     composable(Screen.Profile.route) {
       val viewModel: ProfileViewModel = ProfileViewModel()
