@@ -28,8 +28,8 @@ import com.playloudr.app.viewmodel.ProfileViewModel
 
 @Composable
 fun CreatePostScreen(
-  viewModel: CreatePostViewModel,
-  navController: NavController
+//  viewModel: CreatePostViewModel,
+//  navController: NavController
 ) {
   var imageUri by remember { mutableStateOf<ImageBitmap?>(null) }
   var caption by remember { mutableStateOf(TextFieldValue()) }
