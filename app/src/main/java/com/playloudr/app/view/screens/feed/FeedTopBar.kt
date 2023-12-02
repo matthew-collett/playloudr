@@ -32,29 +32,34 @@ fun FeedTopBar(showSearchBar: Boolean, onSearchIconClicked: () -> Unit) {
     modifier = Modifier
       .height(48.dp),
     title = {
-      Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
-      ) {
-        Image(
-          painter = painterResource(id = R.drawable.ic_playloudr_icon),
-          contentDescription = "PlayLoudr Logo",
-          contentScale = ContentScale.Crop,
-          modifier = Modifier
-            .size(32.dp)
-        )
-        Spacer(
-          modifier = Modifier
-            .width(4.dp)
-        )
-        Text(
-          text = "Playloudr",
-          fontFamily = Modulus,
-          fontWeight = FontWeight.Bold,
-          fontSize = 24.sp,
-        )
+      if (showSearchBar) {
+        SearchBar(onSearch = {/*TODO HANDLE QUERY HERE, THROUGH VIEW MODEL, passed in through param*/ })
       }
+      else {
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.Start,
+          verticalAlignment = Alignment.CenterVertically,
+        ) {
+          Image(
+            painter = painterResource(id = R.drawable.ic_playloudr_icon),
+            contentDescription = "PlayLoudr Logo",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+              .size(32.dp)
+          )
+          Spacer(
+            modifier = Modifier
+              .width(4.dp)
+          )
+          Text(
+            text = "Playloudr",
+            fontFamily = Modulus,
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+          )
+        }
+    }
     },
     actions = {
       IconButton(onClick = onSearchIconClicked) {

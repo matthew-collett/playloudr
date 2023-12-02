@@ -27,10 +27,8 @@ fun FeedScreen(
   var showSearchBar by remember { mutableStateOf(false) }
 
   Column {
-    if (showSearchBar) {
-      SearchBar(onSearch = {/*TODO HANDLE QUERY HERE, THROUGH VIEW MODEL?*/ })
-    }
-    FeedTopBar(onSearchIconClicked = {showSearchBar = !showSearchBar})
+    // Will need to pass view model into FeedTopBar to make user search work
+    FeedTopBar(showSearchBar = showSearchBar, onSearchIconClicked = {showSearchBar = !showSearchBar})
 
     ScrollAwareLazyColumn(
       modifier = Modifier.fillMaxWidth(),
