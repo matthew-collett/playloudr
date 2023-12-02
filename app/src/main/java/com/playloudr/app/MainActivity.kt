@@ -80,7 +80,7 @@ fun MainApplicationView() {
         exit = slideOutVertically(targetOffsetY = { -it })
       ) {
         when (currentRoute) {
-          "feed" -> FeedTopBar(onSearchIconClicked = onSearchIconClicked)
+          "feed" -> FeedTopBar(showSearchBar = showSearchBar, onSearchIconClicked = onSearchIconClicked)
           else -> {}
         }
       }
