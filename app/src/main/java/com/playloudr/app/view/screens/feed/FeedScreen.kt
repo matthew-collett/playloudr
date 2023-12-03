@@ -55,8 +55,8 @@ fun FeedScreen(
       // Search results are available, display them
       LazyColumn {
         items(searchResults) { user ->
-          //UserRow(user) // Can make composable for each user to display result
-          Text(text = user.username)
+          UserRow(user, navController) // Can make composable for each user to display result
+          //Text(text = user.username)
         }
       }
     }

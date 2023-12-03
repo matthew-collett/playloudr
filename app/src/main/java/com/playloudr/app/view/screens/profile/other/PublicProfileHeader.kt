@@ -26,11 +26,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.playloudr.app.model.entities.reecher
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
-fun PublicProfileHeader(imageUrl: String, name: String, bio: String?) {
+fun PublicProfileHeader(imageUrl: String, name: String?, bio: String?) {
   Column(
     modifier = Modifier
       .padding(horizontal = 16.dp)
@@ -46,13 +48,15 @@ fun PublicProfileHeader(imageUrl: String, name: String, bio: String?) {
         .size(100.dp)
         .clip(CircleShape)
     )
-    Text(
-      text = name,
-      style = MaterialTheme.typography.h1,
-      fontWeight = FontWeight.SemiBold,
-      fontSize = 20.sp,
-      color = Color.Black
-    )
+    if (name != null) {
+      Text(
+        text = name,
+        style = MaterialTheme.typography.h1,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp,
+        color = Color.Black
+      )
+    }
     Row (
       modifier = Modifier
         .fillMaxWidth(),

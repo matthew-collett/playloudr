@@ -44,11 +44,12 @@ fun PublicProfileScreen(
   val scope = rememberCoroutineScope()
 
   // this info will be taken from view model
+  // keeping hard coded for nows
   // for top bar
-  val displayName = reecher.username
+  val username = reecher.username
   // for header
   val profilePic = reecher.profilePictureUrl
-  val name = reecher.username
+  val name = reecher.displayName
   val bio = reecher.bio
   // lazy col
   val scrollState = rememberLazyListState()
@@ -62,7 +63,7 @@ fun PublicProfileScreen(
     topBar = {
       PublicProfileTopBar(
         navController = navController,
-        username = displayName!!
+        username = username
       )
     },
 
@@ -82,7 +83,8 @@ fun PublicProfileScreen(
 
         // Grid of posts
         gridItems(
-          data = reecherPosts,
+          // example of getting posts from view model
+          data = viewModel.getUserPosts(),
           columnCount = 2
         ) { post ->
           PublicProfilePostCard(post) { clickedPost ->
