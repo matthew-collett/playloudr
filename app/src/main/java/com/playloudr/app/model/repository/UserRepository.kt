@@ -1,7 +1,7 @@
 package com.playloudr.app.model.repository
 
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
-import com.playloudr.app.model.entities.UserEntity
+import com.playloudr.app.model.entity.UserEntity
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_BIO
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_DISPLAY_NAME
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_EMAIL

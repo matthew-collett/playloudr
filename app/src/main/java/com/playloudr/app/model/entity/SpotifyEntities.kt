@@ -1,4 +1,4 @@
-package com.playloudr.app.model.entities
+package com.playloudr.app.model.entity
 
 import com.google.gson.annotations.SerializedName
 

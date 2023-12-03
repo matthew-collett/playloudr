@@ -1,6 +1,6 @@
-package com.playloudr.app.model.entities
+package com.playloudr.app.model.entity
 
-import com.playloudr.app.model.enums.PostType
+import com.playloudr.app.model.enum.PostType
 import java.time.Instant
 
 data class PostEntity(

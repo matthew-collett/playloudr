@@ -8,7 +8,7 @@ import aws.smithy.kotlin.runtime.client.SdkClient
 import com.playloudr.app.model.client.aws.AwsServiceClient.DynamoDbServiceClient
 import com.playloudr.app.model.client.aws.AwsServiceClient.KmsServiceClient
 import com.playloudr.app.model.client.aws.AwsServiceClient.S3ServiceClient
-import com.playloudr.app.model.client.aws.AwsServiceClient.SecretServiceClient
+import com.playloudr.app.model.client.aws.AwsServiceClient.SecretsManagerServiceClient
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
@@ -37,8 +37,8 @@ object AwsClientManager {
 
   fun getSecretsManagerClient(): AwsServiceClient<SecretsManagerClient> {
     return clientMap.computeIfAbsent(SecretsManagerClient::class) {
-      SecretServiceClient
-    } as SecretServiceClient
+      SecretsManagerServiceClient
+    } as SecretsManagerServiceClient
   }
 
 

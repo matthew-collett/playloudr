@@ -2,10 +2,9 @@ package com.playloudr.app.model.repository
 
 import android.util.Log
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
-import com.playlouder.app.client.spotify.SpotifyApi
 import com.playloudr.app.model.dao.SecretsManagerDao
-import com.playloudr.app.model.entities.SpotifyAccessTokenResponse
-import com.playloudr.app.model.entities.SpotifySearchResponse
+import com.playloudr.app.model.entity.SpotifyAccessTokenResponse
+import com.playloudr.app.model.entity.SpotifySearchResponse
 import com.playloudr.app.model.repository.SpotifyRepository.RetrofitInstance.retrofit
 import retrofit2.Retrofit
 import retrofit2.Response
@@ -43,7 +42,7 @@ object SpotifyRepository : AbstractRepository<SpotifyAccessTokenResponse>() {
   //└── repository
   //    ├── SpotifyRepository.kt
   //    └── network
-  //        └── SpotifyService.kt
+  //        └── SpotifyApiService.kt
   interface SpotifyService {
     @GET("search")
       suspend fun searchSong(

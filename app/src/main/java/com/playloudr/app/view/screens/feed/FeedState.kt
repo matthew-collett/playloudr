@@ -1,6 +1,6 @@
 package com.playloudr.app.view.screens.feed
 
-import com.playloudr.app.model.entities.PostEntity
+import com.playloudr.app.model.entity.PostEntity
 
 sealed class FeedState {
   object RefreshLoading : FeedState()

@@ -5,10 +5,12 @@ import aws.sdk.kotlin.services.kms.KmsClient
 import aws.sdk.kotlin.services.s3.S3Client
 import aws.sdk.kotlin.services.secretsmanager.SecretsManagerClient
 import aws.smithy.kotlin.runtime.client.SdkClient
+import aws.smithy.kotlin.runtime.io.closeIfCloseable
+import com.playloudr.app.model.client.AbstractClient
 import com.playloudr.app.model.client.config.ClientConfig
 import com.playloudr.app.model.client.config.ConfigProvider
 
-sealed class AwsServiceClient<T : SdkClient> : AbstractAwsClient<T>() {
+sealed class AwsServiceClient<T : SdkClient> : AbstractClient<T>() {
   companion object {
     val config: ClientConfig by lazy { ConfigProvider.getReceiver() }
     val provider: CognitoProvider by lazy { CognitoProvider(config) }
@@ -23,6 +25,9 @@ sealed class AwsServiceClient<T : SdkClient> : AbstractAwsClient<T>() {
     }
 
     override fun createClient(): DynamoDbClient = client
+    override fun closeClient() {
+      client.close()
+    }
   }
 
   object S3ServiceClient : AwsServiceClient<S3Client>() {
@@ -34,6 +39,9 @@ sealed class AwsServiceClient<T : SdkClient> : AbstractAwsClient<T>() {
     }
 
     override fun createClient(): S3Client = client
+    override fun closeClient() {
+      client.close()
+    }
   }
 
   object KmsServiceClient : AwsServiceClient<KmsClient>() {
@@ -45,9 +53,12 @@ sealed class AwsServiceClient<T : SdkClient> : AbstractAwsClient<T>() {
     }
 
     override fun createClient(): KmsClient = client
+    override fun closeClient() {
+      client.close()
+    }
   }
 
-  object SecretServiceClient : AwsServiceClient<SecretsManagerClient>() {
+  object SecretsManagerServiceClient : AwsServiceClient<SecretsManagerClient>() {
     private val client: SecretsManagerClient by lazy {
       SecretsManagerClient {
         region = config.aws.region
@@ -55,5 +66,8 @@ sealed class AwsServiceClient<T : SdkClient> : AbstractAwsClient<T>() {
       }
     }
     override fun createClient(): SecretsManagerClient = client
+    override fun closeClient() {
+      client.close()
+    }
   }
 }

@@ -1,13 +1,11 @@
 package com.playloudr.app.model.dao
 
-import android.util.Log
 import aws.sdk.kotlin.services.dynamodb.DynamoDbClient
 import aws.sdk.kotlin.services.kms.KmsClient
 import aws.sdk.kotlin.services.s3.S3Client
 import aws.sdk.kotlin.services.secretsmanager.SecretsManagerClient
 import aws.smithy.kotlin.runtime.client.SdkClient
 import com.playloudr.app.model.client.aws.AwsClientManager
-import com.playloudr.app.model.client.aws.AwsServiceClient.SecretServiceClient
 import kotlin.reflect.KClass
 
 abstract class AbstractDao<T : SdkClient>(private val clientClass: KClass<T>) {
@@ -22,8 +20,6 @@ abstract class AbstractDao<T : SdkClient>(private val clientClass: KClass<T>) {
       SecretsManagerClient::class -> manager.getSecretsManagerClient().getClient()
       else -> throw IllegalArgumentException("Unsupported client class: ${clientClass.simpleName}")
     }
-    Log.d("AbstractDaoError", "Requested client class: ${clientClass.simpleName}")
-    Log.d("AbstractDaoError", "Returned client class: ${client.javaClass.simpleName}")
     return client as T
   }
 }
