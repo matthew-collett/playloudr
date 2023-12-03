@@ -10,7 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.playloudr.app.model.entities.PostEntity
+import com.playloudr.app.model.entity.PostEntity
 import com.playloudr.app.util.Debouncer
 import com.playloudr.app.view.components.ScrollAwareLazyColumn
 

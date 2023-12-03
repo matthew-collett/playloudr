@@ -1,4 +1,4 @@
-package com.playloudr.app.model.enums
+package com.playloudr.app.model.enum
 
 enum class PostType(val type: String) {
   SINGLE("Single"),

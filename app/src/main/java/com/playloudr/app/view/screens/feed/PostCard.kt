@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.playloudr.app.model.entities.PostEntity
-import com.playloudr.app.model.entities.posts
+import com.playloudr.app.model.entity.PostEntity
+import com.playloudr.app.model.entity.posts
 import com.playloudr.app.util.DateTimeUtils.formatTimestamp
 import com.playloudr.app.view.theme.PlayloudrTheme
 

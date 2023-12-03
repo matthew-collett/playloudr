@@ -11,7 +11,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.playloudr.app.model.entities.PostEntity
+import com.playloudr.app.model.entity.PostEntity
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable

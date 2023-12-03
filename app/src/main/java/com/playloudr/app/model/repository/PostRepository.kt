@@ -1,9 +1,9 @@
 package com.playloudr.app.model.repository
 
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
-import com.playloudr.app.model.entities.PostEntity
-import com.playloudr.app.model.entities.reecherPosts
-import com.playloudr.app.model.enums.PostType
+import com.playloudr.app.model.entity.PostEntity
+import com.playloudr.app.model.entity.reecherPosts
+import com.playloudr.app.model.enum.PostType
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_ARTIST
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_AUDIO_URL
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_CAPTION
@@ -14,9 +14,7 @@ import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_TYPE
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_PK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_SK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_POST
-import com.playloudr.app.util.DateTimeUtils
 import com.playloudr.app.util.DateTimeUtils.resolveTimestamp
-import java.time.Instant
 import java.util.UUID
 
 object PostRepository : AbstractRepository<PostEntity>() {
