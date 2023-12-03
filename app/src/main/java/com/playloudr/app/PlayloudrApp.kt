@@ -4,6 +4,7 @@ import android.app.Application
 import com.playloudr.app.model.client.aws.AwsClientManager
 import com.playloudr.app.model.client.config.ConfigProvider
 import com.playloudr.app.model.client.spotify.SpotifyTokenManager
+import com.playloudr.app.model.dao.SpotifyDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

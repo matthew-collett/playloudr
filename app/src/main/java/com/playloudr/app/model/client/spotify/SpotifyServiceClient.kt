@@ -5,8 +5,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object SpotifyServiceClient : AbstractClient<SpotifyApiService>() {
-  override fun createClient(): SpotifyApiService {
+object SpotifyServiceClient : AbstractClient<SpotifyClient>() {
+  override fun createClient(): SpotifyClient {
     val okHttpClient = OkHttpClient.Builder()
       .addInterceptor(SpotifyAuthInterceptor(SpotifyTokenManager))
       .build()
@@ -15,7 +15,7 @@ object SpotifyServiceClient : AbstractClient<SpotifyApiService>() {
       .client(okHttpClient)
       .addConverterFactory(GsonConverterFactory.create())
       .build()
-    return retrofit.create(SpotifyApiService::class.java)
+    return retrofit.create(SpotifyClient::class.java)
   }
 
   override fun closeClient() {

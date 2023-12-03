@@ -7,7 +7,7 @@ abstract class AbstractClient<T> {
 
   protected abstract fun createClient(): T
 
-  fun getClient(): T = client
+  fun fetchClient(): T = client
 
   abstract fun closeClient()
 }
