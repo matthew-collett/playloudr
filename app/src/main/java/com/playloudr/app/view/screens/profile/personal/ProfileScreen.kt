@@ -1,4 +1,4 @@
-package com.playloudr.app.view.screens.profile
+package com.playloudr.app.view.screens.profile.personal
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
@@ -9,15 +9,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
@@ -34,9 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.playloudr.app.model.entities.reecher
 import com.playloudr.app.model.entities.reecherPosts
-import com.playloudr.app.view.screens.feed.FeedTopBar
 import com.playloudr.app.viewmodel.ProfileViewModel
-import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalFoundationApi::class)

@@ -5,7 +5,7 @@ import java.time.Instant
 
 val posts = listOf(
   PostEntity(
-    username = "alice_melody",
+    username = "Shed_Sheran",
     timestamp = Instant.now(),
     title = "Shape of You",
     artist = "Ed Sheeran",

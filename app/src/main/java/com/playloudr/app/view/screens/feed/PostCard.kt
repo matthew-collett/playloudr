@@ -1,6 +1,7 @@
 package com.playloudr.app.view.screens.feed
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,16 +25,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.playloudr.app.model.entities.PostEntity
 import com.playloudr.app.model.entities.posts
 import com.playloudr.app.util.DateTimeUtils.formatTimestamp
+import com.playloudr.app.view.screens.Screen
 import com.playloudr.app.view.theme.PlayloudrTheme
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun PostCard(post: PostEntity) {
+fun PostCard(
+  post: PostEntity,
+  navController: NavController
+) {
   Column(
     modifier = Modifier
       .padding(vertical = 8.dp)
@@ -94,7 +100,10 @@ fun PostCard(post: PostEntity) {
       Row {
         Text(
           text = post.username,
-          fontWeight = FontWeight.Bold
+          fontWeight = FontWeight.Bold,
+          modifier = Modifier.clickable{
+            navController.navigate(Screen.PublicProfile.createRoute(post.username))
+          }
         )
         Spacer(
           modifier = Modifier
@@ -115,6 +124,6 @@ fun PostCard(post: PostEntity) {
 @Composable
 fun PostCardPreview() {
   PlayloudrTheme {
-    PostCard(posts[0])
+    //PostCard(posts[0])
   }
 }

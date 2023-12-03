@@ -2,6 +2,7 @@ package com.playloudr.app.model.repository
 
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.entities.UserEntity
+import com.playloudr.app.model.entities.users
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_BIO
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_DISPLAY_NAME
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_EMAIL
@@ -26,6 +27,15 @@ object UserRepository : AbstractRepository<UserEntity>() {
 
   suspend fun getUserFollowing(username: String): List<String> {
     return shallowPrefixQuery(username, KEY_PREFIX_FOLLOWING)
+  }
+
+  fun tempGetUsers(query: String): List<UserEntity> {
+    val lowerCaseQuery = query.lowercase()
+
+    return users.filter {
+      it.username.lowercase().contains(lowerCaseQuery) ||
+          it.displayName?.lowercase()?.contains(lowerCaseQuery) == true
+    }
   }
 
   override fun builder(entityValues: Map<String, AttributeValue>): UserEntity {

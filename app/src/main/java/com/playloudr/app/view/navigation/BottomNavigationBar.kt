@@ -45,7 +45,19 @@ fun BottomNavigationBar(navController: NavController) {
         },
         selected = currentRoute == screen.route,
         onClick = {
-          if (currentRoute != screen.route) {
+//          if (screen is Screen.Profile) {
+//            // TODO get logged in user through UserRepository or through a UserViewModel
+//            val profileRoute = Screen.Profile.createRoute("tempusername")
+//            navController.navigate(profileRoute) {
+//              popUpTo(navController.graph.startDestinationId) {
+//                saveState = true
+//              }
+//              launchSingleTop = true
+//              restoreState = true
+//            }
+//          }
+//          else
+            if (currentRoute != screen.route) {
             navController.navigate(screen.route) {
               popUpTo(navController.graph.startDestinationId) {
                 saveState = true

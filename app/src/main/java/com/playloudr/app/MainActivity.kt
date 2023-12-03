@@ -68,23 +68,9 @@ fun MainApplicationView() {
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentRoute = navBackStackEntry?.destination?.route
   var showTopBar by remember { mutableStateOf(true) }
-  var showSearchBar by remember { mutableStateOf(false) }
   val onScrollDown = { showTopBar = false }
   val onScrollUp = { showTopBar = true }
-  val onSearchIconClicked = { showSearchBar = !showSearchBar }
   Scaffold(
-    topBar = {
-      AnimatedVisibility(
-        visible = showTopBar,
-        enter = slideInVertically(initialOffsetY = { -it }),
-        exit = slideOutVertically(targetOffsetY = { -it })
-      ) {
-        when (currentRoute) {
-          "feed" -> FeedTopBar(showSearchBar = showSearchBar, onSearchIconClicked = onSearchIconClicked)
-          else -> {}
-        }
-      }
-    },
     bottomBar = {
       BottomNavigationBar(navController)
     }

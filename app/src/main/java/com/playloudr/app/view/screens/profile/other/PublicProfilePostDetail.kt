@@ -1,7 +1,6 @@
-package com.playloudr.app.view.screens.profile
+package com.playloudr.app.view.screens.profile.other
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,34 +22,27 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.playloudr.app.model.entities.PostEntity
-import com.playloudr.app.model.entities.posts
-import com.playloudr.app.model.entities.reecher
 import com.playloudr.app.model.entities.reecherPosts
-import com.playloudr.app.model.repository.SpotifyRepository
 import com.playloudr.app.util.DateTimeUtils.formatTimestamp
 import com.playloudr.app.view.screens.signin.mockNavController
-import com.playloudr.app.view.theme.PlayloudrTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun ProfilePostDetail(
+fun PublicProfilePostDetail(
   post: PostEntity,
   //viewModel: ViewModel,
   postId: String,
@@ -163,5 +155,5 @@ fun ProfilePostDetail(
 @Preview
 @Composable
 fun ProfilePostDetailPreview() {
-  ProfilePostDetail(reecherPosts[0], "1", mockNavController())
+  PublicProfilePostDetail(reecherPosts[0], "1", mockNavController())
 }

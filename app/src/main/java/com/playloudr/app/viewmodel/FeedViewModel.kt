@@ -2,7 +2,9 @@ package com.playloudr.app.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.playloudr.app.model.entities.UserEntity
 import com.playloudr.app.model.repository.PostRepository
+import com.playloudr.app.model.repository.UserRepository
 import com.playloudr.app.view.screens.feed.FeedState
 import com.playloudr.app.view.screens.feed.FeedState.Error
 import com.playloudr.app.view.screens.feed.FeedState.NoPosts
@@ -15,6 +17,15 @@ import kotlinx.coroutines.launch
 class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
   private val _feedState = MutableStateFlow<FeedState>(RefreshLoading)
   val feedState: StateFlow<FeedState> = _feedState
+
+  private val _showTopBar = MutableStateFlow(true)
+  val showTopBar: StateFlow<Boolean> = _showTopBar
+
+  private val _showSearchBar = MutableStateFlow(false)
+  val showSearchBar: StateFlow<Boolean> = _showSearchBar
+
+  private val _userSearchResults = MutableStateFlow<List<UserEntity>>(emptyList())
+  val userSearchResults: StateFlow<List<UserEntity>> = _userSearchResults
 
   init {
     loadFeedPosts("matthew.collett")
@@ -34,6 +45,32 @@ class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
         _feedState.value = Error(e)
       }
     }
+  }
+
+  fun onSearchIconClicked() {
+    _showSearchBar.value = !_showSearchBar.value
+    //optional reset
+    //_showTopBar.value = !_showSearchBar.value
+  }
+
+  fun onUserSearchQuery(query: String) {
+      if (query.isNotEmpty()) {
+        viewModelScope.launch {
+          val results = UserRepository.tempGetUsers(query)
+          _userSearchResults.value = results
+        }
+      } else {
+        _userSearchResults.value = emptyList()
+      }
+
+  }
+
+  fun onScrollUp() {
+    _showTopBar.value = true
+  }
+
+  fun onScrollDown() {
+    _showTopBar.value = false
   }
 }
 

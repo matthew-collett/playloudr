@@ -1,4 +1,4 @@
-package com.playloudr.app.view.screens.profile
+package com.playloudr.app.view.screens.profile.personal
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

@@ -1,4 +1,4 @@
-package com.playloudr.app.view.screens.profile
+package com.playloudr.app.view.screens.profile.other
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -15,7 +15,7 @@ import com.playloudr.app.model.entities.PostEntity
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun ProfilePostCard(
+fun PublicProfilePostCard(
   post:PostEntity,
   onClick: (PostEntity) -> Unit
 ) {

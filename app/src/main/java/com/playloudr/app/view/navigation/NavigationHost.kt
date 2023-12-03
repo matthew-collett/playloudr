@@ -2,8 +2,7 @@ package com.playloudr.app.view.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -12,24 +11,17 @@ import androidx.navigation.navArgument
 import com.playloudr.app.model.entities.posts
 import com.playloudr.app.model.repository.PostRepository
 import com.playloudr.app.view.screens.Screen
-import com.playloudr.app.view.screens.create.CreatePostScreen
 import com.playloudr.app.view.screens.feed.FeedScreen
-import com.playloudr.app.view.screens.profile.ProfileScreen
+import com.playloudr.app.view.screens.profile.personal.ProfileScreen
 import com.playloudr.app.view.screens.signin.SignInScreen
 import com.playloudr.app.view.screens.signin.SignUpScreen
 import com.playloudr.app.viewmodel.CreatePostViewModel
 import com.playloudr.app.viewmodel.FeedViewModel
-import com.playloudr.app.viewmodel.PostDetailViewModel
 import com.playloudr.app.viewmodel.ProfileViewModel
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import com.playloudr.app.model.entities.reecherPosts
 import com.playloudr.app.view.screens.create.CreatePostScreenAgain
-import com.playloudr.app.view.screens.feed.PostCard
-import com.playloudr.app.view.screens.profile.ProfilePostDetail
+import com.playloudr.app.view.screens.profile.other.PublicProfileScreen
+import com.playloudr.app.view.screens.profile.personal.ProfilePostDetail
 import com.playloudr.app.viewmodel.SpotifyViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 
 @Composable
@@ -48,8 +40,8 @@ fun NavigationHost(
       val viewModel: FeedViewModel = FeedViewModel(PostRepository)
       FeedScreen(
         postList = posts,
-        onScrollDown = onScrollDown,
-        onScrollUp = onScrollUp
+        feedViewModel = viewModel,
+        navController = navController
       )
     }
     composable(Screen.CreatePost.route) {
@@ -58,7 +50,11 @@ fun NavigationHost(
       CreatePostScreenAgain(viewModel, spotVM, navController)
     }
     composable(Screen.Profile.route) {
-      val viewModel: ProfileViewModel = ProfileViewModel()
+      val viewModel: ProfileViewModel = viewModel()
+      // TODO get logged in user through UserRepository or through a UserViewModel
+      // val username = UserRepository.getLoggedInUsername()
+      // viewModel.setUsername(username)
+      viewModel.setUsername("tempusername")
       ProfileScreen(viewModel, navController)
     }
     composable(Screen.SignIn.route) {
@@ -76,6 +72,15 @@ fun NavigationHost(
       val post = PostRepository.getPostByIdTemp(postId) ?: return@composable
 
       ProfilePostDetail(post = post, postId = postId, navController = navController)
+    }
+    composable(Screen.PublicProfile.route) { backStackEntry ->
+      //val viewModel: ProfileViewModel = viewModel()
+      // Retrieve the user ID from the arguments
+      val username = backStackEntry.arguments?.getString("username") ?: return@composable
+      // TODO We can have a setUsername function instead of creating a view model factory
+      val viewModel: ProfileViewModel = viewModel()
+      viewModel.setUsername(username)
+      PublicProfileScreen(viewModel, navController)
     }
   }
 }

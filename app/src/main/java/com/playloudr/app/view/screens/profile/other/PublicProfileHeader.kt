@@ -1,18 +1,19 @@
-package com.playloudr.app.view.screens.profile
+package com.playloudr.app.view.screens.profile.other
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ButtonColors
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,7 +30,7 @@ import coil.compose.rememberImagePainter
 import com.playloudr.app.model.entities.reecher
 
 @Composable
-fun ProfileHeader(imageUrl: String, name: String, bio: String?) {
+fun PublicProfileHeader(imageUrl: String, name: String, bio: String?) {
   Column(
     modifier = Modifier
       .padding(horizontal = 16.dp)
@@ -64,6 +65,20 @@ fun ProfileHeader(imageUrl: String, name: String, bio: String?) {
       Spacer(modifier = Modifier.width(16.dp))
       ProfileInfo(num = 421, label = "Posts")
     }
+    // TODO incorporate logic for if someone already follows user
+    OutlinedButton(
+      onClick = { /*TODO follow user*/ },
+      colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue)
+    ) {
+      Text("Follow")
+    }
+    /*
+    * if followed show this
+    * FilledTonalButton(onClick = { onClick() }) {
+        Text("Following")
+    }
+ */
+
     if (bio != null) {
       Text(
         text = bio,
@@ -92,7 +107,7 @@ fun ProfileInfo(num: Int, label: String) {
 @Composable
 @Preview
 fun ProfileHeaderPreview() {
-  ProfileHeader(
+  PublicProfileHeader(
     imageUrl = reecher.profilePictureUrl,
     name = reecher.username,
     bio = reecher.bio

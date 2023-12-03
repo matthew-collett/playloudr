@@ -1,6 +1,8 @@
 package com.playloudr.app.viewmodel
 
-class CreatePostViewModel {
+import androidx.lifecycle.ViewModel
+
+class CreatePostViewModel() : ViewModel() {
 // should I move spotify view model into here?
 
 }
