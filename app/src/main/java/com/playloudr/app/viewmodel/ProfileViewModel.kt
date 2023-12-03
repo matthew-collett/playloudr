@@ -1,5 +1,6 @@
 package com.playloudr.app.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.playloudr.app.model.entities.PostEntity
@@ -11,6 +12,14 @@ class ProfileViewModel(): ViewModel()  {
 
   fun setUsername(username:String) {
     _username.value = username
+  }
+
+  fun setProfilePicture(uri: Uri) {
+    users.forEach{user ->
+      if (user.username == _username.value) {
+        user.profilePictureUrl = uri.toString()
+      }
+    }
   }
 
   fun getUserPosts(): List<PostEntity> {

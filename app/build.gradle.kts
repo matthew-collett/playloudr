@@ -27,12 +27,12 @@ android {
     }
   }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
   }
   kotlinOptions {
-//    jvmTarget = "1.8"
-    jvmTarget = "17"
+    jvmTarget = "1.8"
+    //jvmTarget = "17"
     freeCompilerArgs = listOf("-Xopt-in=kotlin.Experimental")
   }
   buildFeatures {
@@ -74,6 +74,7 @@ dependencies {
   implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
   implementation("org.slf4j:slf4j-api:1.7.30")
   implementation("org.slf4j:slf4j-log4j12:1.7.30")
+  implementation("com.google.accompanist:accompanist-permissions:0.32.0")
   testImplementation("junit:junit:4.13.2")
   testImplementation("org.mockito:mockito-core:4.0.0")
   testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")

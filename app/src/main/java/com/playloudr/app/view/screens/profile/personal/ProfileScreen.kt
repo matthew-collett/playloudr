@@ -1,6 +1,9 @@
 package com.playloudr.app.view.screens.profile.personal
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -31,6 +34,7 @@ import androidx.navigation.NavController
 import com.playloudr.app.model.entities.reecher
 import com.playloudr.app.model.entities.reecherPosts
 import com.playloudr.app.viewmodel.ProfileViewModel
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalFoundationApi::class)
@@ -56,6 +60,29 @@ fun ProfileScreen(
     // Handle logout click holder
   }
 
+  // change profile pic logic
+  val imagePickerLauncher = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.GetContent()
+  ) { uri ->
+    // update profile pic through profile view model
+    uri?.let { nonNullUri ->
+      scope.launch {
+        viewModel.setProfilePicture(nonNullUri)
+      }
+    }
+  }
+
+  // permission logic to handle older and newer APIs
+  val permissionLauncher = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.RequestPermission()
+  ) { isGranted ->
+    if (isGranted) {
+      imagePickerLauncher.launch("image/*")
+    } else {
+      return@rememberLauncherForActivityResult
+    }
+  }
+
   Scaffold(
     scaffoldState = scaffoldState,
     topBar = {
@@ -75,7 +102,20 @@ fun ProfileScreen(
       ) {
         // profile picture, name, followers, following, posts, bio
         item {
-          ProfileHeader(profilePic, name, bio)
+          ProfileHeader(
+            imageUrl = profilePic,
+            name = name,
+            bio = bio,
+            onImageClick = {
+              if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+              } else {
+                imagePickerLauncher.launch("image/*")
+              }
+
+
+            }
+          )
         }
 
         // Grid of posts

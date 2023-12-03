@@ -1,6 +1,7 @@
 package com.playloudr.app.view.screens.profile.personal
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,16 +21,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.playloudr.app.model.entities.reecher
 
+@OptIn(ExperimentalCoilApi::class, ExperimentalPermissionsApi::class)
 @Composable
-fun ProfileHeader(imageUrl: String, name: String, bio: String?) {
+fun ProfileHeader(
+  imageUrl: String,
+  name: String,
+  bio: String?,
+  onImageClick: () -> Unit
+) {
+  val context = LocalContext.current
+
+  //val storagePermissionState = rememberPermissionState(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+
   Column(
     modifier = Modifier
       .padding(horizontal = 16.dp)
@@ -44,6 +60,13 @@ fun ProfileHeader(imageUrl: String, name: String, bio: String?) {
       modifier = Modifier
         .size(100.dp)
         .clip(CircleShape)
+        .clickable {
+         // if(storagePermissionState.status.isGranted) {
+            onImageClick()
+         // } else{
+          //  storagePermissionState.launchPermissionRequest()
+          //}
+        }
     )
     Text(
       text = name,
@@ -92,9 +115,9 @@ fun ProfileInfo(num: Int, label: String) {
 @Composable
 @Preview
 fun ProfileHeaderPreview() {
-  ProfileHeader(
-    imageUrl = reecher.profilePictureUrl,
-    name = reecher.username,
-    bio = reecher.bio
-  )
+//  ProfileHeader(
+//    imageUrl = reecher.profilePictureUrl,
+//    name = reecher.username,
+//    bio = reecher.bio
+//  )
 }
