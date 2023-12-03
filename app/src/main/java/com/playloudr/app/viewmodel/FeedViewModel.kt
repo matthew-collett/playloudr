@@ -65,6 +65,10 @@ class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
 
   }
 
+  fun clearSearch() {
+    _userSearchResults.value = emptyList()
+  }
+
   fun onScrollUp() {
     _showTopBar.value = true
   }

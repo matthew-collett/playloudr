@@ -70,7 +70,11 @@ fun FeedTopBar(
     },
     actions = {
       if (showSearchBar) {
-        IconButton(onClick = onSearchIconClicked) {
+        IconButton(
+          onClick = {
+            onSearchIconClicked()
+            feedViewModel.clearSearch()
+          }) {
           Icon(
             imageVector = Icons.Default.Close,
             contentDescription = "Search",
