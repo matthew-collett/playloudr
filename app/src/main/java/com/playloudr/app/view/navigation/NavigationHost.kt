@@ -17,7 +17,6 @@ import com.playloudr.app.view.screens.signin.SignUpScreen
 import com.playloudr.app.viewmodel.CreatePostViewModel
 import com.playloudr.app.viewmodel.FeedViewModel
 import com.playloudr.app.viewmodel.ProfileViewModel
-import com.playloudr.app.view.screens.create.CreatePostScreenAgain
 import com.playloudr.app.view.screens.profile.ProfilePostDetail
 import com.playloudr.app.viewmodel.SpotifyViewModel
 
@@ -41,11 +40,6 @@ fun NavigationHost(
         onScrollDown = onScrollDown,
         onScrollUp = onScrollUp
       )
-    }
-    composable(Screen.CreatePost.route) {
-      val viewModel: CreatePostViewModel = CreatePostViewModel()
-      val spotVM: SpotifyViewModel = SpotifyViewModel()
-      CreatePostScreenAgain(viewModel, spotVM, navController)
     }
     composable(Screen.Profile.route) {
       val viewModel: ProfileViewModel = ProfileViewModel()

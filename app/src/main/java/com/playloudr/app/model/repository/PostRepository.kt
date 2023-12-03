@@ -21,7 +21,7 @@ object PostRepository : AbstractRepository<PostEntity>() {
   private val userRepository: UserRepository = UserRepository
 
   suspend fun getUserPosts(username: String): List<PostEntity> {
-    return prefixQuery(username, KEY_PREFIX_POST)
+    return dynamoPrefixQuery(username, KEY_PREFIX_POST)
   }
 
   suspend fun getFeedPosts(username: String): List<PostEntity> {

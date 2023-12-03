@@ -9,7 +9,7 @@ import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_USER
 abstract class AbstractRepository<T> {
   protected val dynamoDbDao: DynamoDbDao = DynamoDbDao()
 
-  protected suspend fun prefixQuery(username: String, skPrefix: String): List<T> {
+  protected suspend fun dynamoPrefixQuery(username: String, skPrefix: String): List<T> {
     val keyCondition = "$KEY_NAME_PK = :pk AND begins_with($KEY_NAME_SK, :skprefix)"
     val attributes: Map<String, AttributeValue> = mutableMapOf(
       ":pk" to AttributeValue.S(KEY_PREFIX_USER + username),
@@ -18,7 +18,7 @@ abstract class AbstractRepository<T> {
     val items: List<Map<String, AttributeValue>> = dynamoDbDao.query(keyCondition, attributes)
     return items.map { builder(it) }
   }
-  protected suspend fun shallowPrefixQuery(username: String, skPrefix: String): List<String> {
+  protected suspend fun dynamoShallowPrefixQuery(username: String, skPrefix: String): List<String> {
     val keyCondition = "$KEY_NAME_PK = :pk AND begins_with($KEY_NAME_SK, :skprefix)"
     val attributes: Map<String, AttributeValue> = mutableMapOf(
       ":pk" to AttributeValue.S(KEY_PREFIX_USER + username),

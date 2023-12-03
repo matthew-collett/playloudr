@@ -25,7 +25,7 @@ object UserRepository : AbstractRepository<UserEntity>() {
   }
 
   suspend fun getUserFollowing(username: String): List<String> {
-    return shallowPrefixQuery(username, KEY_PREFIX_FOLLOWING)
+    return dynamoShallowPrefixQuery(username, KEY_PREFIX_FOLLOWING)
   }
 
   override fun builder(entityValues: Map<String, AttributeValue>): UserEntity {

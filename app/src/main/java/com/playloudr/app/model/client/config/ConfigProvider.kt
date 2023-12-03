@@ -15,9 +15,6 @@ object ConfigProvider : Provider<ClientConfig>() {
         region = config.getString("aws.region"),
         identityPoolId = config.getString("aws.identityPoolId"),
         dynamoDbTableName = config.getString("aws.dynamoDbTableName")
-      ),
-      spotify = ClientConfig.SpotifyConfig(
-
       )
     )
   }

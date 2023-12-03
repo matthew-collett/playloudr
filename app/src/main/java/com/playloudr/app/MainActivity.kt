@@ -24,11 +24,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.playloudr.app.model.dao.SecretsManagerDao
-import com.playloudr.app.model.repository.SpotifyRepository
 import com.playloudr.app.view.navigation.BottomNavigationBar
 import com.playloudr.app.view.navigation.NavigationHost
 import com.playloudr.app.view.screens.Screen
-import com.playloudr.app.view.screens.create.SearchSong
 import com.playloudr.app.view.screens.feed.FeedTopBar
 import com.playloudr.app.view.screens.signin.SignInScreen
 import com.playloudr.app.view.screens.signin.SignUpScreen

@@ -3,18 +3,20 @@ package com.playloudr.app.model.client.spotify
 import android.util.Base64
 import com.playloudr.app.model.dao.SecretsManagerDao
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import java.io.IOException
 
 object SpotifyTokenManager {
   @Volatile
   private var accessToken: String? = null
-  @Volatile
-  private var refreshToken: String? = null
   private val lock = Any()
+  private val mutex = Mutex()
   private var accessTokenExpiryTime: Long = 0
   private var clientId: String? = null
   private var clientSecret: String? = null
@@ -29,23 +31,44 @@ object SpotifyTokenManager {
   }
 
   suspend fun getToken(): String {
-    val currentRefreshToken: String
-    synchronized(lock) {
+    mutex.withLock {
       if (accessToken == null || tokenIsExpired()) {
-        currentRefreshToken = refreshToken
-          ?: throw IllegalStateException("Refresh token not available")
-      } else {
-        return accessToken!!
+        fetchAndStoreAccessToken()
       }
+      return accessToken!!
     }
-    return refreshAccessToken(currentRefreshToken)
   }
 
-  fun setToken(newAccessToken: String, newRefreshToken: String, expiresIn: Long) {
+  private suspend fun fetchAndStoreAccessToken() {
+    val tokenResponse = refreshAccessToken()
     synchronized(lock) {
-      accessToken = newAccessToken
-      refreshToken = newRefreshToken
-      accessTokenExpiryTime = System.currentTimeMillis() / 1000 + expiresIn
+      accessToken = tokenResponse.accessToken
+      accessTokenExpiryTime = System.currentTimeMillis() / 1000 + tokenResponse.expiresIn
+    }
+  }
+
+  private suspend fun refreshAccessToken(): TokenResponse {
+    val auth = Base64.encodeToString("$clientId:$clientSecret".toByteArray(), Base64.NO_WRAP)
+    val requestBody = FormBody.Builder()
+      .add("grant_type", "client_credentials")
+      .build()
+
+    val request = Request.Builder()
+      .url("https://accounts.spotify.com/api/token")
+      .post(requestBody)
+      .header("Authorization", "Basic $auth")
+      .build()
+
+    return withContext(Dispatchers.IO) {
+      okHttpClient.newCall(request).execute().use { response ->
+        if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+        val jsonObject = JSONObject(response.body.string())
+        TokenResponse(
+          accessToken = jsonObject.getString("access_token"),
+          expiresIn = jsonObject.getInt("expires_in")
+        )
+      }
     }
   }
 
@@ -54,33 +77,8 @@ object SpotifyTokenManager {
     return currentTime >= accessTokenExpiryTime
   }
 
-  private suspend fun refreshAccessToken(refreshToken: String): String {
-    val url = "https://accounts.spotify.com/api/token"
-    val credentials = "$clientId:$clientSecret"
-    val encodedCredentials = Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
-
-    val requestBody = FormBody.Builder()
-      .add("grant_type", "refresh_token")
-      .add("refresh_token", refreshToken)
-      .build()
-
-    val request = Request.Builder()
-      .url(url)
-      .post(requestBody)
-      .header("Authorization", "Basic $encodedCredentials")
-      .header("Content-Type", "application/x-www-form-urlencoded")
-      .build()
-
-    return withContext(Dispatchers.IO) {
-      val response = okHttpClient.newCall(request).execute()
-      if (response.isSuccessful) {
-        val responseBody = response.body.string()
-        val jsonObject = JSONObject(responseBody)
-        this@SpotifyTokenManager.refreshToken = jsonObject.optString("refresh_token", refreshToken)
-        jsonObject.getString("access_token")
-      } else {
-        throw Exception("Failed to refresh token")
-      }
-    }
-  }
+  data class TokenResponse(
+    val accessToken: String,
+    val expiresIn: Int
+  )
 }
