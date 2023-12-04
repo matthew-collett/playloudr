@@ -1,6 +1,7 @@
 package com.playloudr.app.view.screens.feed
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,14 +18,17 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.playloudr.app.R
+import com.playloudr.app.util.collapsingEffect
 import com.playloudr.app.view.theme.Modulus
 import com.playloudr.app.viewmodel.FeedViewModel
 
@@ -32,12 +36,15 @@ import com.playloudr.app.viewmodel.FeedViewModel
 fun FeedTopBar(
   showSearchBar: Boolean,
   onSearchIconClicked: () -> Unit,
-  feedViewModel: FeedViewModel
+  feedViewModel: FeedViewModel,
+  appBarHeight: Dp,
+  appBarAlpha: Float
 ) {
   TopAppBar(
     backgroundColor = Color.White,
     modifier = Modifier
-      .height(48.dp),
+      .alpha(appBarAlpha)
+      .height(appBarHeight),
     title = {
       if (showSearchBar) {
         SearchBar(feedViewModel)
