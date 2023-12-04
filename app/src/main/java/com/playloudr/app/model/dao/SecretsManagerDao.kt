@@ -1,23 +1,16 @@
 package com.playloudr.app.model.dao
 
-import android.util.Log
 import aws.sdk.kotlin.services.secretsmanager.SecretsManagerClient
 import aws.sdk.kotlin.services.secretsmanager.model.GetSecretValueRequest
-import aws.sdk.kotlin.services.secretsmanager.model.SecretsManagerException
+import com.playloudr.app.model.client.aws.AwsClientManager
 
-class SecretsManagerDao : AbstractDao<SecretsManagerClient>(SecretsManagerClient::class) {
-  companion object { const val TAG: String = "[SecretsManager Error]: " }
-
+class SecretsManagerDao {
+  private val client: SecretsManagerClient = AwsClientManager.getButtCFace3()
   suspend fun getSecret(secretName: String): String? {
     val request = GetSecretValueRequest {
       secretId = secretName
     }
-    return try {
-      val response = getClient().getSecretValue(request)
-      response.secretString
-    } catch (e: SecretsManagerException) {
-      Log.w(TAG, "Unable to get secret from ${e.message}", e)
-      throw e
-    }
+    val response = client.getSecretValue(request)
+    return response.secretString
   }
 }

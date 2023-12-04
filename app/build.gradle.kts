@@ -27,11 +27,11 @@ android {
     }
   }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
   }
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "17"
     freeCompilerArgs = listOf("-Xopt-in=kotlin.Experimental")
   }
   buildFeatures {
@@ -48,6 +48,18 @@ android {
 }
 
 dependencies {
+  implementation("aws.sdk.kotlin:s3:1.0.1") // already existing
+  implementation("aws.sdk.kotlin:dynamodb:1.0.1") // already existing
+  implementation("aws.sdk.kotlin:secretsmanager:1.0.1") // align this version with others
+  implementation("aws.sdk.kotlin:kms:1.0.1") // already existing
+  implementation("aws.sdk.kotlin:cognitoidentity:1.0.1") // already existing
+
+  // Core runtime and other utilities (use the latest release date consistent with your SDK version)
+  implementation("aws.sdk.kotlin:aws-core-jvm:1.0.1")
+  implementation("aws.sdk.kotlin:aws-http-jvm:1.0.1")
+  implementation("aws.smithy.kotlin:http-client-engine-okhttp:1.0.1")
+  implementation("aws.smithy.kotlin:http-client-engine-crt:1.0.1")
+
   implementation("androidx.core:core-ktx:1.12.0")
   implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
   implementation("androidx.activity:activity-compose:1.8.1")
@@ -55,14 +67,9 @@ dependencies {
   implementation("androidx.compose.ui:ui")
   implementation("androidx.compose.ui:ui-graphics")
   implementation("androidx.compose.ui:ui-tooling-preview")
-  implementation("aws.sdk.kotlin:s3:0.25.0-beta")
   implementation("androidx.compose.material:material:1.5.4")
   implementation("androidx.core:core-ktx:1.12.0")
-  implementation("aws.sdk.kotlin:dynamodb:0.25.0-beta")
-  implementation("aws.sdk.kotlin:secretsmanager:0.25.0-beta")
   implementation("io.coil-kt:coil-compose:1.3.2")
-  implementation("aws.sdk.kotlin:kms:0.25.0-beta")
-  implementation("aws.sdk.kotlin:cognitoidentity:0.25.0-beta")
   implementation("com.typesafe:config:1.4.1")
   implementation("androidx.core:core-ktx:1.12.0")
   implementation("androidx.navigation:navigation-compose:2.7.5")

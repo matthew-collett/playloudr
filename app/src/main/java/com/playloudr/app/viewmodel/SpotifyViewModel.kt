@@ -2,26 +2,26 @@ package com.playloudr.app.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.playloudr.app.model.dao.SpotifyDao
-import com.playloudr.app.model.entity.TrackItem
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.State
+import com.playloudr.app.model.dao.SpotifyDao
+import com.playloudr.app.model.entity.Track
 
-class SpotifyViewModel() : ViewModel() {
-  private val _spotifySearchState = MutableStateFlow<SpotifySearchState>(SpotifySearchLoading)
-  val spotifySearchState: StateFlow<SpotifySearchState> = _spotifySearchState
+class SpotifyViewModel(private val spotifyDao: SpotifyDao) : ViewModel() {
 
-  fun searchSpotifyTracks(query: String, type: String = "track") {
+  // State to hold track information
+  private val _tracks = mutableStateOf<List<Track>>(emptyList())
+  val tracks: State<List<Track>> = _tracks
+
+  init {
+    queryTracks("Beatles", "track")
+  }
+  private fun queryTracks(query: String, type: String) {
     viewModelScope.launch {
-        _spotifySearchState.value = SpotifySearchLoading
-        SpotifyDao().queryTest()
-
+      val response = spotifyDao.query(query, type)
+      _tracks.value = response
     }
   }
-}
 
-sealed class SpotifySearchState
-object SpotifySearchLoading : SpotifySearchState()
-data class SpotifySearchResultsLoaded(val items: List<TrackItem>) : SpotifySearchState()
-data class SpotifySearchError(val message: String) : SpotifySearchState()
+}

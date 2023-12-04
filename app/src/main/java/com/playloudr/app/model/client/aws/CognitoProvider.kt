@@ -5,6 +5,7 @@ import aws.sdk.kotlin.services.cognitoidentity.model.GetCredentialsForIdentityRe
 import aws.sdk.kotlin.services.cognitoidentity.model.GetIdRequest
 import aws.smithy.kotlin.runtime.auth.awscredentials.Credentials
 import aws.smithy.kotlin.runtime.auth.awscredentials.CredentialsProvider
+import aws.smithy.kotlin.runtime.collections.Attributes
 import com.playloudr.app.model.client.config.ClientConfig
 
 class CognitoProvider(private val config: ClientConfig) : CredentialsProvider {

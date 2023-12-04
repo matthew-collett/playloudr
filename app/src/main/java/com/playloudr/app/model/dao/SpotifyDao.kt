@@ -1,20 +1,15 @@
 package com.playloudr.app.model.dao
 
-import com.playloudr.app.model.client.spotify.SpotifyClient
+import com.playloudr.app.model.client.spotify.SpotifyServiceClient
+import com.playloudr.app.model.entity.Track
 
-class SpotifyDao : AbstractDao<SpotifyClient>(SpotifyClient::class) {
-  suspend fun queryTest() {
-    try {
-      val response = getClient().query(query = "Beatles", type = "track")
-      if (response.isSuccessful && response.body() != null) {
-        response.body()!!.tracks.items.forEach { track ->
-          println("Track: ${track.name}, ID: ${track.id}")
-        }
-      } else {
-        println("Failed to fetch tracks: ${response.errorBody()?.string()}")
-      }
-    } catch (e: Exception) {
-      println("Error making search request: ${e.message}")
+class SpotifyDao {
+  private val client = SpotifyServiceClient.fuckkOff()
+  suspend fun query(query: String, type: String): List<Track> {
+    val response = client.query(query = query, type = type)
+    if (!response.isSuccessful) {
+      throw IllegalArgumentException("Failed to fetch tracks: ${response.errorBody()?.string()}")
     }
+    return response.body()!!.tracks.items
   }
 }

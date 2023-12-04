@@ -2,7 +2,6 @@ package com.playloudr.app.model.repository
 
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.entity.PostEntity
-import com.playloudr.app.model.entity.reecherPosts
 import com.playloudr.app.model.enum.PostType
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_ARTIST
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_AUDIO_URL
@@ -32,10 +31,6 @@ object PostRepository : AbstractRepository<PostEntity>() {
       .sortedByDescending { it.timestamp }
   }
 
-  fun getPostByIdTemp(postId:String): PostEntity? {
-    return reecherPosts.find { it.postId == postId}
-  }
-
   override fun builder(entityValues: Map<String, AttributeValue>): PostEntity {
     return PostEntity(
       username = resolveKeyName(entityValues[KEY_NAME_PK]!!.asS()),
@@ -45,9 +40,7 @@ object PostRepository : AbstractRepository<PostEntity>() {
       caption = entityValues[ATTRIBUTE_NAME_CAPTION]?.asS() ?: "",
       imageUrl = entityValues[ATTRIBUTE_NAME_IMAGE_URL]!!.asS(),
       audioUrl = entityValues[ATTRIBUTE_NAME_AUDIO_URL]!!.asS(),
-      postType = PostType.fromString(entityValues[ATTRIBUTE_NAME_TYPE]!!.asS()),
-      profilePictureUrl = entityValues[ATTRIBUTE_NAME_PROFILE_PICTURE_URL]!!.asS(),
-      postId = UUID.randomUUID().toString()
+      postType = PostType.fromString(entityValues[ATTRIBUTE_NAME_TYPE]!!.asS())
     )
   }
 }

@@ -1,14 +1,14 @@
 package com.playloudr.app.model.entity
 
-data class SearchResponse(
+data class SpotifyResponse(
   val tracks: TracksResponse
 )
 
 data class TracksResponse(
-  val items: List<TrackItem>
+  val items: List<Track>
 )
 
-data class TrackItem(
+data class Track(
   val id: String,
   val name: String
 )
