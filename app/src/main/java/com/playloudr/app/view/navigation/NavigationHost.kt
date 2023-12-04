@@ -51,15 +51,6 @@ fun NavigationHost(
     composable(Screen.SignUp.route) {
       SignUpScreen(navController)
     }
-    composable(
-      route = Screen.PostDetail.route,
-      arguments = listOf(navArgument("postId") { type = NavType.StringType })
-    ) { backStackEntry ->
-      // if null return to prev composable
-      val postId = backStackEntry.arguments?.getString("postId") ?: return@composable
-      val post = PostRepository.getPostByIdTemp(postId) ?: return@composable
 
-      ProfilePostDetail(post = post, postId = postId, navController = navController)
-    }
   }
 }

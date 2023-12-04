@@ -24,6 +24,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.playloudr.app.model.dao.SecretsManagerDao
+import com.playloudr.app.model.dao.SpotifyDao
+import com.playloudr.app.model.repository.PostRepository
+import com.playloudr.app.view.FeedView
+import com.playloudr.app.view.SpotifyView
 import com.playloudr.app.view.navigation.BottomNavigationBar
 import com.playloudr.app.view.navigation.NavigationHost
 import com.playloudr.app.view.screens.Screen
@@ -31,6 +35,7 @@ import com.playloudr.app.view.screens.feed.FeedTopBar
 import com.playloudr.app.view.screens.signin.SignInScreen
 import com.playloudr.app.view.screens.signin.SignUpScreen
 import com.playloudr.app.view.theme.PlayloudrTheme
+import com.playloudr.app.viewmodel.FeedViewModel
 import com.playloudr.app.viewmodel.SpotifyViewModel
 
 class MainActivity : ComponentActivity() {
@@ -107,5 +112,17 @@ fun MainActivityPreview() {
 @Composable
 fun SignInApplicationPreview() {
   SignInApplicationView()
+}
+
+@Preview
+@Composable
+fun SpotifyPreview() {
+  SpotifyView(viewModel = SpotifyViewModel(SpotifyDao()))
+}
+
+@Preview
+@Composable
+fun FeedPreview() {
+  FeedView(viewModel = FeedViewModel(PostRepository))
 }
 

@@ -14,13 +14,9 @@ class PlayloudrApp : Application() {
   override fun onCreate() {
     super.onCreate()
     ConfigProvider.init(ctx = this)
+    AwsClientManager
     CoroutineScope(Dispatchers.IO).launch {
       SpotifyTokenManager.init(OkHttpClient.Builder().build())
     }
-  }
-
-  override fun onTerminate() {
-    super.onTerminate()
-    AwsClientManager.closeClients()
   }
 }

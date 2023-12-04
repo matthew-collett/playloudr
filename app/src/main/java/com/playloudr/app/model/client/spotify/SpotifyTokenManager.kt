@@ -24,9 +24,10 @@ object SpotifyTokenManager {
 
   suspend fun init(client: OkHttpClient) {
     okHttpClient = client
+    val secretsManagerDao = SecretsManagerDao()
     if (clientId == null || clientSecret == null) {
-      clientId = SecretsManagerDao().getSecret("client_id")
-      clientSecret = SecretsManagerDao().getSecret("client_secret")
+      clientId = secretsManagerDao.getSecret("PlayLoudr/Spotify")
+      println(clientId)
     }
   }
 
@@ -61,7 +62,9 @@ object SpotifyTokenManager {
 
     return withContext(Dispatchers.IO) {
       okHttpClient.newCall(request).execute().use { response ->
-        if (!response.isSuccessful) throw IOException("Unexpected code $response")
+        if (!response.isSuccessful) {
+          throw IOException("Unexpected code $response")
+        }
 
         val jsonObject = JSONObject(response.body.string())
         TokenResponse(

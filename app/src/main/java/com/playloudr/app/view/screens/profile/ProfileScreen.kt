@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.playloudr.app.model.entity.reecher
-import com.playloudr.app.model.entity.reecherPosts
 import com.playloudr.app.viewmodel.ProfileViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -79,14 +78,14 @@ fun ProfileScreen(
         }
 
         // Grid of posts
-        gridItems(
-          data = reecherPosts,
-          columnCount = 2
-        ) { post ->
-          ProfilePostCard(post) { clickedPost ->
-            navController.navigate("postDetail/${clickedPost.postId}")
-          }
-        }
+//        gridItems(
+//          data = reecherPosts,
+//          columnCount = 2
+//        ) { post ->
+//          ProfilePostCard(post) { clickedPost ->
+//            navController.navigate("postDetail/${clickedPost.postId}")
+//          }
+//        }
 
       }
       AnimatedVisibility(

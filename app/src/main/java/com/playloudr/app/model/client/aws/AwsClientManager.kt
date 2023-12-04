@@ -1,50 +1,45 @@
 package com.playloudr.app.model.client.aws
 
 import aws.sdk.kotlin.services.dynamodb.DynamoDbClient
-import aws.sdk.kotlin.services.kms.KmsClient
 import aws.sdk.kotlin.services.s3.S3Client
 import aws.sdk.kotlin.services.secretsmanager.SecretsManagerClient
-import aws.smithy.kotlin.runtime.client.SdkClient
-import com.playloudr.app.model.client.aws.AwsServiceClient.DynamoDbServiceClient
-import com.playloudr.app.model.client.aws.AwsServiceClient.KmsServiceClient
-import com.playloudr.app.model.client.aws.AwsServiceClient.S3ServiceClient
-import com.playloudr.app.model.client.aws.AwsServiceClient.SecretsManagerServiceClient
-import java.util.concurrent.ConcurrentHashMap
-import kotlin.reflect.KClass
+import aws.smithy.kotlin.runtime.auth.awscredentials.CredentialsProvider
+import com.playloudr.app.model.client.config.ConfigProvider
 
 object AwsClientManager {
-  private val clientMap: ConcurrentHashMap<KClass<out SdkClient>, AwsServiceClient<out SdkClient>> =
-    ConcurrentHashMap()
+  private val config = ConfigProvider.get()
+  private val provider: CredentialsProvider = CognitoProvider(config = config)
 
-  fun getDynamoDbClient(): AwsServiceClient<DynamoDbClient> {
-    return clientMap.computeIfAbsent(DynamoDbClient::class) {
-      DynamoDbServiceClient
-    } as DynamoDbServiceClient
-  }
-
-  fun getS3Client(): AwsServiceClient<S3Client> {
-    return clientMap.computeIfAbsent(S3Client::class) {
-      S3ServiceClient
-    } as S3ServiceClient
-  }
-
-  fun getKmsClient(): AwsServiceClient<KmsClient> {
-    return clientMap.computeIfAbsent(KmsClient::class) {
-      KmsServiceClient
-    } as KmsServiceClient
-  }
-
-
-  fun getSecretsManagerClient(): AwsServiceClient<SecretsManagerClient> {
-    return clientMap.computeIfAbsent(SecretsManagerClient::class) {
-      SecretsManagerServiceClient
-    } as SecretsManagerServiceClient
-  }
-
-
-  fun closeClients() {
-    clientMap.values.forEach { client ->
-      client.closeClient()
+  private val dynamoDbClient: DynamoDbClient by lazy {
+    DynamoDbClient {
+      region = config.aws.region
+      credentialsProvider = provider
     }
+  }
+
+  private val s3Client: S3Client by lazy {
+    S3Client {
+      region = config.aws.region
+      credentialsProvider = provider
+    }
+  }
+
+  private val secretsManagerClient: SecretsManagerClient by lazy {
+    SecretsManagerClient {
+      region = config.aws.region
+      credentialsProvider = provider
+    }
+  }
+
+  fun getButtFace(): DynamoDbClient {
+    return dynamoDbClient
+  }
+
+  fun getButtFace2(): S3Client {
+    return s3Client
+  }
+
+  fun getButtCFace3(): SecretsManagerClient {
+    return secretsManagerClient
   }
 }
