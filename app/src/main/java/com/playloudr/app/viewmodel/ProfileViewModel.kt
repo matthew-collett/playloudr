@@ -32,6 +32,7 @@ class ProfileViewModel(): ViewModel()  {
 
   fun getUserProfilePicture(){}
 
+  fun getUserUsername(){}
   fun getUserFollowers(){}
 
   fun getUserFollowing(){}

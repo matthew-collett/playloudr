@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.playloudr.app.model.entities.PostEntity
 import com.playloudr.app.util.Debouncer
+import com.playloudr.app.view.components.LoadingIndicator
 import com.playloudr.app.view.components.ScrollAwareLazyColumn
 import com.playloudr.app.viewmodel.FeedViewModel
 
@@ -37,16 +39,18 @@ fun FeedScreen(
   navController: NavController
 ) {
   val coroutineScope = rememberCoroutineScope()
-  // 15 ms optimal
+  // debouncer to minmize top app bar jitter
   val debouncer = remember { Debouncer(waitMs = 50, coroutineScope) }
   val showTopBar by feedViewModel.showTopBar.collectAsState(true)
   // user search
   val showSearchBar by feedViewModel.showSearchBar.collectAsState(false)
   val searchResults by feedViewModel.userSearchResults.collectAsState()
 
+  val feedState by feedViewModel.feedState.collectAsState()
+  val searchState by feedViewModel.searchState.collectAsState()
+
 
   Column {
-    // Will need to pass view model into FeedTopBar to make user search work
     AnimatedVisibility(
       visible = showTopBar,
       enter = slideInVertically(initialOffsetY = { -it }),
@@ -58,57 +62,77 @@ fun FeedScreen(
         feedViewModel = feedViewModel
       )
     }
-    if (showSearchBar ) {
-      // Search results are available, display them
-      LazyColumn {
-        if (feedViewModel.hasSearched.value && searchResults.isEmpty()) {
-          item {
-            Text(
-              text = "No user found",
-              fontWeight = FontWeight.Bold,
-              color = Color.Gray, // Customize the text color
-              fontSize = 18.sp,   // Customize the font size
-              textAlign = TextAlign.Center,
-              modifier = Modifier
-                .fillMaxWidth()  // Expand the Text composable to fill the available width
-                .padding(16.dp)
-            )
+    if (showSearchBar) {
+      when (val currentState = searchState) {
+        is SearchState.Loading -> {
+          LoadingIndicator()
+        }
+
+        is SearchState.Loaded -> {
+          LazyColumn {
+            items(currentState.users) { user ->
+              UserRow(user, navController)
+            }
           }
         }
-        else {
-          items(searchResults) { user ->
-            UserRow(user, navController) // Can make composable for each user to display result
-            //Text(text = user.username)
-          }
+        is SearchState.NoResults -> {
+          Text(
+            text = "No user found",
+            fontWeight = FontWeight.Bold,
+            color = Color.Gray, // Customize the text color
+            fontSize = 18.sp,   // Customize the font size
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+              .fillMaxWidth()  // Expand the Text composable to fill the available width
+              .padding(16.dp)
+          )
         }
+        is SearchState.Error -> {
+          val exception = (searchState as SearchState.Error).exception
+          Text("Error: ${exception.message}")
+        }
+        else -> Unit
       }
     }
-    else{
-      ScrollAwareLazyColumn(
-        modifier = Modifier
-          .fillMaxWidth(),
-        scrollUp = {
-          debouncer.debounce { feedViewModel.onScrollUp() }
-        },
-        scrollDown = {
-          debouncer.debounce { feedViewModel.onScrollDown() }
+    else {
+      when (feedState) {
+        is FeedState.RefreshLoading -> {
+          LoadingIndicator()
         }
-      ) {
-        items(postList) { post ->
-          PostCard(post, navController)
+        is FeedState.NoPosts -> {
+          Text(
+            text = (feedState as FeedState.NoPosts).reason,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+          )
+        }
+        is FeedState.Error -> {
+          val exception = (feedState as FeedState.Error).exception
+          Text(
+            text = "Error: ${exception.message}",
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+          )
+        }
+        is FeedState.PostsLoaded -> {
+          val posts = (feedState as FeedState.PostsLoaded).posts
+          ScrollAwareLazyColumn(
+            modifier = Modifier
+              .fillMaxWidth(),
+            scrollUp = {
+              debouncer.debounce { feedViewModel.onScrollUp() }
+            },
+            scrollDown = {
+              debouncer.debounce { feedViewModel.onScrollDown() }
+            }
+          ) {
+            // TODO replace postList with posts when ready
+            items(postList) { post ->
+              PostCard(post, navController)
+            }
+          }
         }
       }
     }
   }
-
-//  ScrollAwareLazyColumn(
-//    modifier = Modifier.fillMaxWidth(),
-//    scrollUp = { debouncer.debounce(onScrollUp) },
-//    scrollDown = { debouncer.debounce(onScrollDown) }
-//  ) {
-//    items(postList) { post ->
-//      PostCard(post)
-//    }
-//  }
 }
+
 

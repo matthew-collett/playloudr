@@ -33,30 +33,23 @@ import com.playloudr.app.model.entities.reecherPosts
 import com.playloudr.app.viewmodel.ProfileViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PublicProfileScreen(
   viewModel: ProfileViewModel,
   navController: NavController
   ) {
-  var showDrawer by remember { mutableStateOf(false) }
   val scaffoldState = rememberScaffoldState()
-  val scope = rememberCoroutineScope()
 
   // this info will be taken from view model
-  // keeping hard coded for nows
+  // keeping hard coded for now
   // for top bar
-  val username = reecher.username
+  val username = reecher.username // viewmodel.getUsername()
   // for header
   val profilePic = reecher.profilePictureUrl
   val name = reecher.displayName
   val bio = reecher.bio
   // lazy col
   val scrollState = rememberLazyListState()
-
-  val onLogoutClick = {
-    // Handle logout click holder
-  }
 
   Scaffold(
     scaffoldState = scaffoldState,
@@ -93,17 +86,7 @@ fun PublicProfileScreen(
         }
 
       }
-      AnimatedVisibility(
-        visible = showDrawer,
-        enter = slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }),
-        exit = slideOutHorizontally(targetOffsetX = { fullWidth -> fullWidth }),
-        modifier = Modifier
-          .align(Alignment.CenterEnd)
-          .background(Color.White)
-      ) {
-      }
     }
-
   }
 }
 

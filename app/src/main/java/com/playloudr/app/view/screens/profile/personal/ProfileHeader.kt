@@ -42,10 +42,6 @@ fun ProfileHeader(
   bio: String?,
   onImageClick: () -> Unit
 ) {
-  val context = LocalContext.current
-
-  //val storagePermissionState = rememberPermissionState(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-
   Column(
     modifier = Modifier
       .padding(horizontal = 16.dp)
@@ -61,11 +57,7 @@ fun ProfileHeader(
         .size(100.dp)
         .clip(CircleShape)
         .clickable {
-         // if(storagePermissionState.status.isGranted) {
-            onImageClick()
-         // } else{
-          //  storagePermissionState.launchPermissionRequest()
-          //}
+          onImageClick()
         }
     )
     Text(
