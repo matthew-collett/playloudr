@@ -9,6 +9,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import java.lang.Math.abs
 
 @Composable
 fun ScrollAwareLazyColumn(
@@ -18,17 +19,20 @@ fun ScrollAwareLazyColumn(
   content: LazyListScope.() -> Unit
 ) {
   val scrollState = rememberLazyListState()
-
+  val scrollThreshold = 50
   val currentOffset = remember { derivedStateOf { scrollState.firstVisibleItemScrollOffset } }
   val previousOffset = remember { mutableIntStateOf(0) }
 
   LaunchedEffect(currentOffset.value) {
-    if (currentOffset.value > previousOffset.value) {
-      scrollDown()
-    } else if (currentOffset.value < previousOffset.value) {
-      scrollUp()
+    val offsetChange = kotlin.math.abs(currentOffset.value - previousOffset.intValue)
+    if (offsetChange > scrollThreshold) {
+      if (currentOffset.value > previousOffset.intValue) {
+        scrollDown()
+      } else if (currentOffset.value < previousOffset.intValue) {
+        scrollUp()
+      }
     }
-    previousOffset.value = currentOffset.value
+    previousOffset.intValue = currentOffset.value
   }
 
   LazyColumn(modifier = modifier, state = scrollState, content = content)

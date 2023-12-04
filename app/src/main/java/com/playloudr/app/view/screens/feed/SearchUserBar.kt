@@ -52,7 +52,7 @@ fun SearchBar(feedViewModel: FeedViewModel) {
     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
     keyboardActions = KeyboardActions(
       onSearch = {
-      feedViewModel.onUserSearchQuery(searchText)
+        feedViewModel.onUserSearchQuery(searchText)
       },
       onDone = {keyboardController?.hide()}
   ),

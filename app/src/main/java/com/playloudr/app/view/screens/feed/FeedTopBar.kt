@@ -37,7 +37,7 @@ fun FeedTopBar(
   TopAppBar(
     backgroundColor = Color.White,
     modifier = Modifier
-      .height(48.dp),
+      .height(50.dp),
     title = {
       if (showSearchBar) {
         SearchBar(feedViewModel)

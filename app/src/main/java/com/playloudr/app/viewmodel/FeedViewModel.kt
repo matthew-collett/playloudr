@@ -1,5 +1,6 @@
 package com.playloudr.app.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playloudr.app.model.entities.UserEntity
@@ -26,6 +27,8 @@ class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
 
   private val _userSearchResults = MutableStateFlow<List<UserEntity>>(emptyList())
   val userSearchResults: StateFlow<List<UserEntity>> = _userSearchResults
+  var hasSearched = mutableStateOf(false)
+
 
   init {
     loadFeedPosts("matthew.collett")
@@ -54,19 +57,20 @@ class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
   }
 
   fun onUserSearchQuery(query: String) {
-      if (query.isNotEmpty()) {
-        viewModelScope.launch {
-          val results = UserRepository.tempGetUsers(query)
-          _userSearchResults.value = results
-        }
-      } else {
-        _userSearchResults.value = emptyList()
+    if (query.isNotEmpty()) {
+      viewModelScope.launch {
+        val results = UserRepository.tempGetUsers(query)
+        _userSearchResults.value = results
       }
-
+    } else {
+      _userSearchResults.value = emptyList()
+    }
+    hasSearched.value = true
   }
 
   fun clearSearch() {
     _userSearchResults.value = emptyList()
+    hasSearched.value = false
   }
 
   fun onScrollUp() {
