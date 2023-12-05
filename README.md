@@ -19,7 +19,7 @@ This project uses the [MVVM](<[https://www.geeksforgeeks.org/mvc-design-pattern/
 #### MVVM Architecture Diagram
 
 <br>
-<p align="center"><img src="https://miro.medium.com/v2/resize:fit:1400/1*Vk4T5bmda3b4kwx53yNzTQ.png" width='300px'></p>
+<p align="center"><img src="https://miro.medium.com/v2/resize:fit:1400/1*Vk4T5bmda3b4kwx53yNzTQ.png" width='600px'></p>
 
 ## How to Run App
 Select `App`, choose your device and click run
