@@ -16,20 +16,16 @@ import com.playloudr.app.model.entity.PostEntity
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ProfilePostItem(
-  post:PostEntity,
+  post: PostEntity,
   onClick: (PostEntity) -> Unit
 ) {
-  Card(
+  Image(
+    painter = rememberImagePainter(data = post.imageUrl),
+    contentDescription = "${post.username}'s post",
+    contentScale = ContentScale.Crop,
     modifier = Modifier
-      .padding(4.dp)
       .aspectRatio(1f)
-      .clickable { onClick(post) },
-    elevation = 4.dp
-  ) {
-    Image(
-      painter = rememberImagePainter(data = post.imageUrl),
-      contentDescription = "${post.username}'s post",
-      contentScale = ContentScale.Crop
-    )
-  }
+      .padding(1.dp)
+      .clickable { onClick(post) }
+  )
 }

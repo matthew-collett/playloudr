@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class SignInViewModel : ViewModel() {
   private val userRepository = UserRepository
-  private val _signInState = MutableStateFlow<SignInState>(SignInState.Idle)
+  private val _signInState = MutableStateFlow<SignInState>(SignInState.Loading)
   val signInState: StateFlow<SignInState> = _signInState
 
   fun signIn(username: String, password: String) {

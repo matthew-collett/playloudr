@@ -1,7 +1,6 @@
 package com.playloudr.app.view.screens.signin
 
 sealed class SignInState {
-  object Idle : SignInState()
   object Loading : SignInState()
   object Success : SignInState()
   data class Failure(val message: String) : SignInState()

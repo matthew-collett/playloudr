@@ -28,10 +28,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -45,11 +47,13 @@ import com.playloudr.app.view.screens.Screen
 import com.playloudr.app.view.theme.PLLogoColor
 import com.playloudr.app.viewmodel.SignInViewModel
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignInScreenComposable(navController: NavController, viewModel: SignInViewModel, state: String?) {
   var username by remember { mutableStateOf("") }
   var password by remember { mutableStateOf("") }
   var isPasswordVisible by remember { mutableStateOf(false) }
+  val keyboardController = LocalSoftwareKeyboardController.current
   Box(
   modifier = Modifier
     .fillMaxSize()
@@ -95,34 +99,44 @@ fun SignInScreenComposable(navController: NavController, viewModel: SignInViewMo
         modifier = Modifier
           .fillMaxWidth(0.8f),
         visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions {},
+        keyboardOptions = KeyboardOptions.Default.copy(
+          imeAction = if (isPasswordVisible) ImeAction.Done else ImeAction.Search
+        ),
+        keyboardActions = KeyboardActions(
+          onSearch = {
+            viewModel.signIn(username, password)
+            keyboardController?.hide()
+          }
+        ),
         trailingIcon = {
           IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
             Icon(
-              painter = if (isPasswordVisible) painterResource(id = R.drawable.ic_playloudr_eye_slash)
-              else painterResource(id = R.drawable.ic_playloudr_eye_slash_fill),
+              painter = painterResource(
+                id = if (isPasswordVisible) R.drawable.ic_playloudr_eye_slash else R.drawable.ic_playloudr_eye_slash_fill
+              ),
               contentDescription = if (isPasswordVisible) "Hide password" else "Show password"
             )
           }
         }
-
       )
       if (state != null) {
-        Text(text = state)
+        Text(
+          text = state,
+          color = Color.Red
+        )
       }
 
-      Spacer(modifier = Modifier.height(16.dp))
+      Spacer(modifier = Modifier.height(18.dp))
 
       Button(
         onClick = { viewModel.signIn(username, password) },
+        shape = RoundedCornerShape(4.dp),
         colors = ButtonDefaults.buttonColors(
           backgroundColor = PLLogoColor,
           contentColor = Color.White
         ),
-        modifier = Modifier
+        modifier = Modifier.height(48.dp)
           .fillMaxWidth(0.8f)
-          .clip(RoundedCornerShape(16.dp)),
       ) {
         Text(
           text = "Sign In"
@@ -147,7 +161,7 @@ fun SignInScreenComposable(navController: NavController, viewModel: SignInViewMo
         }) {
           Text(
             text = "Sign Up",
-            style = MaterialTheme.typography.body1
+            color = PLLogoColor
           )
         }
       }

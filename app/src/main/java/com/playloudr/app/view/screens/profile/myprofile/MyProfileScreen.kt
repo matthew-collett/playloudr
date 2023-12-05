@@ -76,7 +76,7 @@ fun MyProfileScreen(
             showDrawer,
             null,
             { viewModel.logout() },
-            SessionManager.getCurrentUser() != profileState.user.username,
+            SessionManager.getCurrentUser() != null && SessionManager.getCurrentUser() != profileState.user.username,
             null
           )
         }
