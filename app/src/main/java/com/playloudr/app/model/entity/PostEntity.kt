@@ -1,6 +1,5 @@
 package com.playloudr.app.model.entity
 
-import com.playloudr.app.model.enum.PostType
 import java.time.Instant
 
 data class PostEntity(
@@ -9,7 +8,5 @@ data class PostEntity(
   val title: String,
   val artist: String,
   val caption: String?,
-  val imageUrl: String,
-  val audioUrl: String?,
-  val postType: PostType
+  val imageUrl: String
 )

@@ -3,6 +3,7 @@ package com.playloudr.app.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playloudr.app.model.repository.PostRepository
+import com.playloudr.app.service.SessionManager
 import com.playloudr.app.view.screens.feed.FeedState
 import com.playloudr.app.view.screens.feed.FeedState.Error
 import com.playloudr.app.view.screens.feed.FeedState.NoPosts
@@ -12,19 +13,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
+class FeedViewModel : ViewModel() {
+  private val postRepository: PostRepository = PostRepository
   private val _feedState = MutableStateFlow<FeedState>(RefreshLoading)
   val feedState: StateFlow<FeedState> = _feedState
 
   init {
-    loadFeedPosts("matthew.collett")
+    loadFeedPosts()
   }
 
-  private fun loadFeedPosts(username: String) {
+  private fun loadFeedPosts() {
     viewModelScope.launch {
       try {
-        _feedState.value = RefreshLoading
-        val feedPosts = postRepository.getFeedPosts(username)
+        val feedPosts = postRepository.getFeedPosts(SessionManager.getCurrentUser()!!)
         if (feedPosts.isEmpty()) {
           _feedState.value = NoPosts("No posts available")
         } else {

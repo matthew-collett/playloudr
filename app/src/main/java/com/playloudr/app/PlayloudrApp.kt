@@ -5,6 +5,7 @@ import com.playloudr.app.model.client.aws.AwsClientManager
 import com.playloudr.app.model.client.config.ConfigProvider
 import com.playloudr.app.model.client.spotify.SpotifyTokenManager
 import com.playloudr.app.model.dao.SpotifyDao
+import com.playloudr.app.service.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +17,8 @@ class PlayloudrApp : Application() {
     ConfigProvider.init(ctx = this)
     AwsClientManager
     CoroutineScope(Dispatchers.IO).launch {
-      SpotifyTokenManager.init(OkHttpClient.Builder().build())
+      SpotifyTokenManager.init(client = OkHttpClient.Builder().build())
     }
+    SessionManager.init(ctx = this)
   }
 }

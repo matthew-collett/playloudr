@@ -1,6 +1,5 @@
 package com.playloudr.app.model.client.spotify
 
-import com.playloudr.app.model.entity.SpotifyResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

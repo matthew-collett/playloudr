@@ -1,4 +1,4 @@
-package com.playloudr.app.view.screens.profile
+package com.playloudr.app.view.screens.profile.publicprofile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -10,9 +10,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,14 +26,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.playloudr.app.model.entity.reecher
+import com.playloudr.app.model.entity.ProfileInfoEntity
+import com.playloudr.app.model.entity.UserEntity
+import com.playloudr.app.view.components.FollowButton
+import com.playloudr.app.viewmodel.PublicProfileViewModel
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
-fun ProfileHeader(imageUrl: String, name: String, bio: String?) {
+fun PublicProfileHeader(
+  user: UserEntity,
+  profileInfo: ProfileInfoEntity,
+  toggleFollowStatus: () -> Unit,
+  isFollowed: Boolean
+) {
+
   Column(
     modifier = Modifier
       .padding(horizontal = 16.dp)
@@ -36,35 +52,45 @@ fun ProfileHeader(imageUrl: String, name: String, bio: String?) {
     verticalArrangement = Arrangement.spacedBy(16.dp)
   ) {
     Image(
-      painter = rememberImagePainter(data = imageUrl),
+      painter = rememberImagePainter(data = user.profilePictureUrl),
       contentDescription = "Profile Picture",
       contentScale = ContentScale.Crop,
       modifier = Modifier
         .size(100.dp)
         .clip(CircleShape)
     )
-    Text(
-      text = name,
-      style = MaterialTheme.typography.h1,
-      fontWeight = FontWeight.SemiBold,
-      fontSize = 20.sp,
-      color = Color.Black
-    )
+    if (user.displayName != null) {
+      Text(
+        text = user.displayName,
+        style = MaterialTheme.typography.h1,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp,
+        color = Color.Black
+      )
+    }
     Row (
       modifier = Modifier
         .fillMaxWidth(),
       horizontalArrangement = Arrangement.Center,
       verticalAlignment = Alignment.CenterVertically,
     ) {
-      ProfileInfo(num = 300, label = "Followers")
+      ProfileInfo(num = profileInfo.numFollowers, label = "Followers")
       Spacer(modifier = Modifier.width(16.dp))
-      ProfileInfo(num = 70, label = "Following")
+      ProfileInfo(num = profileInfo.numFollowing, label = "Following")
       Spacer(modifier = Modifier.width(16.dp))
-      ProfileInfo(num = 421, label = "Posts")
+      ProfileInfo(num = profileInfo.numPosts, label = "Posts")
     }
-    if (bio != null) {
+
+    FollowButton(
+      isFollowed = isFollowed,
+      onFollowClicked = {
+        toggleFollowStatus()
+      }
+    )
+
+    if (user.bio != null) {
       Text(
-        text = bio,
+        text = user.bio,
         textAlign = TextAlign.Center
       )
     }
@@ -78,21 +104,11 @@ fun ProfileInfo(num: Int, label: String) {
     Text(
       text = num.toString(),
       fontWeight = FontWeight.SemiBold,
-      style = MaterialTheme.typography.h6 
+      style = MaterialTheme.typography.h6
     )
     Text(
       text = label,
-      style = MaterialTheme.typography.caption 
+      style = MaterialTheme.typography.caption
     )
   }
-}
-
-@Composable
-@Preview
-fun ProfileHeaderPreview() {
-  ProfileHeader(
-    imageUrl = reecher.profilePictureUrl,
-    name = reecher.username,
-    bio = reecher.bio
-  )
 }

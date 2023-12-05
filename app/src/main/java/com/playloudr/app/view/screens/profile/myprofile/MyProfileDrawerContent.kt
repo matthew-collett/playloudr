@@ -1,4 +1,4 @@
-package com.playloudr.app.view.screens.profile
+package com.playloudr.app.view.screens.profile.myprofile
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun DrawerContent(onLogoutClick: () -> Unit) {
+fun MyProfileDrawerContent(onLogoutClick: () -> Unit) {
   Column(modifier = Modifier.fillMaxSize()) {
     TextButton(onClick = onLogoutClick) {
       Text(

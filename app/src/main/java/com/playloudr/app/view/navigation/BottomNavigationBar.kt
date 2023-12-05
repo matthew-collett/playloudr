@@ -17,7 +17,7 @@ import com.playloudr.app.view.screens.Screen
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
-  val screens: List<Screen> = listOf(Screen.Feed, Screen.CreatePost, Screen.Profile)
+  val screens: List<Screen> = listOf(Screen.Feed, Screen.CreatePost, Screen.MyProfile)
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentRoute = navBackStackEntry?.destination?.route
   BottomNavigation(

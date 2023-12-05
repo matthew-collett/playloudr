@@ -9,7 +9,7 @@ object SpotifyServiceClient {
     createClient()
   }
 
-  fun fuckkOff(): SpotifyClient {
+  fun getSpotify(): SpotifyClient {
     return client
   }
 

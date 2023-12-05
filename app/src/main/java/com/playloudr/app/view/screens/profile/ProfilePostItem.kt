@@ -15,7 +15,7 @@ import com.playloudr.app.model.entity.PostEntity
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun ProfilePostCard(
+fun ProfilePostItem(
   post:PostEntity,
   onClick: (PostEntity) -> Unit
 ) {

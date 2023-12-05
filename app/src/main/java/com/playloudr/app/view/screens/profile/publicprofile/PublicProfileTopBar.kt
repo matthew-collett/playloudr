@@ -1,4 +1,4 @@
-package com.playloudr.app.view.screens.profile
+package com.playloudr.app.view.screens.profile.publicprofile
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -11,42 +11,44 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.playloudr.app.model.entity.UserEntity
 
 @Composable
-fun ProfileTopBar(
-  username:String,
-  onMenuClick: () -> Unit
+fun PublicProfileTopBar(
+  user: UserEntity,
+  navController: NavController
 ) {
-  var showMenu by remember { mutableStateOf(false) }
   TopAppBar(
     backgroundColor = Color.White,
     modifier = Modifier
       .height(48.dp),
+    navigationIcon = {
+      IconButton(onClick = { navController.navigateUp() }) {
+        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+      }
+    },
     title = {
       Row(
         modifier = Modifier
           //.fillMaxSize(),
-        //.background(Color.White),
+          //.background(Color.White),
           .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         //horizontalArrangement = Arrangement.Center,
         horizontalArrangement = Arrangement.Center
 
-        ) {
+      ) {
         Text(
-          text = username,
+          text = user.username,
           style = MaterialTheme.typography.h1,
           fontWeight = FontWeight.Bold,
           fontSize = 20.sp,
@@ -54,18 +56,6 @@ fun ProfileTopBar(
         )
         Spacer(Modifier.weight(1f))
       }
-    },
-    actions = {
-      IconButton(onClick = onMenuClick) {
-        Icon(Icons.Default.MoreVert, contentDescription = "more menu")
-      }
     }
   )
 }
-
-
-//@Composable
-//@Preview
-//fun ProfileTopBarPreview() {
-//  ProfileTopBar(reecher.username)
-//}

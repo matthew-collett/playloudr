@@ -5,6 +5,5 @@ data class UserEntity(
   val profilePictureUrl: String,
   val displayName: String?,
   val bio: String?,
-  val email: String,
-  val password: String
+  val email: String
 )

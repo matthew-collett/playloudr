@@ -4,6 +4,7 @@ import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.dao.DynamoDbDao
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_PK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_SK
+import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_POST
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_USER
 
 abstract class AbstractRepository<T> {
@@ -18,6 +19,16 @@ abstract class AbstractRepository<T> {
     val items: List<Map<String, AttributeValue>> = dynamoDbDao.query(keyCondition, attributes)
     return items.map { builder(it) }
   }
+
+  protected suspend fun dynamoGetItem(username: String, sk: String): T? {
+    val attributes: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + username),
+      KEY_NAME_SK to AttributeValue.S(sk)
+    )
+    val item: Map<String, AttributeValue>? = dynamoDbDao.getItem(attributes)
+    return item?.let { builder(it) }
+  }
+
   protected suspend fun dynamoShallowPrefixQuery(username: String, skPrefix: String): List<String> {
     val keyCondition = "$KEY_NAME_PK = :pk AND begins_with($KEY_NAME_SK, :skprefix)"
     val attributes: Map<String, AttributeValue> = mutableMapOf(
