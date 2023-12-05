@@ -21,6 +21,10 @@ class FeedViewModel : ViewModel() {
   init {
     loadFeedPosts()
   }
+  fun refreshFeedPosts() {
+    _feedState.value = RefreshLoading
+    loadFeedPosts()
+  }
 
   private fun loadFeedPosts() {
     viewModelScope.launch {

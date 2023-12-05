@@ -38,6 +38,18 @@ object PostRepository : AbstractRepository<PostEntity>() {
       .sortedByDescending { it.timestamp }
   }
 
+  suspend fun createUserPost(post: PostEntity) {
+    val itemValues: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + post.username),
+      KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_POST + post.timestamp),
+      ATTRIBUTE_NAME_TITLE to AttributeValue.S(post.title),
+      ATTRIBUTE_NAME_ARTIST to AttributeValue.S(post.artist),
+      ATTRIBUTE_NAME_CAPTION to AttributeValue.S(post.caption ?: ""),
+      ATTRIBUTE_NAME_IMAGE_URL to AttributeValue.S(post.imageUrl)
+    )
+    dynamoDbDao.putItem(itemValues)
+  }
+
 
   override fun builder(entityValues: Map<String, AttributeValue>): PostEntity {
     return PostEntity(

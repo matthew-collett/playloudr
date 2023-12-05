@@ -40,6 +40,11 @@ class MyProfileViewModel: ViewModel()  {
     }
   }
 
+  fun refreshProfile() {
+    _profileState.value = ProfileState.RefreshLoading
+    loadProfile()
+  }
+
   private suspend fun getNumUserFollowers(): Int {
     return userRepository.getUserFollowers(username).count()
   }
