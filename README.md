@@ -12,10 +12,9 @@ PlayLoudr is a new app for music enthusiasts to share their new/all time favouri
 The following technologies and resources are used in this project
 - Kotlin
 - Jetpack Compose
-- [Android Studio](https://www.jetbrains.com/idea/](https://developer.android.com/studio)
-- [Gradle](https://maven.apache.org/](https://gradle.org/)
+- [Android Studio](https://developer.android.com/studio)
+- [Gradle](https://gradle.org/)
 - [Apache POI API](https://poi.apache.org/)
-
   
 ## Software Design Architecture
 This project uses the [MVVM]([https://www.geeksforgeeks.org/mvc-design-pattern/](https://developer.android.com/codelabs/basic-android-kotlin-compose-viewmodel-and-state#0)) architectural pattern which is a design pattern that aims to separate the concerns of an application into distinct components, making the codebase more maintainable, scalable, and testable
