@@ -48,3 +48,6 @@ proguard-project.txt
 *.swp
 *~.nib
 
+# Configuration
+application.conf
+
