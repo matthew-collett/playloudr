@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.playloudr.app.service.SessionManager
 import com.playloudr.app.view.screens.Screen
+import com.playloudr.app.view.screens.create.CreatePostScreen
 import com.playloudr.app.view.screens.feed.FeedScreen
 import com.playloudr.app.view.screens.postdetail.PostDetailScreen
 import com.playloudr.app.view.screens.profile.myprofile.MyProfileScreen
@@ -17,6 +18,7 @@ import com.playloudr.app.view.screens.profile.publicprofile.PublicProfileScreen
 import com.playloudr.app.view.screens.search.SearchScreen
 import com.playloudr.app.view.screens.signin.SignInScreen
 import com.playloudr.app.view.screens.signup.SignUpScreen
+import com.playloudr.app.viewmodel.CreatePostViewModel
 import com.playloudr.app.viewmodel.FeedViewModel
 import com.playloudr.app.viewmodel.MyProfileViewModel
 import com.playloudr.app.viewmodel.PostDetailViewModel
@@ -73,6 +75,10 @@ fun NavigationHost(
     }
     composable(Screen.SignUp.route) {
       SignUpScreen(navController)
+    }
+    composable(Screen.CreatePost.route) {
+      val viewModel: CreatePostViewModel = viewModel()
+      CreatePostScreen(viewModel = viewModel, navController = navController)
     }
     composable(Screen.Search.route) {
       val viewModel: SearchViewModel = viewModel()

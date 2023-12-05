@@ -71,7 +71,7 @@ fun ProfilePosts(
       }
       if (posts.isNotEmpty()) {
         gridItems(
-          data = posts,
+          data = posts.sortedByDescending { it.timestamp },
           columnCount = 2
         ) { post ->
           ProfilePostItem(post) { clickedPost ->

@@ -6,6 +6,7 @@ import com.playloudr.app.model.entity.ProfileInfoEntity
 import com.playloudr.app.model.repository.PostRepository
 import com.playloudr.app.model.repository.UserRepository
 import com.playloudr.app.service.SessionManager
+import com.playloudr.app.view.screens.feed.FeedState
 import com.playloudr.app.view.screens.profile.ProfileState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -48,6 +49,11 @@ class PublicProfileViewModel: ViewModel()  {
         _profileState.value = ProfileState.Error(e)
       }
     }
+  }
+
+  fun refreshProfile() {
+    _profileState.value = ProfileState.RefreshLoading
+    loadProfile()
   }
 
   private fun fetchFollowStatus() {
