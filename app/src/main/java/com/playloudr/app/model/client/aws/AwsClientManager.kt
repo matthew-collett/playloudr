@@ -31,15 +31,11 @@ object AwsClientManager {
     }
   }
 
-  fun getButtFace(): DynamoDbClient {
+  fun getDynamoDb(): DynamoDbClient {
     return dynamoDbClient
   }
 
-  fun getButtFace2(): S3Client {
+  fun getS3(): S3Client {
     return s3Client
-  }
-
-  fun getButtCFace3(): SecretsManagerClient {
-    return secretsManagerClient
   }
 }

@@ -2,16 +2,18 @@ package com.playloudr.app.model.repository
 
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.entity.UserEntity
+import com.playloudr.app.service.SessionManager
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_BIO
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_DISPLAY_NAME
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_EMAIL
-import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_PASSWORD
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_PROFILE_PICTURE_URL
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_PK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_SK
+import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_FOLLOWER
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_FOLLOWING
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_METADATA
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_USER
+import com.playloudr.app.util.Hasher
 
 object UserRepository : AbstractRepository<UserEntity>() {
 
@@ -24,8 +26,73 @@ object UserRepository : AbstractRepository<UserEntity>() {
     return response?.let { builder(it) }
   }
 
+  private suspend fun getUserPassword(username: String): String? {
+    val primaryKey: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + username),
+      KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_METADATA + username)
+    )
+    val response: Map<String, AttributeValue>? = dynamoDbDao.getItem(primaryKey)
+    return response?.get("Password")?.asS()
+  }
+
   suspend fun getUserFollowing(username: String): List<String> {
     return dynamoShallowPrefixQuery(username, KEY_PREFIX_FOLLOWING)
+  }
+  suspend fun getUserFollowers(username: String): List<String> {
+    return dynamoShallowPrefixQuery(username, KEY_PREFIX_FOLLOWER)
+  }
+
+  suspend fun isFollowing(currentUsername: String, username: String): Boolean {
+    val attributes: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + currentUsername),
+      KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_FOLLOWING + username)
+    )
+    return dynamoDbDao.getItem(attributes) != null
+  }
+
+  suspend fun followUser(currentUsername: String, username: String) {
+    val followingKey: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + currentUsername),
+      KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_FOLLOWING + username)
+    )
+    dynamoDbDao.putItem(followingKey)
+
+    val followerKey: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + username),
+      KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_FOLLOWER + currentUsername)
+    )
+    dynamoDbDao.putItem(followerKey)
+  }
+
+  suspend fun unfollowUser(currentUsername: String, username: String) {
+    val followingKey: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + currentUsername),
+      KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_FOLLOWING + username)
+    )
+    dynamoDbDao.deleteItem(followingKey)
+
+    val followerKey: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + username),
+      KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_FOLLOWER + currentUsername)
+    )
+    dynamoDbDao.deleteItem(followerKey)
+  }
+
+  suspend fun updateProfilePicture(username: String, profilePictureUrl: String) {
+    val key: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + username),
+      KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_METADATA + username)
+    )
+    val updatedValues = mapOf("ProfilePictureUrl" to AttributeValue.S(profilePictureUrl))
+    dynamoDbDao.updateItem(key, updatedValues)
+  }
+
+  suspend fun signIn(username: String, password: String): Boolean {
+    val isSuccess: Boolean = getUserPassword(username)?.let { Hasher.compare(password, it) } == true
+    if (isSuccess) {
+      SessionManager.loginUser(username)
+    }
+    return isSuccess
   }
 
   override fun builder(entityValues: Map<String, AttributeValue>): UserEntity {
@@ -34,8 +101,7 @@ object UserRepository : AbstractRepository<UserEntity>() {
       profilePictureUrl = entityValues[ATTRIBUTE_NAME_PROFILE_PICTURE_URL]!!.asS(),
       displayName = entityValues[ATTRIBUTE_NAME_DISPLAY_NAME]?.asS() ?: "",
       bio = entityValues[ATTRIBUTE_NAME_BIO]?.asS() ?: "",
-      email = entityValues[ATTRIBUTE_NAME_EMAIL]!!.asS(),
-      password = entityValues[ATTRIBUTE_NAME_PASSWORD]!!.asS()
+      email = entityValues[ATTRIBUTE_NAME_EMAIL]!!.asS()
     )
   }
 }

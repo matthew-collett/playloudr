@@ -1,4 +1,4 @@
-package com.playloudr.app.view.screens.signin
+package com.playloudr.app.view.screens.signup
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
@@ -18,14 +18,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.playloudr.app.R
 import com.playloudr.app.view.screens.Screen
 import com.playloudr.app.view.theme.PLLogoColor
@@ -153,10 +149,4 @@ fun SignUpScreen(navController: NavController) {
       }
     }
   }
-}
-
-@Preview
-@Composable
-fun PreviewSignUpScreen() {
-  SignUpScreen(mockNavController())
 }

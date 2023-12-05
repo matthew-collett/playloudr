@@ -3,6 +3,7 @@ package com.playloudr.app.model.repository
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.entity.PostEntity
 import com.playloudr.app.model.enum.PostType
+import com.playloudr.app.util.Constants
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_ARTIST
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_AUDIO_URL
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_CAPTION
@@ -13,7 +14,9 @@ import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_TYPE
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_PK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_SK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_POST
+import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_USER
 import com.playloudr.app.util.DateTimeUtils.resolveTimestamp
+import java.time.Instant
 import java.util.UUID
 
 object PostRepository : AbstractRepository<PostEntity>() {
@@ -21,6 +24,10 @@ object PostRepository : AbstractRepository<PostEntity>() {
 
   suspend fun getUserPosts(username: String): List<PostEntity> {
     return dynamoPrefixQuery(username, KEY_PREFIX_POST)
+  }
+
+  suspend fun getUserPost(username: String, timestamp: Instant): PostEntity? {
+    return dynamoGetItem(username, KEY_PREFIX_POST + timestamp)
   }
 
   suspend fun getFeedPosts(username: String): List<PostEntity> {
@@ -31,6 +38,7 @@ object PostRepository : AbstractRepository<PostEntity>() {
       .sortedByDescending { it.timestamp }
   }
 
+
   override fun builder(entityValues: Map<String, AttributeValue>): PostEntity {
     return PostEntity(
       username = resolveKeyName(entityValues[KEY_NAME_PK]!!.asS()),
@@ -38,9 +46,7 @@ object PostRepository : AbstractRepository<PostEntity>() {
       title = entityValues[ATTRIBUTE_NAME_TITLE]!!.asS(),
       artist = entityValues[ATTRIBUTE_NAME_ARTIST]!!.asS(),
       caption = entityValues[ATTRIBUTE_NAME_CAPTION]?.asS() ?: "",
-      imageUrl = entityValues[ATTRIBUTE_NAME_IMAGE_URL]!!.asS(),
-      audioUrl = entityValues[ATTRIBUTE_NAME_AUDIO_URL]!!.asS(),
-      postType = PostType.fromString(entityValues[ATTRIBUTE_NAME_TYPE]!!.asS())
+      imageUrl = entityValues[ATTRIBUTE_NAME_IMAGE_URL]!!.asS()
     )
   }
 }
