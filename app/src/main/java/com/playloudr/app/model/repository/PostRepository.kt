@@ -2,6 +2,7 @@ package com.playloudr.app.model.repository
 
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.entities.PostEntity
+import com.playloudr.app.model.entities.posts
 import com.playloudr.app.model.entities.reecherPosts
 import com.playloudr.app.model.enums.PostType
 import com.playloudr.app.util.Constants.DynamoDB.ATTRIBUTE_NAME_ARTIST
@@ -25,6 +26,12 @@ object PostRepository : AbstractRepository<PostEntity>() {
   suspend fun getUserPosts(username: String): List<PostEntity> {
     return prefixQuery(username, KEY_PREFIX_POST)
   }
+  fun tempGetUserPosts(username: String): List<PostEntity> {
+    return posts.filter { postEntity ->
+      postEntity.username.lowercase().contains(username.lowercase())
+    }
+  }
+
 
   suspend fun getFeedPosts(username: String): List<PostEntity> {
     val userFollowing: List<String> = userRepository.getUserFollowing(username)

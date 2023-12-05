@@ -48,7 +48,7 @@ fun SearchSong(viewModel: SpotifyViewModel) {
       ),
       keyboardActions = KeyboardActions(onSearch = {
         if (searchText.isNotBlank()) {
-          viewModel.searchSong(searchText)
+          //viewModel.searchSong(searchText)
           // Dismiss keyboard
           keyboardController?.hide()
         }
@@ -57,7 +57,7 @@ fun SearchSong(viewModel: SpotifyViewModel) {
     Button(
       onClick = {
         if (searchText.isNotBlank()) {
-          viewModel.searchSong(searchText)
+         // viewModel.searchSong(searchText)
         }
       },
       modifier = Modifier.align(Alignment.End)

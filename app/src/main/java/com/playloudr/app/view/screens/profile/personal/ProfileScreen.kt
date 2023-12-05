@@ -14,13 +14,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,20 +32,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.playloudr.app.model.entities.reecher
 import com.playloudr.app.model.entities.reecherPosts
+import com.playloudr.app.view.components.LoadingIndicator
+import com.playloudr.app.view.screens.feed.FeedState
+import com.playloudr.app.view.screens.profile.ProfileState
 import com.playloudr.app.viewmodel.ProfileViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileScreen(
   viewModel: ProfileViewModel,
   navController: NavController
   ) {
+  val profileState by viewModel.profileState.collectAsState()
+
   var showDrawer by remember { mutableStateOf(false) }
   val scaffoldState = rememberScaffoldState()
   val scope = rememberCoroutineScope()
@@ -83,70 +93,130 @@ fun ProfileScreen(
     }
   }
 
-  Scaffold(
-    scaffoldState = scaffoldState,
-    topBar = {
-      ProfileTopBar(username = displayName!!) {
-        showDrawer = !showDrawer
-      }
-    },
+  when (val currentState = profileState) {
+    is ProfileState.PostsLoaded -> {
+      Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+          ProfileTopBar(username = displayName!!) {
+            showDrawer = !showDrawer
+          }
+        },
 
-  ) {
-    Box(Modifier.padding(vertical = 16.dp)) {
-      LazyColumn(
-        state = scrollState,
-        modifier = Modifier
-          .fillMaxSize()
-          .background(Color.White),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-      ) {
-        // profile picture, name, followers, following, posts, bio
-        item {
-          ProfileHeader(
-            imageUrl = profilePic,
-            name = name,
-            bio = bio,
-            onImageClick = {
-              if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-              } else {
-                imagePickerLauncher.launch("image/*")
-              }
-
-
+        ) {
+        Box(Modifier.padding(vertical = 16.dp)) {
+          LazyColumn(
+            state = scrollState,
+            modifier = Modifier
+              .fillMaxSize()
+              .background(Color.White),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+          ) {
+            // profile picture, name, followers, following, posts, bio
+            item {
+              ProfileHeader(
+                imageUrl = profilePic,
+                name = name,
+                bio = bio,
+                onImageClick = {
+                  if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                    permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                  } else {
+                    imagePickerLauncher.launch("image/*")
+                  }
+                }
+              )
             }
-          )
-        }
 
-        // Grid of posts
-        gridItems(
-          data = reecherPosts,
-          columnCount = 2
-        ) { post ->
-          ProfilePostCard(post) { clickedPost ->
-            navController.navigate("postDetail/${clickedPost.postId}")
+            // Grid of posts
+            gridItems(
+              data = currentState.posts,
+              columnCount = 2
+            ) { post ->
+              ProfilePostCard(post) { clickedPost ->
+                navController.navigate("postDetail/${clickedPost.postId}")
+              }
+            }
+
+          }
+          AnimatedVisibility(
+            visible = showDrawer,
+            enter = slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }),
+            exit = slideOutHorizontally(targetOffsetX = { fullWidth -> fullWidth }),
+            modifier = Modifier
+              .align(Alignment.CenterEnd)
+              .background(Color.White)
+          ) {
+            // Drawer content
+            DrawerContent(
+              onLogoutClick = {
+                onLogoutClick()
+                showDrawer = false // Close the drawer
+              }
+            )
           }
         }
 
-      }
-      AnimatedVisibility(
-        visible = showDrawer,
-        enter = slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }),
-        exit = slideOutHorizontally(targetOffsetX = { fullWidth -> fullWidth }),
-        modifier = Modifier
-          .align(Alignment.CenterEnd)
-          .background(Color.White)
-      ) {
-        // Drawer content
-        DrawerContent(
-          onLogoutClick = {
-            onLogoutClick()
-            showDrawer = false // Close the drawer
-          }
-        )
       }
     }
+    is ProfileState.RefreshLoading -> {
+      LoadingIndicator()
+    }
+    is ProfileState.NoPosts -> {
+      Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+          ProfileTopBar(username = displayName!!) {
+            showDrawer = !showDrawer
+          }
+        },
 
+        ) {
+        Box(Modifier.padding(vertical = 16.dp)) {
+          LazyColumn(
+            state = scrollState,
+            modifier = Modifier
+              .fillMaxSize()
+              .background(Color.White),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+          ) {
+            // profile picture, name, followers, following, posts, bio
+            item {
+              ProfileHeader(
+                imageUrl = profilePic,
+                name = name,
+                bio = bio,
+                onImageClick = {
+                  if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                    permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                  } else {
+                    imagePickerLauncher.launch("image/*")
+                  }
+                }
+              )
+            }
+            item {
+              Text(
+                text = "No posts found!",
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray, // Customize the text color
+                fontSize = 18.sp,   // Customize the font size
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                  .fillMaxWidth()  // Expand the Text composable to fill the available width
+                  .padding(16.dp)
+              )
+            }
+          }
+        }
+      }
+    }
+    is ProfileState.Error -> {
+      val exception = (profileState as ProfileState.Error).exception
+      Text(
+        text = "Error: ${exception.message}",
+      )
+    }
   }
 }
 

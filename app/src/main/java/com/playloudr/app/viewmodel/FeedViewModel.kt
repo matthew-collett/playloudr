@@ -18,7 +18,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
+class FeedViewModel : ViewModel() {
+  private val postRepository: PostRepository = PostRepository
   private val _feedState = MutableStateFlow<FeedState>(RefreshLoading)
   val feedState: StateFlow<FeedState> = _feedState
 
@@ -104,13 +105,13 @@ class FeedViewModel(private val postRepository: PostRepository) : ViewModel() {
     hasSearched.value = false
   }
 
-  fun onScrollUp() {
-    _showTopBar.value = true
-  }
-
-  fun onScrollDown() {
-    _showTopBar.value = false
-  }
+//  fun onScrollUp() {
+//    _showTopBar.value = true
+//  }
+//
+//  fun onScrollDown() {
+//    _showTopBar.value = false
+//  }
 }
 
 
