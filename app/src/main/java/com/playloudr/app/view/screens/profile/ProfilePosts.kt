@@ -8,15 +8,21 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,15 +75,25 @@ fun ProfilePosts(
           columnCount = 2
         ) { post ->
           ProfilePostItem(post) { clickedPost ->
-            navController.navigate(Screen.PostDetail.createRoute(clickedPost.username, clickedPost.timestamp))
+            navController.navigate(
+              Screen.PostDetail.createRoute(
+                clickedPost.username,
+                clickedPost.timestamp
+              )
+            )
           }
         }
       } else {
         item {
-          Box(
-            modifier = Modifier.fillMaxHeight(),
-            contentAlignment = Alignment.Center
+          Column(
+            horizontalAlignment = Alignment.CenterHorizontally
           ) {
+            Icon(
+              imageVector = Icons.Outlined.Info,
+              modifier = Modifier.size(64.dp),
+              tint = Color.Gray,
+              contentDescription = "Notification"
+            )
             Text(
               text = "No posts yet",
               fontWeight = FontWeight.Bold,
@@ -130,12 +146,15 @@ fun <T> LazyListScope.gridItems(
         }
         if (row.size < columnCount) {
           for (i in 0 until (columnCount - row.size)) {
-            Box(modifier = Modifier
-              .weight(1f)
-              .aspectRatio(1f))
+            Box(
+              modifier = Modifier
+                .weight(1f)
+                .aspectRatio(1f)
+            )
           }
         }
       }
     }
   }
 }
+

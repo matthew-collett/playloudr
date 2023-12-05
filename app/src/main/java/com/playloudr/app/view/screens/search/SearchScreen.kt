@@ -1,4 +1,4 @@
-package com.playloudr.app.view.screens.feed
+package com.playloudr.app.view.screens.search
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,11 +27,14 @@ import com.playloudr.app.service.SessionManager
 import com.playloudr.app.view.components.LoadingIndicator
 import com.playloudr.app.view.components.PostCard
 import com.playloudr.app.view.navigation.BottomNavigationBar
+import com.playloudr.app.view.screens.feed.FeedState
+import com.playloudr.app.view.screens.feed.FeedTopBar
 import com.playloudr.app.viewmodel.FeedViewModel
+import com.playloudr.app.viewmodel.SearchViewModel
 
 @Composable
-fun FeedScreen(
-  viewModel: FeedViewModel,
+fun SearchScreen(
+  viewModel: SearchViewModel,
   navController: NavController
 ) {
   Scaffold(
@@ -40,49 +43,35 @@ fun FeedScreen(
     Column(
       modifier = Modifier.padding(paddingValues)
     ) {
-      FeedTopBar(navController)
-      when (val feedState = viewModel.feedState.collectAsState().value) {
-        is FeedState.RefreshLoading -> LoadingIndicator()
-        is FeedState.PostsLoaded -> {
+      SearchUserBar(viewModel = viewModel)
+      when (val searchState = viewModel.searchState.collectAsState().value) {
+        is SearchState.Idle -> {}
+        is SearchState.Loading -> LoadingIndicator()
+        is SearchState.Loaded -> {
           LazyColumn(
             modifier = Modifier.fillMaxWidth()
           ) {
-            items(feedState.posts) { post ->
-              PostCard(post = post, navController, SessionManager.getCurrentUser() != post.username)
+            items(searchState.users) { user ->
+              UserRow(user, navController)
             }
           }
         }
-        is FeedState.NoPosts -> {
-          Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-          ) {
-            Column(
-              horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-              Icon(
-                imageVector = Icons.Outlined.Notifications,
-                modifier = Modifier.size(64.dp),
-                tint = Color.Gray,
-                contentDescription = "Notification"
-              )
-              Text(
-                text = feedState.reason,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                  .fillMaxWidth()
-                  .padding(16.dp)
-              )
-            }
-          }
+        is SearchState.NoResults -> {
+          Text(
+            text = searchState.reason,
+            fontWeight = FontWeight.Bold,
+            color = Color.Gray,
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+              .fillMaxWidth()
+              .padding(16.dp)
+          )
         }
-        is FeedState.Error -> Text(text = feedState.exception.message!!)
+        is SearchState.Error -> {
+          Text("Error: ${searchState.exception.message}")
+        }
       }
     }
   }
 }
-
-

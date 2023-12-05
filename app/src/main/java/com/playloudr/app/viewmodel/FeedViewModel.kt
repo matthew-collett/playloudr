@@ -27,7 +27,7 @@ class FeedViewModel : ViewModel() {
       try {
         val feedPosts = postRepository.getFeedPosts(SessionManager.getCurrentUser()!!)
         if (feedPosts.isEmpty()) {
-          _feedState.value = NoPosts("No posts available")
+          _feedState.value = NoPosts("Your friends have no posts or you need to follow a friend!")
         } else {
           _feedState.value = PostsLoaded(feedPosts)
         }

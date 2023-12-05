@@ -11,7 +11,6 @@ import com.playloudr.app.viewmodel.SignInViewModel
 @Composable
 fun SignInScreen(viewModel: SignInViewModel, navController: NavController) {
   when (val signInState = viewModel.signInState.collectAsState().value) {
-    is SignInState.Idle -> SignInScreenComposable(navController = navController, viewModel, state = null)
     is SignInState.Loading -> LoadingIndicator()
     is SignInState.Success -> {
       LaunchedEffect(signInState) {

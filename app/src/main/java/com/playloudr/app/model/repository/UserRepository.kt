@@ -35,6 +35,18 @@ object UserRepository : AbstractRepository<UserEntity>() {
     return response?.get("Password")?.asS()
   }
 
+  suspend fun searchUsers(searchText: String): List<UserEntity> {
+    val filterExpression = "begins_with(PK, :pkSearchText) AND begins_with(SK, :skSearchText)"
+    val expressionAttributeValues: Map<String, AttributeValue> = mapOf(
+      ":pkSearchText" to AttributeValue.S("USER#$searchText"),
+      ":skSearchText" to AttributeValue.S("METADATA#$searchText")
+    )
+    val response = dynamoDbDao.scan(filterExpression, expressionAttributeValues)
+    return response?.map { builder(it) } ?: emptyList()
+  }
+
+
+
   suspend fun getUserFollowing(username: String): List<String> {
     return dynamoShallowPrefixQuery(username, KEY_PREFIX_FOLLOWING)
   }

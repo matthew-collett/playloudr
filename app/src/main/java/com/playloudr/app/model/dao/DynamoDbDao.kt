@@ -7,6 +7,7 @@ import aws.sdk.kotlin.services.dynamodb.model.GetItemRequest
 import aws.sdk.kotlin.services.dynamodb.model.PutItemRequest
 import aws.sdk.kotlin.services.dynamodb.model.QueryRequest
 import aws.sdk.kotlin.services.dynamodb.model.QueryResponse
+import aws.sdk.kotlin.services.dynamodb.model.ScanRequest
 import aws.sdk.kotlin.services.dynamodb.model.UpdateItemRequest
 import com.playloudr.app.model.client.aws.AwsClientManager
 import com.playloudr.app.model.client.config.ConfigProvider
@@ -72,5 +73,19 @@ class DynamoDbDao {
     }
     client.updateItem(request)
   }
+
+  suspend fun scan(
+    filterExpression: String,
+    expressionAttributeValues: Map<String, AttributeValue>
+  ): List<Map<String, AttributeValue>>? {
+    val request = ScanRequest {
+      tableName = dynamoDbTableName
+      this.filterExpression = filterExpression
+      this.expressionAttributeValues = expressionAttributeValues
+    }
+    val response = client.scan(request)
+    return response.items
+  }
+
 }
 

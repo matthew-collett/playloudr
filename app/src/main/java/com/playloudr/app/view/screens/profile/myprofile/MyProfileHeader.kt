@@ -3,8 +3,6 @@ package com.playloudr.app.view.screens.profile.myprofile
 import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +17,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,8 +30,6 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.playloudr.app.model.entity.ProfileInfoEntity
 import com.playloudr.app.model.entity.UserEntity
-import com.playloudr.app.viewmodel.MyProfileViewModel
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
@@ -76,17 +71,15 @@ fun MyProfileHeader(
       )
     }
 
-    Row (
+    Row(
       modifier = Modifier
         .fillMaxWidth(),
-      horizontalArrangement = Arrangement.Center,
+      horizontalArrangement = Arrangement.SpaceEvenly,
       verticalAlignment = Alignment.CenterVertically,
     ) {
-      ProfileInfo(num = profileInfo.numFollowers, label = "Followers")
-      Spacer(modifier = Modifier.width(16.dp))
-      ProfileInfo(num = profileInfo.numFollowing, label = "Following")
-      Spacer(modifier = Modifier.width(16.dp))
-      ProfileInfo(num = profileInfo.numPosts, label = "Posts")
+      ProfileInfo(num = profileInfo.numFollowers, label = "Followers", Modifier.weight(1f))
+      ProfileInfo(num = profileInfo.numFollowing, label = "Following", Modifier.weight(1f))
+      ProfileInfo(num = profileInfo.numPosts, label = "Posts", Modifier.weight(1f))
     }
     if (user.bio != null) {
       Text(
@@ -99,16 +92,19 @@ fun MyProfileHeader(
 
 
 @Composable
-fun ProfileInfo(num: Int, label: String) {
-  Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun ProfileInfo(num: Int, label: String, modifier: Modifier = Modifier) {
+  Column(
+    modifier = modifier,
+    horizontalAlignment = Alignment.CenterHorizontally
+  ) {
     Text(
       text = num.toString(),
       fontWeight = FontWeight.SemiBold,
-      style = MaterialTheme.typography.h6 
+      style = MaterialTheme.typography.h6
     )
     Text(
       text = label,
-      style = MaterialTheme.typography.caption 
+      style = MaterialTheme.typography.caption
     )
   }
 }
