@@ -16,7 +16,7 @@ The following technologies and resources are used in this project
 - Jetpack Compose
 - [Android Studio](https://developer.android.com/studio)
 - [Gradle](https://gradle.org/)
-- [Apache POI API](https://poi.apache.org/)
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api)
 
 ## Software Design Architecture
 
@@ -32,4 +32,3 @@ This project uses the [MVVM](<[https://www.geeksforgeeks.org/mvc-design-pattern/
 Select `App`, choose your device and click run
 
 When prompted on the sign in page, enter the username `development` and password `abc12345678`
-Repository for Playloudr - Share your tunes, find fresh tracks, and "Play it Louder"
