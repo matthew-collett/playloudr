@@ -1,8 +1,6 @@
 # <p align="center">CS2063 App Project — Playloudr </p>
 
-<p align="center"><img src="file:///C:/Users/Eric/Downloads/logo.svg" style="width: 300px;"/></p>
-<i![Uploading logo.svg…]()
-mg>
+<p align="center"><img src="file:///C:/Users/Matthew/Desktop/logo.svg" style="width: 300px;"/></p>
 
 # PlayLoudr
 PlayLoudr is a new app for music enthusiasts to share their new/all time favourite hits with the world!
@@ -23,7 +21,7 @@ This project uses the [MVVM](<[https://www.geeksforgeeks.org/mvc-design-pattern/
 <br>
 <p align="center"><img src="https://miro.medium.com/v2/resize:fit:1400/1*Vk4T5bmda3b4kwx53yNzTQ.png" width='300px'></p>
 
-# How to Run App
+## How to Run App
 Select `App`, choose your device and click run
 
 When prompted on the sign in page, enter the username `development` and password `abc12345678`
