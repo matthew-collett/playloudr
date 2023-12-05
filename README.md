@@ -26,3 +26,5 @@ This project uses the [MVVM]([https://www.geeksforgeeks.org/mvc-design-pattern/]
 
 # How to Run App
 Select `App`, choose your device and click run
+
+When prompted on the sign in page, enter the username `development` and password `abc12345678`
