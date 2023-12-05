@@ -1,6 +1,6 @@
 # <p align="center">CS2063 App Project — Playloudr </p>
 
-<p align="center"><img src="file:///C:/Users/Matthew/Desktop/logo.svg" style="width: 300px;"/></p>
+<p align="center"><img src="app/src/main/res/raw/logo.svg" style="width: 500px;"/></p>
 
 # PlayLoudr
 PlayLoudr is a new app for music enthusiasts to share their new/all time favourite hits with the world!
