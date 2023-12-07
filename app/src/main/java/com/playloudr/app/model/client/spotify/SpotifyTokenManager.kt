@@ -1,6 +1,8 @@
 package com.playloudr.app.model.client.spotify
 
 import android.util.Base64
+import com.playloudr.app.model.client.config.ClientConfig
+import com.playloudr.app.model.client.config.ConfigProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -14,19 +16,16 @@ import java.io.IOException
 object SpotifyTokenManager {
   @Volatile
   private var accessToken: String? = null
+  private val config: ClientConfig = ConfigProvider.get()
   private val lock = Any()
   private val mutex = Mutex()
   private var accessTokenExpiryTime: Long = 0
-  private var clientId: String? = null
-  private var clientSecret: String? = null
+  private var clientId: String = config.spotify.clientId
+  private var clientSecret = config.spotify.clientSecret
   private lateinit var okHttpClient: OkHttpClient
 
   fun init(client: OkHttpClient) {
     okHttpClient = client
-    if (clientId == null || clientSecret == null) {
-      clientId = "280de6ce143e45148e2d015b0db0bd07"
-      clientSecret = "0361d1e9c79b4da4bc36d9883cbf77f7"
-    }
   }
 
   suspend fun getToken(): String {

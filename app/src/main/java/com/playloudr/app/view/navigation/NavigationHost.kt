@@ -25,6 +25,7 @@ import com.playloudr.app.viewmodel.PostDetailViewModel
 import com.playloudr.app.viewmodel.PublicProfileViewModel
 import com.playloudr.app.viewmodel.SearchViewModel
 import com.playloudr.app.viewmodel.SignInViewModel
+import com.playloudr.app.viewmodel.SignUpViewModel
 
 
 @Composable
@@ -74,7 +75,8 @@ fun NavigationHost(
       SignInScreen(viewModel = viewModel, navController = navController)
     }
     composable(Screen.SignUp.route) {
-      SignUpScreen(navController)
+      val viewModel:SignUpViewModel = viewModel()
+      SignUpScreen(viewModel,navController)
     }
     composable(Screen.CreatePost.route) {
       val viewModel: CreatePostViewModel = viewModel()

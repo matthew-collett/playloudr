@@ -2,13 +2,15 @@ package com.playloudr.app.model.repository
 
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.dao.DynamoDbDao
+import com.playloudr.app.model.dao.S3Dao
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_PK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_NAME_SK
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_POST
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_USER
 
 abstract class AbstractRepository<T> {
-  protected val dynamoDbDao: DynamoDbDao = DynamoDbDao()
+  protected val dynamoDbDao: DynamoDbDao = DynamoDbDao
+  protected val s3Dao: S3Dao = S3Dao
 
   protected suspend fun dynamoPrefixQuery(username: String, skPrefix: String): List<T> {
     val keyCondition = "$KEY_NAME_PK = :pk AND begins_with($KEY_NAME_SK, :skprefix)"

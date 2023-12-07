@@ -1,11 +1,16 @@
 package com.playloudr.app.view.screens.profile.publicprofile
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -43,22 +48,34 @@ fun PublicProfileHeader(
   toggleFollowStatus: () -> Unit,
   isFollowed: Boolean
 ) {
-
   Column(
     modifier = Modifier
-      .padding(horizontal = 16.dp)
       .fillMaxWidth(),
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.spacedBy(16.dp)
   ) {
-    Image(
-      painter = rememberImagePainter(data = user.profilePictureUrl),
-      contentDescription = "Profile Picture",
-      contentScale = ContentScale.Crop,
-      modifier = Modifier
-        .size(100.dp)
-        .clip(CircleShape)
-    )
+    Column(
+      verticalArrangement = Arrangement.Center,
+      horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+      Box(
+        modifier = Modifier
+          .size(100.dp)
+          .background(color = Color.Gray, shape = CircleShape)
+      ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Image(
+          painter = rememberImagePainter(data = user.profilePictureUrl),
+          contentDescription = "Profile Picture",
+          contentScale = ContentScale.Crop,
+          modifier = Modifier
+            .matchParentSize()
+            .padding(1.dp)
+            .clip(CircleShape)
+        )
+      }
+    }
+
     if (user.displayName != null) {
       Text(
         text = user.displayName,
@@ -68,39 +85,39 @@ fun PublicProfileHeader(
         color = Color.Black
       )
     }
-    Row (
-      modifier = Modifier
-        .fillMaxWidth(),
-      horizontalArrangement = Arrangement.Center,
-      verticalAlignment = Alignment.CenterVertically,
-    ) {
-      ProfileInfo(num = profileInfo.numFollowers, label = "Followers")
-      Spacer(modifier = Modifier.width(16.dp))
-      ProfileInfo(num = profileInfo.numFollowing, label = "Following")
-      Spacer(modifier = Modifier.width(16.dp))
-      ProfileInfo(num = profileInfo.numPosts, label = "Posts")
-    }
-
-    FollowButton(
-      isFollowed = isFollowed,
-      onFollowClicked = {
-        toggleFollowStatus()
-      }
-    )
-
     if (user.bio != null) {
       Text(
         text = user.bio,
         textAlign = TextAlign.Center
       )
     }
+    FollowButton(
+      isFollowed = isFollowed,
+      onFollowClicked = {
+        toggleFollowStatus()
+      }
+    )
+    Row (
+      modifier = Modifier
+        .fillMaxWidth(),
+      horizontalArrangement = Arrangement.SpaceEvenly,
+      verticalAlignment = Alignment.CenterVertically,
+    ) {
+      ProfileInfo(num = profileInfo.numFollowers, label = "Followers", Modifier.weight(1f))
+      ProfileInfo(num = profileInfo.numFollowing, label = "Following", Modifier.weight(1f))
+      ProfileInfo(num = profileInfo.numPosts, label = "Posts", Modifier.weight(1f))
+    }
+
   }
 }
 
 
 @Composable
-fun ProfileInfo(num: Int, label: String) {
-  Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun ProfileInfo(num: Int, label: String, modifier: Modifier) {
+  Column(
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = modifier
+  ) {
     Text(
       text = num.toString(),
       fontWeight = FontWeight.SemiBold,
