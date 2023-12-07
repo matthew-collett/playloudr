@@ -16,6 +16,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,8 +34,7 @@ import com.playloudr.app.viewmodel.SearchViewModel
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchUserBar(viewModel: SearchViewModel) {
-  var searchText by remember { mutableStateOf("") }
-  val keyboardController = LocalSoftwareKeyboardController.current
+  val searchQuery by viewModel.searchQuery.collectAsState()
 
   Box(
     modifier = Modifier
@@ -48,28 +48,19 @@ fun SearchUserBar(viewModel: SearchViewModel) {
       )
   ) {
     TextField(
-      value = searchText,
-      onValueChange = { searchText = it },
+      value = searchQuery,
+      onValueChange = { newValue: String -> viewModel.searchQuery.value = newValue },
       placeholder = { Text("Search for users...") },
       modifier = Modifier
         .fillMaxWidth(),
       singleLine = true,
       trailingIcon = {
-        IconButton(onClick = { viewModel.search(searchText) }) {
-          Icon(
-            imageVector = Icons.Default.Search,
-            contentDescription = "Search for a friend!",
-            tint = Color.Gray // Customize icon color
-          )
-        }
+        Icon(
+          imageVector = Icons.Default.Search,
+          contentDescription = "Search for a friend!",
+          tint = Color.Gray
+        )
       },
-      keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-      keyboardActions = KeyboardActions(
-        onSearch = {
-          viewModel.search(searchText)
-          keyboardController?.hide()
-        }
-      ),
       colors = TextFieldDefaults.textFieldColors(
         backgroundColor = Color.Transparent,
         focusedIndicatorColor = Color.Transparent,

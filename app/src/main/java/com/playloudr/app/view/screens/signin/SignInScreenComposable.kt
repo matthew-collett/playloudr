@@ -120,6 +120,7 @@ fun SignInScreenComposable(navController: NavController, viewModel: SignInViewMo
         }
       )
       if (state != null) {
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
           text = state,
           color = Color.Red
@@ -135,7 +136,8 @@ fun SignInScreenComposable(navController: NavController, viewModel: SignInViewMo
           backgroundColor = PLLogoColor,
           contentColor = Color.White
         ),
-        modifier = Modifier.height(48.dp)
+        modifier = Modifier
+          .height(48.dp)
           .fillMaxWidth(0.8f)
       ) {
         Text(

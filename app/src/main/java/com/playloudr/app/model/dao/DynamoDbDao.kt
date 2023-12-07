@@ -12,7 +12,7 @@ import aws.sdk.kotlin.services.dynamodb.model.UpdateItemRequest
 import com.playloudr.app.model.client.aws.AwsClientManager
 import com.playloudr.app.model.client.config.ConfigProvider
 
-class DynamoDbDao {
+object DynamoDbDao {
   private val dynamoDbTableName = ConfigProvider.get().aws.dynamoDbTableName
   private val client = AwsClientManager.getDynamoDb()
 
@@ -86,6 +86,5 @@ class DynamoDbDao {
     val response = client.scan(request)
     return response.items
   }
-
 }
 

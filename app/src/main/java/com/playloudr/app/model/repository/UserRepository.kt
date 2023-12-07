@@ -14,6 +14,7 @@ import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_FOLLOWING
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_METADATA
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_USER
 import com.playloudr.app.util.Hasher
+import java.time.Instant
 
 object UserRepository : AbstractRepository<UserEntity>() {
 
@@ -91,11 +92,13 @@ object UserRepository : AbstractRepository<UserEntity>() {
   }
 
   suspend fun updateProfilePicture(username: String, profilePictureUrl: String) {
+    val objectKey = "$username/${Instant.now()}/$profilePictureUrl"
+    s3Dao.putObject(profilePictureUrl, objectKey)
     val key: Map<String, AttributeValue> = mutableMapOf(
       KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + username),
       KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_METADATA + username)
     )
-    val updatedValues = mapOf("ProfilePictureUrl" to AttributeValue.S(profilePictureUrl))
+    val updatedValues = mapOf("ProfilePictureUrl" to AttributeValue.S(s3Dao.getS3Url(objectKey)))
     dynamoDbDao.updateItem(key, updatedValues)
   }
 

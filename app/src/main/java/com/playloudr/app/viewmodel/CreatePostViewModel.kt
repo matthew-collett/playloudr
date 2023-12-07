@@ -27,7 +27,7 @@ class CreatePostViewModel : ViewModel() {
 
   init {
     viewModelScope.launch {
-      searchQuery.debounce(300).filter { it.isNotEmpty() && !isSongSelected.value }
+      searchQuery.debounce(300).filter { !isSongSelected.value }
         .collect { query ->
           searchSongs(query)
         }
@@ -43,6 +43,10 @@ class CreatePostViewModel : ViewModel() {
   }
 
   private fun searchSongs(query: String) {
+    if (searchQuery.value.isEmpty()) {
+      _createPostState.value = CreatePostScreenState.Idle
+      return
+    }
     viewModelScope.launch {
       _createPostState.value = CreatePostScreenState.Loading
       try {
@@ -58,6 +62,5 @@ class CreatePostViewModel : ViewModel() {
     isSongSelected.value = true
     _createPostState.value = CreatePostScreenState.Success(emptyList(), song)
     searchQuery.value = song.name
-
   }
 }

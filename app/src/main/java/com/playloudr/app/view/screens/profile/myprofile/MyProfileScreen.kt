@@ -73,9 +73,7 @@ fun MyProfileScreen(
           MyProfileTopBar(user = currState.user) {
             showDrawer = !showDrawer
           }
-          Spacer(modifier = Modifier.height(16.dp))
           Box(Modifier.pullRefresh(pullRefreshState)) {
-
             ProfilePosts(
               currState.user,
               currState.posts,
@@ -98,7 +96,6 @@ fun MyProfileScreen(
           }
         }
         is ProfileState.Error -> Text(text = currState.exception.message!!)
-        else -> {}
       }
     }
   }

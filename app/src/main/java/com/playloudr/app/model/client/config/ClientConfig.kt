@@ -6,6 +6,7 @@ data class ClientConfig(
   data class AwsConfig(
     val region: String,
     val identityPoolId: String,
-    val dynamoDbTableName: String
+    val dynamoDbTableName: String,
+    val s3BucketName: String
   )
 }

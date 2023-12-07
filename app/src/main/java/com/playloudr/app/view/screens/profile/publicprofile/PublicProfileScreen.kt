@@ -50,7 +50,6 @@ fun PublicProfileScreen(
         is ProfileState.RefreshLoading -> LoadingIndicator()
         is ProfileState.ProfileLoaded -> {
           PublicProfileTopBar(currState.user, navController)
-          Spacer(modifier = Modifier.height(16.dp))
           Box(Modifier.pullRefresh(pullRefreshState)) {
             ProfilePosts(
               currState.user,
