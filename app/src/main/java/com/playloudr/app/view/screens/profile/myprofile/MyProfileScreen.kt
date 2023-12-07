@@ -2,6 +2,7 @@ package com.playloudr.app.view.screens.profile.myprofile
 
 import android.content.Context
 import android.net.Uri
+import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -109,14 +110,21 @@ fun MyProfileScreen(
 
 fun writeContentUriToFile(context: Context, uri: Uri): File? {
   return try {
-    val tempFile = File.createTempFile("upload_", ".tmp", context.cacheDir)
+    // Determine the file extension
+    val mimeType = context.contentResolver.getType(uri)
+    val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "tmp"
+
+    // Create a temporary file with the correct extension
+    val tempFile = File.createTempFile("upload_", ".$extension", context.cacheDir)
+
+    // Write content URI data to this temporary file
     context.contentResolver.openInputStream(uri)?.use { inputStream ->
       FileOutputStream(tempFile).use { outputStream ->
         inputStream.copyTo(outputStream)
       }
     }
 
-    tempFile
+    tempFile // Return the temporary file
   } catch (e: Exception) {
     e.printStackTrace()
     null
