@@ -1,5 +1,6 @@
 package com.playloudr.app.model.repository
 
+import android.provider.ContactsContract.CommonDataKinds.Email
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.entity.UserEntity
 import com.playloudr.app.service.SessionManager
@@ -105,6 +106,20 @@ object UserRepository : AbstractRepository<UserEntity>() {
       SessionManager.loginUser(username)
     }
     return isSuccess
+  }
+
+  suspend fun signUp(username: String, password: String, email: String, bio: String?, displayName: String?) {
+    val hashedPassword = Hasher.hash(password)
+    val userAttributes: Map<String, AttributeValue> = mutableMapOf(
+      KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + username),
+      KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_METADATA + username),
+      "Password" to AttributeValue.S(hashedPassword),
+      ATTRIBUTE_NAME_EMAIL to AttributeValue.S(email),
+      ATTRIBUTE_NAME_PROFILE_PICTURE_URL to AttributeValue.S("https://i.stack.imgur.com/34AD2.jpg"),
+      ATTRIBUTE_NAME_BIO to AttributeValue.S(bio?: ""),
+      ATTRIBUTE_NAME_DISPLAY_NAME to AttributeValue.S(displayName?: "")
+    )
+    dynamoDbDao.putItem(userAttributes)
   }
 
   override fun builder(entityValues: Map<String, AttributeValue>): UserEntity {

@@ -98,7 +98,6 @@ fun MyProfileScreen(
           }
         }
         is ProfileState.Error -> Text(text = currState.exception.message!!)
-        else -> {}
       }
     }
   }
