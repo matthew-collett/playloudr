@@ -1,5 +1,7 @@
 package com.playloudr.app.model.repository
 
+import android.content.Context
+import android.net.Uri
 import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import com.playloudr.app.model.entity.UserEntity
 import com.playloudr.app.service.SessionManager
@@ -14,6 +16,7 @@ import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_FOLLOWING
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_METADATA
 import com.playloudr.app.util.Constants.DynamoDB.KEY_PREFIX_USER
 import com.playloudr.app.util.Hasher
+import java.io.File
 import java.time.Instant
 
 object UserRepository : AbstractRepository<UserEntity>() {
@@ -91,9 +94,9 @@ object UserRepository : AbstractRepository<UserEntity>() {
     dynamoDbDao.deleteItem(followerKey)
   }
 
-  suspend fun updateProfilePicture(username: String, profilePictureUrl: String) {
-    val objectKey = "$username/${Instant.now()}/$profilePictureUrl"
-    s3Dao.putObject(profilePictureUrl, objectKey)
+  suspend fun updateProfilePicture(username: String, file: File?) {
+    val objectKey = "$username/${Instant.now()}/${file.toString()}"
+    s3Dao.putObject(file, objectKey)
     val key: Map<String, AttributeValue> = mutableMapOf(
       KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + username),
       KEY_NAME_SK to AttributeValue.S(KEY_PREFIX_METADATA + username)

@@ -1,5 +1,7 @@
 package com.playloudr.app.view.screens.profile.myprofile
 
+import android.content.Context
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -22,6 +24,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.playloudr.app.service.SessionManager
@@ -31,6 +34,8 @@ import com.playloudr.app.view.screens.profile.ProfilePosts
 import com.playloudr.app.view.screens.profile.ProfileState
 import com.playloudr.app.viewmodel.MyProfileViewModel
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -38,6 +43,7 @@ fun MyProfileScreen(
   viewModel: MyProfileViewModel,
   navController: NavController
 ) {
+  val ctx: Context = LocalContext.current
   val profileState by viewModel.profileState.collectAsState()
   val pullRefreshState = rememberPullRefreshState(profileState is ProfileState.RefreshLoading, { viewModel.refreshProfile() })
   var showDrawer by remember { mutableStateOf(false) }
@@ -47,7 +53,7 @@ fun MyProfileScreen(
   ) { uri ->
     uri?.let { nonNullUri ->
       scope.launch {
-        viewModel.updateProfilePicture(nonNullUri.toString())
+        viewModel.updateProfilePicture(writeContentUriToFile(ctx, nonNullUri))
       }
     }
   }
@@ -100,3 +106,20 @@ fun MyProfileScreen(
     }
   }
 }
+
+fun writeContentUriToFile(context: Context, uri: Uri): File? {
+  return try {
+    val tempFile = File.createTempFile("upload_", ".tmp", context.cacheDir)
+    context.contentResolver.openInputStream(uri)?.use { inputStream ->
+      FileOutputStream(tempFile).use { outputStream ->
+        inputStream.copyTo(outputStream)
+      }
+    }
+
+    tempFile
+  } catch (e: Exception) {
+    e.printStackTrace()
+    null
+  }
+}
+

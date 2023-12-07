@@ -1,5 +1,7 @@
 package com.playloudr.app.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playloudr.app.model.entity.ProfileInfoEntity
@@ -10,6 +12,7 @@ import com.playloudr.app.view.screens.profile.ProfileState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.io.File
 
 class MyProfileViewModel: ViewModel()  {
   private var username: String = SessionManager.getCurrentUser()!!
@@ -57,8 +60,8 @@ class MyProfileViewModel: ViewModel()  {
     return postRepository.getUserPosts(username).count()
   }
 
-  suspend fun updateProfilePicture(profilePictureUrl: String) {
-    userRepository.updateProfilePicture(username, profilePictureUrl)
+  suspend fun updateProfilePicture(file: File?) {
+    userRepository.updateProfilePicture(username, file)
   }
 
   fun logout() {
