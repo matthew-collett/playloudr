@@ -50,26 +50,30 @@ fun PublicProfileHeader(
 ) {
   Column(
     modifier = Modifier
-      .padding(horizontal = 16.dp)
       .fillMaxWidth(),
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.spacedBy(16.dp)
   ) {
-    Box(
-      modifier = Modifier
-        .size(100.dp)
-        .background(color = Color.Gray, shape = CircleShape)
+    Column(
+      verticalArrangement = Arrangement.Center,
+      horizontalAlignment = Alignment.CenterHorizontally
     ) {
-      Spacer(modifier = Modifier.height(16.dp))
-      Image(
-        painter = rememberImagePainter(data = user.profilePictureUrl),
-        contentDescription = "Profile Picture",
-        contentScale = ContentScale.Crop,
+      Box(
         modifier = Modifier
-          .matchParentSize()
-          .padding(1.dp)
-          .clip(CircleShape)
-      )
+          .size(100.dp)
+          .background(color = Color.Gray, shape = CircleShape)
+      ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Image(
+          painter = rememberImagePainter(data = user.profilePictureUrl),
+          contentDescription = "Profile Picture",
+          contentScale = ContentScale.Crop,
+          modifier = Modifier
+            .matchParentSize()
+            .padding(1.dp)
+            .clip(CircleShape)
+        )
+      }
     }
 
     if (user.displayName != null) {
@@ -99,11 +103,9 @@ fun PublicProfileHeader(
       horizontalArrangement = Arrangement.SpaceEvenly,
       verticalAlignment = Alignment.CenterVertically,
     ) {
-      ProfileInfo(num = profileInfo.numFollowers, label = "Followers")
-      Spacer(modifier = Modifier.width(16.dp))
-      ProfileInfo(num = profileInfo.numFollowing, label = "Following")
-      Spacer(modifier = Modifier.width(16.dp))
-      ProfileInfo(num = profileInfo.numPosts, label = "Posts")
+      ProfileInfo(num = profileInfo.numFollowers, label = "Followers", Modifier.weight(1f))
+      ProfileInfo(num = profileInfo.numFollowing, label = "Following", Modifier.weight(1f))
+      ProfileInfo(num = profileInfo.numPosts, label = "Posts", Modifier.weight(1f))
     }
 
   }
@@ -111,8 +113,11 @@ fun PublicProfileHeader(
 
 
 @Composable
-fun ProfileInfo(num: Int, label: String) {
-  Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun ProfileInfo(num: Int, label: String, modifier: Modifier) {
+  Column(
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = modifier
+  ) {
     Text(
       text = num.toString(),
       fontWeight = FontWeight.SemiBold,

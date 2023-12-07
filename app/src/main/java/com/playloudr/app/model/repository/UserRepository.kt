@@ -95,7 +95,7 @@ object UserRepository : AbstractRepository<UserEntity>() {
   }
 
   suspend fun updateProfilePicture(username: String, file: File?) {
-    val objectKey = "$username/${Instant.now()}/${file.toString()}"
+    val objectKey = "$username/${Instant.now()}"
     s3Dao.putObject(file, objectKey)
     val key: Map<String, AttributeValue> = mutableMapOf(
       KEY_NAME_PK to AttributeValue.S(KEY_PREFIX_USER + username),
